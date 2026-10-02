@@ -2,12 +2,14 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight, ArrowLeft } from 'lucide-react';
 import { useBag } from '@/context/BagContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { ImageWithFallback } from '@/components/common/ImageWithFallback';
 
 export function BagDrawer() {
+  const router = useRouter();
   const { items, removeFromBag, updateQuantity, clearBag, subtotal, bagCount, isOpen, closeBag } = useBag();
   const { language, isRtl, t } = useLanguage();
 
@@ -150,11 +152,12 @@ export function BagDrawer() {
               <div className="space-y-2">
                 <button
                   onClick={() => {
-                    alert(language === 'ar' ? 'شكراً لاهتمامك بدار رِفْعة. هذه النسخة هي استعراض تصميم رقمي تمهيدي، وسيتم ربط بوابات الدفع الفعلية في المرحلة القادمة.' : 'Thank you for your interest in RIFAA. This is a digital portfolio preview. Production payment gateways will be integrated in the upcoming phase.');
+                    closeBag();
+                    router.push('/checkout');
                   }}
                   className="w-full py-3.5 px-6 bg-[#111111] hover:bg-[#511D24] text-white text-xs font-medium tracking-widest uppercase transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm"
                 >
-                  <span>{t.actions.checkoutDemoBtn}</span>
+                  <span>{language === 'ar' ? 'إتمام الطلب' : 'Proceed to Checkout'}</span>
                   {isRtl ? <ArrowLeft className="w-4 h-4" /> : <ArrowRight className="w-4 h-4" />}
                 </button>
                 <button

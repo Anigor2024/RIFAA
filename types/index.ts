@@ -99,3 +99,6 @@ export interface MediaAsset {
   altEn: string;
   focalPosition?: string;
 }
+
+export type { DemoOrder, DeliveryOption, PromoCode, SaudiCity } from '@/lib/commerce';
+

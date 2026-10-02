@@ -96,22 +96,22 @@ export function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/contact" className="hover:text-white transition-colors">
+                  <Link href="/shipping-returns" className="hover:text-white transition-colors">
                     {t.footer.links.deliveryInfo}
                   </Link>
                 </li>
                 <li>
-                  <Link href="/contact" className="hover:text-white transition-colors">
+                  <Link href="/shipping-returns" className="hover:text-white transition-colors">
                     {t.footer.links.returnsPolicy}
                   </Link>
                 </li>
                 <li>
-                  <Link href="/contact" className="hover:text-white transition-colors">
+                  <Link href="/size-guide" className="hover:text-white transition-colors">
                     {t.footer.links.sizeGuide}
                   </Link>
                 </li>
                 <li>
-                  <Link href="/contact" className="hover:text-white transition-colors">
+                  <Link href="/faq" className="hover:text-white transition-colors">
                     {t.footer.links.faq}
                   </Link>
                 </li>
@@ -125,7 +125,7 @@ export function Footer() {
               </h3>
               <ul className="space-y-2.5 text-[#FAF8F5]/70 font-light">
                 <li>
-                  <Link href="/editorial" className="hover:text-white transition-colors">
+                  <Link href="/about" className="hover:text-white transition-colors">
                     {t.footer.links.ourStory}
                   </Link>
                 </li>
@@ -140,7 +140,7 @@ export function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/editorial" className="hover:text-white transition-colors">
+                  <Link href="/about" className="hover:text-white transition-colors">
                     {t.footer.links.sustainability}
                   </Link>
                 </li>
@@ -159,11 +159,11 @@ export function Footer() {
           <div className="flex flex-wrap items-center gap-4">
             <span>{t.footer.copyright}</span>
             <span>·</span>
-            <Link href="/contact" className="hover:text-white transition-colors">
+            <Link href="/privacy" className="hover:text-white transition-colors">
               {t.footer.links.privacy}
             </Link>
             <span>·</span>
-            <Link href="/contact" className="hover:text-white transition-colors">
+            <Link href="/terms" className="hover:text-white transition-colors">
               {t.footer.links.terms}
             </Link>
           </div>
