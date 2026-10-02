@@ -30,6 +30,7 @@ const cormorantGaramond = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://rifaa.sa'),
   title: 'رِفْعة | RIFAA — Contemporary Saudi Fashion',
   description: 'دار رِفْعة للأزياء المعاصرة — تصاميم راقية للمرأة والرجل والطفل في المملكة العربية السعودية. Contemporary Saudi Fashion House.',
   keywords: ['أزياء سعودية', 'رِفْعة', 'RIFAA', 'Saudi Fashion', 'Contemporary Modest', 'عبايات فاخرة', 'أزياء رجالية', 'أزياء أطفال', 'Riyadh Fashion'],
