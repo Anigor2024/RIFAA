@@ -4,8 +4,8 @@ export const DICTIONARY = {
     brandName: 'رِفْعة',
     brandLatin: 'RIFAA',
     brandTagline: 'أزياء سعودية معاصرة',
-    brandSentiment: 'أناقةٌ تُشبهك',
-    brandDescription: 'تصاميم معاصرة للمرأة والرجل والطفل، صُنعت لإيقاع الحياة في المملكة.',
+    brandSentiment: 'أناقةٌ سعودية، بصياغة معاصرة',
+    brandDescription: 'دار أزياء سعودية معاصرة للمرأة والرجل والطفل، مستوحاة من رصانة المملكة ومصممة لإيقاع الحياة الحديثة.',
     
     // Top Bar & Navigation
     nav: {
@@ -18,12 +18,12 @@ export const DICTIONARY = {
       sale: 'التخفيضات',
       journal: 'مجلة رِفْعة',
     },
-    topBanner: 'توصيل مجاني لجميع مناطق المملكة للطلبات فوق 500 ر.س · تغليف هدايا رِفْعة الفاخر متاح',
+    topBanner: 'توصيل مجاني لكافة مناطق المملكة للطلبات فوق 500 ر.س · تغليف هدايا رِفْعة الفاخر متاح',
     
     // Actions & Common
     actions: {
       search: 'بحث',
-      searchPlaceholder: 'ابحث عن قطع، خامات، أو تشكيلات...',
+      searchPlaceholder: 'ابحث عن ثياب، عبايات، بليزرات، كشمير...',
       wishlist: 'قائمة الرغبات',
       bag: 'حقيبة التسوق',
       account: 'الحساب',
@@ -37,8 +37,8 @@ export const DICTIONARY = {
       filterAll: 'الكل',
       selectSize: 'اختر المقاس',
       selectColor: 'اختر اللون',
-      inStock: 'متوفر',
-      outOfStock: 'غير متوفر',
+      inStock: 'متوفر في المخزون',
+      outOfStock: 'غير متوفر مؤقتاً',
       sar: 'ر.س',
       new: 'جديد',
       bestSeller: 'الأكثر طلباً',
@@ -56,13 +56,72 @@ export const DICTIONARY = {
       continueShopping: 'متابعة التسوق',
       clear: 'مسح',
       remove: 'إزالة',
+      filters: 'الفلاتر والخيارات',
+      sortBy: 'ترتيب حسب',
+      resetFilters: 'إعادة ضبط الفلاتر',
+      sizeGuide: 'دليل المقاسات',
+      color: 'اللون',
+      size: 'المقاس',
+      quantity: 'الكمية',
+      fabric: 'الخامة والقماش',
+      tailoring: 'تفاصيل الحياكة والقصّة',
+      origin: 'المنشأ والحرفة',
+      care: 'إرشادات العناية',
+      delivery: 'التوصيل والشحن',
+      returns: 'الإرجاع والاستبدال',
+      youMayAlsoLike: 'قد يعجبك أيضاً',
+    },
+
+    // Sort Options
+    sort: {
+      featured: 'المختارات المميزة',
+      newest: 'الأحدث وصولاً',
+      priceAsc: 'السعر: من الأقل للأعلى',
+      priceDesc: 'السعر: من الأعلى للأقل',
+    },
+
+    // Filter Categories
+    filterCategories: {
+      all: 'جميع الفئات',
+      abayas: 'عبايات ومناسبات',
+      thobes: 'ثياب سعودية',
+      bishts: 'بشوت ومناسبات',
+      blazers: 'جاكيتات وبليزر',
+      dresses: 'فساتين وجلابيات',
+      tops: 'قمصان وبلوزات',
+      shirts: 'قمصان رجالية',
+      trousers: 'بناطيل',
+      polos: 'بولو وتريكو',
+      'co-ords': 'أطقم وتفصيل',
+      'kids-thobes': 'ثياب أولاد',
+      'kids-dresses': 'فساتين بنات',
+      'kids-sets': 'أطقم أطفال',
+      shoes: 'أحذية',
+      accessories: 'إكسسوارات',
+    },
+
+    // Price Filter Bands
+    priceBands: {
+      all: 'كافة الأسعار',
+      under500: 'أقل من 500 ر.س',
+      between500And1000: '500 – 1,000 ر.س',
+      above1000: 'أكثر من 1,000 ر.س',
+    },
+
+    // Collections
+    collectionsMap: {
+      all: 'كافة التشكيلات',
+      'eid-edit-2026': 'تحرير العيد 2026',
+      'autumn-winter-2026': 'خريف / شتاء 2026',
+      'core-essentials': 'أساسيات رِفْعة',
+      occasion: 'المناسبات الكبرى',
     },
 
     // Hero
     hero: {
       season: 'خريف / شتاء 2026',
-      headline: 'أناقةٌ تُشبهك',
-      subtitle: 'تصاميم معاصرة للمرأة والرجل والطفل، صُنعت لإيقاع الحياة في المملكة.',
+      headline: 'أناقةٌ سعودية، بصياغة معاصرة',
+      subtitle: 'تصاميم للمرأة والرجل والطفل، مستوحاة من إيقاع المملكة ومصممة للحياة المعاصرة.',
       primaryCta: 'اكتشف التشكيلة',
       secondaryCta: 'وصل حديثاً',
     },
@@ -70,11 +129,11 @@ export const DICTIONARY = {
     // Categories
     categories: {
       womenTitle: 'النساء',
-      womenSubtitle: 'انسيابية كلاسيكية وأقمشة فاخرة وقصّات معمارية متزنة.',
+      womenSubtitle: 'عبايات كريب هندسية، بليزرات صوف بقصّات مستقيمة، وحرير نقي انسيابي.',
       menTitle: 'الرجال',
-      menSubtitle: 'حياكة عصرية دقيقة، كتان فرنسي، وحضور هادئ محسوب.',
+      menSubtitle: 'ثياب سعودية كلاسيكية فاخرة، بشوت مناسبات، وأوفرشيرت صوف مضغوط.',
       kidsTitle: 'الأطفال',
-      kidsSubtitle: 'خامات عضوية فائقة النعومة وتصاميم تواكب حركة الصغار برقي.',
+      kidsSubtitle: 'ثياب ولادي فاخرة، فساتين كتان للمناسبات، وأطقم قطن عضوي لطيفة.',
       shopCategory: 'تسوّق التشكيلة',
     },
 
@@ -82,16 +141,16 @@ export const DICTIONARY = {
     newArrivals: {
       badge: 'أحدث الإضافات',
       title: 'وصل حديثاً',
-      subtitle: 'مختارات أسبوعية من أجود الأقمشة والقصّات المعاصرة.',
+      subtitle: 'مختارات أسبوعية من أجود الأقمشة والقصّات المعاصرة المناسبة لأجواء المملكة.',
       viewAll: 'استكشف كافة القطع الجديدة',
     },
 
     // Shop The Edit
     shopTheEdit: {
       label: 'تحرير رِفْعة',
-      title: 'بعد الغروب',
-      subtitle: 'CITY AFTER SUNSET',
-      description: 'طبقات هادئة، قصّات دقيقة، ودرجات صُممت لليالي المدينة.',
+      title: 'ليالي الرياض',
+      subtitle: 'RIYADH AFTER DARK',
+      description: 'طبقات هادئة، قصّات دقيقة، ودرجات صُممت لليالي العاصمة.',
       cta: 'اكتشف الإطلالة',
     },
 
@@ -116,14 +175,14 @@ export const DICTIONARY = {
         label: 'مجموعة الرجل',
         title: 'حضورٌ محسوب',
         subtitle: 'CONSIDERED PRESENCE',
-        description: 'أزياء تلائم إيقاع الرجل العصري في مدن المملكة؛ تفصيل متراخٍ، أقمشة طبيعية تنفسية، وألوان مستوحاة من رمال وليل نجد.',
+        description: 'ثياب سعودية فاخرة وأزياء تلائم إيقاع الرجل العصري في مدن المملكة؛ أقمشة يابانية معتمدة وتفصيل متقن.',
         cta: 'تسوّق الرجال',
       },
       kids: {
         label: 'مجموعة الأطفال',
         title: 'مساحةٌ للحركة',
         subtitle: 'MADE TO MOVE',
-        description: 'ملابس صُممت لتمنح الأطفال دفئاً وحرية انطلاق غير مقيدة، بخامات عضوية معتمدة وملمس لطيف على البشرة.',
+        description: 'ملابس صُممت لتمنح الأطفال دفئاً وحرية انطلاق غير مقيدة، بخامات عضوية معتمدة وثياب صغار متقنة للأعياد.',
         cta: 'تسوّق للأطفال',
       },
     },
@@ -171,9 +230,9 @@ export const DICTIONARY = {
     // Search
     search: {
       title: 'البحث في رِفْعة',
-      placeholder: 'ابحث عن فستان، بليزر، عباية، قميص، كشمير...',
+      placeholder: 'ابحث عن ثوب، عباية، بليزر، بشت، فستان، كشمير...',
       quickSuggestions: 'عمليات البحث الشائعة:',
-      suggestions: ['عباية كريب', 'بليزر صوف', 'قميص كتان', 'تحرير العيد', 'كشمير', 'حقيبة جلدية'],
+      suggestions: ['ثوب سعودي أبيض', 'عباية كريب ياباني', 'بشت مناسبات', 'تحرير العيد', 'بليزر صوف', 'ثوب ولادي'],
       noResults: 'لم نتمكن من العثور على نتائج تطابق بحثك.',
       tryAnother: 'جرّب البحث بكلمات أخرى أو تصفح تشكيلاتنا المميزة.',
       resultsFound: 'قطعة مطابقة',
@@ -222,8 +281,8 @@ export const DICTIONARY = {
     brandName: 'RIFAA',
     brandLatin: 'RIFAA',
     brandTagline: 'Contemporary Saudi Fashion',
-    brandSentiment: 'Style, distinctly yours.',
-    brandDescription: 'Contemporary fashion for women, men and children, curated for life in the Kingdom.',
+    brandSentiment: 'Saudi style, redefined for now.',
+    brandDescription: 'Contemporary Saudi Fashion House for women, men, and children, inspired by the poise of the Kingdom and designed for modern life.',
     
     // Top Bar & Navigation
     nav: {
@@ -241,7 +300,7 @@ export const DICTIONARY = {
     // Actions & Common
     actions: {
       search: 'Search',
-      searchPlaceholder: 'Search silhouettes, fabrics, collections...',
+      searchPlaceholder: 'Search thobes, abayas, blazers, cashmere...',
       wishlist: 'Wishlist',
       bag: 'Shopping Bag',
       account: 'Account',
@@ -256,7 +315,7 @@ export const DICTIONARY = {
       selectSize: 'Select Size',
       selectColor: 'Select Color',
       inStock: 'In Stock',
-      outOfStock: 'Out of Stock',
+      outOfStock: 'Temporarily Out of Stock',
       sar: 'SAR',
       new: 'New',
       bestSeller: 'Best Seller',
@@ -274,12 +333,71 @@ export const DICTIONARY = {
       continueShopping: 'Continue Shopping',
       clear: 'Clear',
       remove: 'Remove',
+      filters: 'Filters & Options',
+      sortBy: 'Sort by',
+      resetFilters: 'Reset Filters',
+      sizeGuide: 'Size Guide',
+      color: 'Color',
+      size: 'Size',
+      quantity: 'Quantity',
+      fabric: 'Fabric & Composition',
+      tailoring: 'Tailoring & Details',
+      origin: 'Origin & Craftsmanship',
+      care: 'Care Instructions',
+      delivery: 'Delivery & Shipping',
+      returns: 'Complimentary Returns',
+      youMayAlsoLike: 'You May Also Like',
+    },
+
+    // Sort Options
+    sort: {
+      featured: 'Featured',
+      newest: 'Newest Arrivals',
+      priceAsc: 'Price: Low to High',
+      priceDesc: 'Price: High to Low',
+    },
+
+    // Filter Categories
+    filterCategories: {
+      all: 'All Categories',
+      abayas: 'Abayas & Occasions',
+      thobes: 'Saudi Thobes',
+      bishts: 'Bishts & Occasions',
+      blazers: 'Jackets & Tailoring',
+      dresses: 'Dresses & Jalabiyas',
+      tops: 'Shirts & Tops',
+      shirts: 'Men’s Shirts',
+      trousers: 'Trousers',
+      polos: 'Polos & Knits',
+      'co-ords': 'Co-ords & Sets',
+      'kids-thobes': 'Boys Thobes',
+      'kids-dresses': 'Girls Dresses',
+      'kids-sets': 'Kids Sets',
+      shoes: 'Shoes & Footwear',
+      accessories: 'Bags & Accessories',
+    },
+
+    // Price Filter Bands
+    priceBands: {
+      all: 'All Prices',
+      under500: 'Under SAR 500',
+      between500And1000: 'SAR 500 – 1,000',
+      above1000: 'Over SAR 1,000',
+    },
+
+    // Collections
+    collectionsMap: {
+      all: 'All Collections',
+      'eid-edit-2026': 'The Eid Edit 2026',
+      'autumn-winter-2026': 'Autumn / Winter 2026',
+      'core-essentials': 'Core Essentials',
+      occasion: 'Grand Occasions',
     },
 
     // Hero
     hero: {
       season: 'AUTUMN / WINTER 2026',
-      headline: 'Style, distinctly yours.',
+      headline: 'Saudi style, redefined for now.',
       subtitle: 'Contemporary fashion for women, men and children, curated for life in the Kingdom.',
       primaryCta: 'Explore the Collection',
       secondaryCta: 'New Arrivals',
@@ -288,11 +406,11 @@ export const DICTIONARY = {
     // Categories
     categories: {
       womenTitle: 'WOMEN',
-      womenSubtitle: 'Fluid silhouettes, architectural tailoring, and noble fabrics.',
+      womenSubtitle: 'Architectural Japanese crepe abayas, virgin wool tailoring, and fluid silk.',
       menTitle: 'MEN',
-      menSubtitle: 'Considered tailoring, washed French flax, and modern metropolitan poise.',
+      menSubtitle: 'Bespoke Saudi thobes, ceremonial bishts, and dense boiled wool overshirts.',
       kidsTitle: 'KIDS',
-      kidsSubtitle: 'Gentle organic cottons and refined movement-focused silhouettes.',
+      kidsSubtitle: 'Tailored miniature thobes, tiered linen occasion dresses, and organic knit sets.',
       shopCategory: 'Shop Category',
     },
 
@@ -300,16 +418,16 @@ export const DICTIONARY = {
     newArrivals: {
       badge: 'Latest Drop',
       title: 'NEW ARRIVALS',
-      subtitle: 'A weekly curation of noble textures and architectural cuts.',
+      subtitle: 'A weekly curation of noble textiles and architectural cuts tailored for the Kingdom.',
       viewAll: 'Explore All New Arrivals',
     },
 
     // Shop The Edit
     shopTheEdit: {
       label: 'THE RIFAA EDIT',
-      title: 'CITY AFTER SUNSET',
-      subtitle: 'بعد الغروب',
-      description: 'Quiet layers, precise tailoring, and tones designed for evenings in the city.',
+      title: 'RIYADH AFTER DARK',
+      subtitle: 'ليالي الرياض',
+      description: 'Quiet layers, precise tailoring, and tones designed for evenings in the capital.',
       cta: 'Shop the Edit',
     },
 
@@ -334,14 +452,14 @@ export const DICTIONARY = {
         label: 'Men’s Collection',
         title: 'CONSIDERED PRESENCE',
         subtitle: 'حضورٌ محسوب',
-        description: 'Apparel tailored for the modern gentleman in the Kingdom: relaxed structure, breathable natural textiles, and nuanced desert tones.',
+        description: 'Bespoke thobes and modern tailoring tailored for the gentleman in the Kingdom: certified Japanese fabrics and noble craftsmanship.',
         cta: 'Shop Men',
       },
       kids: {
         label: 'Kids’ Collection',
         title: 'MADE TO MOVE',
         subtitle: 'مساحةٌ للحركة',
-        description: 'Crafted to provide gentle warmth and uninhibited freedom, woven in certified organic fibers soft against youthful skin.',
+        description: 'Crafted to provide gentle warmth and uninhibited freedom, from festive miniature thobes to certified organic cotton.',
         cta: 'Shop Kids',
       },
     },
@@ -389,9 +507,9 @@ export const DICTIONARY = {
     // Search
     search: {
       title: 'Search RIFAA',
-      placeholder: 'Search dresses, blazers, abayas, shirts, cashmere...',
+      placeholder: 'Search thobes, abayas, blazers, bishts, dresses, cashmere...',
       quickSuggestions: 'Popular Searches:',
-      suggestions: ['Crepe Abaya', 'Wool Blazer', 'Linen Shirt', 'Eid Edit', 'Cashmere', 'Leather Tote'],
+      suggestions: ['White Saudi Thobe', 'Crepe Abaya', 'Occasion Bisht', 'Eid Edit', 'Wool Blazer', 'Boys Thobe'],
       noResults: 'No silhouettes matched your search.',
       tryAnother: 'Please try alternative search terms or browse our seasonal categories.',
       resultsFound: 'results found',

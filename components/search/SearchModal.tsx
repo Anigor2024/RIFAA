@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useRef, useEffect } from 'react';
+import Link from 'next/link';
 import { Search as SearchIcon, X } from 'lucide-react';
 import { useSearch } from '@/context/SearchContext';
 import { useLanguage } from '@/context/LanguageContext';
@@ -142,9 +143,10 @@ export function SearchModal() {
                   const name = language === 'ar' ? product.nameAr : product.nameEn;
                   const category = language === 'ar' ? product.categoryAr : product.categoryEn;
                   return (
-                    <div
+                    <Link
                       key={product.id}
-                      onClick={() => handleItemClick(product)}
+                      href={`/products/${product.slug}`}
+                      onClick={handleClose}
                       className="group cursor-pointer flex flex-col"
                     >
                       <div className="relative aspect-[3/4] bg-[#EBE5DA] overflow-hidden">
@@ -166,7 +168,7 @@ export function SearchModal() {
                           {product.price.toLocaleString(language === 'ar' ? 'ar-SA' : 'en-US')} {t.actions.sar}
                         </span>
                       </div>
-                    </div>
+                    </Link>
                   );
                 })}
               </div>

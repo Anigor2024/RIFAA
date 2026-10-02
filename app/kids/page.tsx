@@ -1,20 +1,22 @@
 'use client';
 
 import React from 'react';
-import { CatalogView } from '@/components/catalog/CatalogView';
+import { CatalogPageContent } from '@/components/catalog/CatalogPageContent';
 import { DEMO_PRODUCTS } from '@/data/products';
+import { MEDIA_MANIFEST } from '@/data/media';
 
 export default function KidsPage() {
   const kidsProducts = DEMO_PRODUCTS.filter((p) => p.department === 'kids');
 
   return (
-    <CatalogView
+    <CatalogPageContent
+      department="kids"
       titleAr="مجموعة الأطفال"
       titleEn="Kids’ Collection"
-      subtitleAr="أطقم قطن عضوي معتمد، فساتين كتان للمناسبات، وقطع مريحة لحركة الصغار بحرية وأناقة."
-      subtitleEn="GOTS-certified organic cotton knits, breathable linen occasion dresses, and refined coordinates for modern family living."
-      department="kids"
-      initialProducts={kidsProducts}
+      subtitleAr="ثياب أولاد مفصلة بعناية، فساتين كتان وبشوت خفيفة للمناسبات، وأطقم قطن عضوي لطيفة على بشرة الصغار."
+      subtitleEn="Tailored miniature thobes, tiered linen occasion dresses, and certified organic cotton coordinates designed for joyful movement."
+      heroImage={MEDIA_MANIFEST.categoryKids.src}
+      products={kidsProducts}
     />
   );
 }

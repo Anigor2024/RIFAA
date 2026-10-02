@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { X, Heart, ShoppingBag, Check } from 'lucide-react';
+import { X, Heart, ShoppingBag, Check, ExternalLink } from 'lucide-react';
+import Link from 'next/link';
 import { useQuickView } from '@/context/QuickViewContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { useWishlist } from '@/context/WishlistContext';
@@ -30,7 +31,7 @@ function QuickViewContent({ product, onClose }: QuickViewContentProps) {
   const description = language === 'ar' ? product.descriptionAr : product.descriptionEn;
   const details = language === 'ar' ? product.detailsAr : product.detailsEn;
 
-  const images = [product.image, product.secondImage].filter(Boolean);
+  const images = [product.image, product.secondImage].filter(Boolean) as string[];
 
   const handleAdd = () => {
     if (!selectedColor || !selectedSize) return;
@@ -191,36 +192,47 @@ function QuickViewContent({ product, onClose }: QuickViewContentProps) {
           </div>
 
           {/* Actions Bottom Bar */}
-          <div className="pt-4 flex items-center gap-3">
-            <button
-              onClick={handleAdd}
-              disabled={isAdded}
-              className="flex-1 py-3 px-6 bg-[#111111] hover:bg-[#511D24] text-white text-xs font-medium tracking-widest uppercase transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm"
-            >
-              {isAdded ? (
-                <>
-                  <Check className="w-4 h-4" />
-                  <span>{t.actions.addedToBag}</span>
-                </>
-              ) : (
-                <>
-                  <ShoppingBag className="w-4 h-4" />
-                  <span>{t.actions.addToBag}</span>
-                </>
-              )}
-            </button>
+          <div className="pt-4 space-y-3">
+            <div className="flex items-center gap-3">
+              <button
+                onClick={handleAdd}
+                disabled={isAdded}
+                className="flex-1 py-3 px-6 bg-[#111111] hover:bg-[#511D24] text-white text-xs font-medium tracking-widest uppercase transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+              >
+                {isAdded ? (
+                  <>
+                    <Check className="w-4 h-4" />
+                    <span>{t.actions.addedToBag}</span>
+                  </>
+                ) : (
+                  <>
+                    <ShoppingBag className="w-4 h-4" />
+                    <span>{t.actions.addToBag}</span>
+                  </>
+                )}
+              </button>
 
-            <button
-              onClick={() => toggleWishlist(product.id)}
-              aria-label={t.actions.wishlist}
-              className={`p-3 border transition-colors cursor-pointer ${
-                isFavorite
-                  ? 'border-[#511D24] bg-[#511D24] text-white'
-                  : 'border-[#242220]/20 hover:border-[#111111] text-[#111111]'
-              }`}
+              <button
+                onClick={() => toggleWishlist(product.id)}
+                aria-label={t.actions.wishlist}
+                className={`p-3 border transition-colors cursor-pointer ${
+                  isFavorite
+                    ? 'border-[#511D24] bg-[#511D24] text-white'
+                    : 'border-[#242220]/20 hover:border-[#111111] text-[#111111]'
+                }`}
+              >
+                <Heart className={`w-4 h-4 ${isFavorite ? 'fill-current' : ''}`} />
+              </button>
+            </div>
+
+            <Link
+              href={`/products/${product.slug}`}
+              onClick={onClose}
+              className="w-full py-2.5 text-center text-xs text-[#242220]/75 hover:text-[#511D24] flex items-center justify-center gap-1.5 transition-colors font-medium border-t border-[#242220]/05"
             >
-              <Heart className={`w-4 h-4 ${isFavorite ? 'fill-current' : ''}`} />
-            </button>
+              <span>{language === 'ar' ? 'عرض تفاصيل القطعة الكاملة' : 'View Full Product Details'}</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </Link>
           </div>
         </div>
       </div>

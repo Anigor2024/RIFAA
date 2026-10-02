@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowRight, ArrowLeft } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { ImageWithFallback } from '@/components/common/ImageWithFallback';
+import { MEDIA_MANIFEST } from '@/data/media';
 
 export function CategoryEditorial() {
   const { language, isRtl, t } = useLanguage();
@@ -24,8 +25,8 @@ export function CategoryEditorial() {
           </div>
           <p className="text-xs sm:text-sm text-[#242220]/70 max-w-md font-light leading-relaxed">
             {language === 'ar'
-              ? 'ثلاثة مسارات إبداعية تتقاطع فيها الرصانة العصرية مع الحرفية الأصيلة.'
-              : 'Three distinct sartorial narratives bridging modern minimalism and noble craftsmanship.'}
+              ? 'ثلاثة مسارات إبداعية تتقاطع فيها الرصانة العصرية مع الحرفية الأصيلة في المملكة.'
+              : 'Three distinct sartorial narratives bridging modern minimalism and noble Saudi craftsmanship.'}
           </p>
         </div>
 
@@ -35,8 +36,8 @@ export function CategoryEditorial() {
           <div className="md:col-span-7 relative group overflow-hidden bg-[#EAE4D9] min-h-[480px] md:min-h-[640px] flex flex-col justify-end p-6 sm:p-10">
             <div className="absolute inset-0 z-0">
               <ImageWithFallback
-                src="https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?auto=format&fit=crop&w=1400&q=85"
-                alt="RIFAA Women Editorial"
+                src={MEDIA_MANIFEST.categoryWomen.src}
+                alt={language === 'ar' ? MEDIA_MANIFEST.categoryWomen.altAr : MEDIA_MANIFEST.categoryWomen.altEn}
                 fill
                 sizes="(max-width: 768px) 100vw, 60vw"
                 className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
@@ -74,12 +75,12 @@ export function CategoryEditorial() {
 
           {/* Right Column: MEN & KIDS Stacked Asymmetrically (5 Columns on Desktop) */}
           <div className="md:col-span-5 flex flex-col gap-6 lg:gap-8">
-            {/* MEN: Architectural Secondary (60% height) */}
+            {/* MEN: Architectural Secondary */}
             <div className="relative group overflow-hidden bg-[#EAE4D9] min-h-[300px] md:min-h-[320px] flex-1 flex flex-col justify-end p-6 sm:p-8">
               <div className="absolute inset-0 z-0">
                 <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?auto=format&fit=crop&w=1000&q=85"
-                  alt="RIFAA Men Editorial"
+                  src={MEDIA_MANIFEST.categoryMen.src}
+                  alt={language === 'ar' ? MEDIA_MANIFEST.categoryMen.altAr : MEDIA_MANIFEST.categoryMen.altEn}
                   fill
                   sizes="(max-width: 768px) 100vw, 40vw"
                   className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
@@ -115,12 +116,12 @@ export function CategoryEditorial() {
               </div>
             </div>
 
-            {/* KIDS: Refined, Warm, Lighter (40% height) */}
+            {/* KIDS: Refined, Warm, Lighter */}
             <div className="relative group overflow-hidden bg-[#EAE4D9] min-h-[260px] md:min-h-[280px] flex-1 flex flex-col justify-end p-6 sm:p-8">
               <div className="absolute inset-0 z-0">
                 <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1519689680058-324335c77eba?auto=format&fit=crop&w=1000&q=85"
-                  alt="RIFAA Kids Editorial"
+                  src={MEDIA_MANIFEST.categoryKids.src}
+                  alt={language === 'ar' ? MEDIA_MANIFEST.categoryKids.altAr : MEDIA_MANIFEST.categoryKids.altEn}
                   fill
                   sizes="(max-width: 768px) 100vw, 40vw"
                   className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"

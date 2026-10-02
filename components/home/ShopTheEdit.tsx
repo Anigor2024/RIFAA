@@ -5,30 +5,32 @@ import Link from 'next/link';
 import { ArrowRight, ArrowLeft } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { ImageWithFallback } from '@/components/common/ImageWithFallback';
+import { MEDIA_MANIFEST } from '@/data/media';
 
 export function ShopTheEdit() {
   const { language, isRtl, t } = useLanguage();
+  const editMedia = MEDIA_MANIFEST.editRiyadhEvening;
 
   return (
-    <section className="py-16 md:py-28 bg-[#201E1C] text-[#FAF8F5] overflow-hidden">
+    <section className="py-16 md:py-28 bg-[#1A1817] text-[#FAF8F5] overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
           {/* Editorial Campaign Imagery (7 Cols) */}
           <div className="lg:col-span-7 relative">
             <div className="relative aspect-[4/5] sm:aspect-[16/11] lg:aspect-[4/5] w-full overflow-hidden bg-[#2D2A27]">
               <ImageWithFallback
-                src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1600&q=85"
-                alt="City After Sunset - RIFAA Editorial"
+                src={editMedia.src}
+                alt={language === 'ar' ? editMedia.altAr : editMedia.altEn}
                 fill
                 sizes="(max-width: 1024px) 100vw, 60vw"
                 className="object-cover object-center transition-transform duration-1000 ease-out hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#201E1C]/60 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1A1817]/60 via-transparent to-transparent" />
             </div>
 
             {/* Subtle Editorial Caption Stamp */}
-            <div className="absolute -bottom-4 end-4 sm:end-8 bg-[#161514] py-2 px-4 border-t border-[#B59A73]/30 text-[10px] tracking-widest text-[#B59A73] uppercase hidden sm:block">
-              {language === 'ar' ? 'العدد الأول · ليالي نجد' : 'ISSUE 01 · NAJD EVENINGS'}
+            <div className="absolute -bottom-4 end-4 sm:end-8 bg-[#161514] py-2 px-4 border-t border-[#B59A73]/40 text-[10px] tracking-widest text-[#B59A73] uppercase hidden sm:block">
+              {language === 'ar' ? 'العدد الأول · ليالي الرياض المعاصرة' : 'ISSUE 01 · RIYADH AFTER DARK'}
             </div>
           </div>
 
@@ -55,7 +57,7 @@ export function ShopTheEdit() {
               <p className="text-xs text-[#FAF8F5]/60 font-light leading-relaxed">
                 {language === 'ar'
                   ? 'مجموعة منتقاة تحتفي بالتباين بين الألوان الحيادية الدافئة والأسود المعتم، بحضور يعكس وقار ليالي العاصمة.'
-                  : 'A curated wardrobe balancing warm neutral sandstones against deep matte obsidian, conceived for understated metropolitan poise.'}
+                  : 'A curated wardrobe balancing warm neutral sandstones against deep matte obsidian, conceived for understated metropolitan poise in Riyadh.'}
               </p>
 
               <div>

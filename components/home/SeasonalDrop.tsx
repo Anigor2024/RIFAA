@@ -8,11 +8,11 @@ import { DEMO_PRODUCTS } from '@/data/products';
 import { ProductCard } from '@/components/product/ProductCard';
 
 export function SeasonalDrop() {
-  const { language, isRtl, t } = useLanguage();
+  const { isRtl, t } = useLanguage();
 
-  // Curated 4 Festive Occasion Pieces
+  // Curated 4 Festive Saudi Occasion Pieces for the Entire Family
   const seasonalItems = DEMO_PRODUCTS.filter((p) =>
-    ['w-03', 'm-05', 'w-10', 'k-02'].includes(p.id)
+    ['w-03', 'm-05', 'm-04', 'k-01'].includes(p.id)
   );
 
   return (

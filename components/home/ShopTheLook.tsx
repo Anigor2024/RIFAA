@@ -12,7 +12,7 @@ import { DEMO_PRODUCTS } from '@/data/products';
 import { ImageWithFallback } from '@/components/common/ImageWithFallback';
 
 export function ShopTheLook() {
-  const { language, isRtl, t } = useLanguage();
+  const { language, t } = useLanguage();
   const { openQuickView } = useQuickView();
   const { addToBag } = useBag();
   const { toggleWishlist, isWishlisted } = useWishlist();
@@ -51,9 +51,9 @@ export function ShopTheLook() {
               className="object-cover object-center transition-transform duration-1000 ease-out group-hover:scale-103"
             />
 
-            {/* Visual Markers for Coordinates */}
-            <div className="absolute top-[28%] start-[48%] -translate-x-1/2 z-10 hidden sm:flex items-center gap-2 group/marker">
-              <span className="w-6 h-6 rounded-full bg-white/90 text-[#111111] text-[11px] font-semibold flex items-center justify-center shadow-md backdrop-blur-xs ring-2 ring-white/50">
+            {/* Visual Markers on the Actual Garments */}
+            <div className="absolute top-[28%] start-[50%] -translate-x-1/2 z-10 hidden sm:flex items-center gap-2 group/marker">
+              <span className="w-6 h-6 rounded-full bg-white/95 text-[#111111] text-[11px] font-semibold flex items-center justify-center shadow-md ring-2 ring-white/60">
                 01
               </span>
               <span className="bg-[#111111]/90 backdrop-blur-xs text-white text-[11px] py-1 px-2.5 opacity-0 group-hover/marker:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
@@ -61,8 +61,8 @@ export function ShopTheLook() {
               </span>
             </div>
 
-            <div className="absolute top-[58%] start-[52%] -translate-x-1/2 z-10 hidden sm:flex items-center gap-2 group/marker">
-              <span className="w-6 h-6 rounded-full bg-white/90 text-[#111111] text-[11px] font-semibold flex items-center justify-center shadow-md backdrop-blur-xs ring-2 ring-white/50">
+            <div className="absolute top-[58%] start-[50%] -translate-x-1/2 z-10 hidden sm:flex items-center gap-2 group/marker">
+              <span className="w-6 h-6 rounded-full bg-white/95 text-[#111111] text-[11px] font-semibold flex items-center justify-center shadow-md ring-2 ring-white/60">
                 02
               </span>
               <span className="bg-[#111111]/90 backdrop-blur-xs text-white text-[11px] py-1 px-2.5 opacity-0 group-hover/marker:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
@@ -71,7 +71,7 @@ export function ShopTheLook() {
             </div>
 
             <div className="absolute top-[72%] start-[32%] -translate-x-1/2 z-10 hidden sm:flex items-center gap-2 group/marker">
-              <span className="w-6 h-6 rounded-full bg-white/90 text-[#111111] text-[11px] font-semibold flex items-center justify-center shadow-md backdrop-blur-xs ring-2 ring-white/50">
+              <span className="w-6 h-6 rounded-full bg-white/95 text-[#111111] text-[11px] font-semibold flex items-center justify-center shadow-md ring-2 ring-white/60">
                 03
               </span>
               <span className="bg-[#111111]/90 backdrop-blur-xs text-white text-[11px] py-1 px-2.5 opacity-0 group-hover/marker:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
@@ -79,8 +79,8 @@ export function ShopTheLook() {
               </span>
             </div>
 
-            <div className="absolute bottom-4 start-4 bg-[#111111]/80 backdrop-blur-xs text-white text-[11px] tracking-widest py-1.5 px-3 uppercase">
-              {language === 'ar' ? '٣ قطع متكاملة' : '3 COORDINATED PIECES'}
+            <div className="absolute bottom-4 start-4 bg-[#111111]/85 backdrop-blur-xs text-white text-[11px] tracking-widest py-1.5 px-3 uppercase">
+              {language === 'ar' ? '٣ قطع متناسقة بدقة' : '3 COORDINATED PIECES'}
             </div>
           </div>
 
@@ -106,21 +106,21 @@ export function ShopTheLook() {
                       <span className="text-xs font-semibold text-[#511D24] tabular-nums w-4">
                         0{idx + 1}
                       </span>
-                      <div className="relative w-16 h-20 bg-[#E5DFD3] shrink-0 overflow-hidden">
+                      <Link href={`/products/${product.slug}`} className="relative w-16 h-20 bg-[#E5DFD3] shrink-0 overflow-hidden block">
                         <ImageWithFallback
                           src={product.image}
                           alt={name}
                           fill
                           className="object-cover"
                         />
-                      </div>
+                      </Link>
                       <div>
                         <span className="text-[10px] uppercase tracking-wider text-[#242220]/50 block">
                           {category}
                         </span>
-                        <h4 className="text-sm font-medium text-[#111111] line-clamp-1">
+                        <Link href={`/products/${product.slug}`} className="text-sm font-medium text-[#111111] hover:text-[#511D24] transition-colors line-clamp-1 block">
                           {name}
-                        </h4>
+                        </Link>
                         <span className="text-xs font-semibold text-[#111111] tabular-nums block mt-1">
                           {product.price.toLocaleString(language === 'ar' ? 'ar-SA' : 'en-US')} {t.actions.sar}
                         </span>

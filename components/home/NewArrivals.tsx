@@ -22,7 +22,7 @@ export function NewArrivals() {
   const filteredProducts = DEMO_PRODUCTS.filter((product) => {
     if (selectedFilter === 'all') return true;
     return product.department === selectedFilter;
-  }).slice(0, 8); // 8 featured pieces for curated luxury cadence
+  }).slice(0, 8); // 8 featured pieces strictly matched to department
 
   return (
     <section className="py-16 md:py-24 bg-[#FFFDFC] border-y border-[#242220]/05">
@@ -38,7 +38,7 @@ export function NewArrivals() {
             </h2>
           </div>
 
-          {/* Interactive Filter Controls (Functional Button Tabs) */}
+          {/* Interactive Filter Controls (Department Tabs) */}
           <div className="flex items-center gap-1 sm:gap-2 self-start md:self-auto overflow-x-auto max-w-full pb-1">
             {filterTabs.map((tab) => (
               <button
@@ -66,7 +66,7 @@ export function NewArrivals() {
         {/* View All CTA */}
         <div className="mt-12 text-center">
           <Link
-            href="/new"
+            href={selectedFilter === 'all' ? '/new' : `/${selectedFilter}`}
             className="inline-flex items-center gap-2.5 py-3.5 px-8 border border-[#111111] text-[#111111] hover:bg-[#111111] hover:text-white text-xs font-medium tracking-widest uppercase transition-all duration-300 group cursor-pointer"
           >
             <span>{t.newArrivals.viewAll}</span>

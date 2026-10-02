@@ -16,7 +16,7 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, priority = false }: ProductCardProps) {
-  const { language, isRtl, t } = useLanguage();
+  const { language, t } = useLanguage();
   const { isWishlisted, toggleWishlist } = useWishlist();
   const { addToBag } = useBag();
   const { openQuickView } = useQuickView();
@@ -54,7 +54,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
     >
       {/* Image Container */}
       <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#EFECE6] cursor-pointer">
-        <Link href={`/${product.department}?item=${product.slug}`} className="block h-full w-full">
+        <Link href={`/products/${product.slug}`} className="block h-full w-full">
           {/* Main Image */}
           <ImageWithFallback
             src={product.image}
@@ -67,7 +67,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
             }`}
           />
 
-          {/* Secondary Image on Hover */}
+          {/* Secondary Image on Hover (if available) */}
           {product.secondImage && (
             <ImageWithFallback
               src={product.secondImage}
@@ -160,7 +160,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
 
         {/* Title */}
         <Link
-          href={`/${product.department}?item=${product.slug}`}
+          href={`/products/${product.slug}`}
           className="text-sm font-medium text-[#111111] hover:text-[#511D24] transition-colors line-clamp-1"
         >
           {name}

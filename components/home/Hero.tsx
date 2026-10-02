@@ -5,25 +5,27 @@ import Link from 'next/link';
 import { ArrowRight, ArrowLeft } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { ImageWithFallback } from '@/components/common/ImageWithFallback';
+import { MEDIA_MANIFEST } from '@/data/media';
 
 export function Hero() {
   const { language, isRtl, t } = useLanguage();
+  const heroMedia = MEDIA_MANIFEST.heroCampaign;
 
   return (
     <section className="relative w-full h-[100svh] min-h-[640px] max-h-[1100px] overflow-hidden bg-[#161514]">
       {/* Background Campaign Image */}
       <div className="absolute inset-0 z-0">
         <ImageWithFallback
-          src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=2400&q=85"
-          alt="RIFAA Autumn / Winter 2026 Campaign"
+          src={heroMedia.src}
+          alt={language === 'ar' ? heroMedia.altAr : heroMedia.altEn}
           fill
           priority
           sizes="100vw"
           className="object-cover object-center scale-100 transition-transform duration-1000 ease-out"
         />
         {/* Editorial Gradients for Legibility & Contrast (WCAG AA compliant) */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#111111]/90 via-[#111111]/35 to-black/25" />
-        <div className="absolute inset-0 bg-radial from-transparent via-[#111111]/20 to-[#111111]/60" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#111111]/90 via-[#111111]/30 to-black/20" />
+        <div className="absolute inset-0 bg-radial from-transparent via-[#111111]/15 to-[#111111]/55" />
       </div>
 
       {/* Hero Content Overlay */}

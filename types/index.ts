@@ -2,6 +2,8 @@ export type Department = 'women' | 'men' | 'kids';
 
 export type Language = 'ar' | 'en';
 
+export type CollectionKey = 'autumn-winter-2026' | 'eid-edit-2026' | 'core-essentials' | 'occasion';
+
 export interface ProductColor {
   nameAr: string;
   nameEn: string;
@@ -15,21 +17,35 @@ export interface Product {
   nameEn: string;
   categoryAr: string;
   categoryEn: string;
+  categoryKey: string;
   department: Department;
   price: number; // in SAR
   oldPrice?: number; // in SAR
   colors: ProductColor[];
   sizes: string[];
   image: string;
-  secondImage: string;
+  secondImage?: string;
+  additionalImages?: string[];
   descriptionAr: string;
   descriptionEn: string;
   collection: string;
+  collectionKey: CollectionKey;
   isNew?: boolean;
   isFeatured?: boolean;
   isBestSeller?: boolean;
   inStock: boolean;
   lookId?: string;
+  // Authentic craftsmanship and tailoring specifications
+  fabricAr?: string;
+  fabricEn?: string;
+  tailoringAr?: string;
+  tailoringEn?: string;
+  careAr?: string;
+  careEn?: string;
+  originAr?: string;
+  originEn?: string;
+  fitAr?: string;
+  fitEn?: string;
   detailsAr?: string[];
   detailsEn?: string[];
 }
@@ -55,6 +71,8 @@ export interface JournalStory {
   excerptEn: string;
   image: string;
   date: string;
+  authorAr?: string;
+  authorEn?: string;
 }
 
 export interface CuratedLook {
@@ -67,4 +85,15 @@ export interface CuratedLook {
   descriptionEn: string;
   mainImage: string;
   productIds: string[];
+}
+
+export interface MediaAsset {
+  id: string;
+  src: string;
+  department: Department | 'family' | 'editorial';
+  role: 'hero' | 'category' | 'campaign' | 'journal' | 'look';
+  subject: string;
+  altAr: string;
+  altEn: string;
+  focalPosition?: string;
 }
