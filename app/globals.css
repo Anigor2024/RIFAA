@@ -67,3 +67,43 @@
 .group:hover .editorial-image-hover {
   transform: scale(1.035);
 }
+
+/* Print Specific Styles for Digital Order Receipts */
+@media print {
+  header,
+  footer,
+  nav,
+  .no-print,
+  button:not(.allow-print) {
+    display: none !important;
+  }
+
+  body,
+  html,
+  main {
+    background-color: #ffffff !important;
+    color: #111111 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .print-receipt-container {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 1.5rem !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+  }
+
+  .print-break-inside-avoid {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Force dark contrast for readable black-on-white text */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}

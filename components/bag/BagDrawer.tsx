@@ -7,6 +7,7 @@ import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight, ArrowLeft } from 'luci
 import { useBag } from '@/context/BagContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { ImageWithFallback } from '@/components/common/ImageWithFallback';
+import { formatPrice } from '@/lib/commerce';
 
 export function BagDrawer() {
   const router = useRouter();
@@ -122,8 +123,7 @@ export function BagDrawer() {
 
                         {/* Price */}
                         <span className="text-sm font-semibold text-[#111111] tabular-nums">
-                          {(item.product.price * item.quantity).toLocaleString(language === 'ar' ? 'ar-SA' : 'en-US')}{' '}
-                          {t.actions.sar}
+                          {formatPrice(item.product.price * item.quantity, language)}
                         </span>
                       </div>
                     </div>
@@ -139,7 +139,7 @@ export function BagDrawer() {
               <div className="flex items-center justify-between text-sm">
                 <span className="text-[#242220]/70">{t.actions.subtotal}:</span>
                 <span className="text-base font-semibold text-[#111111] tabular-nums">
-                  {subtotal.toLocaleString(language === 'ar' ? 'ar-SA' : 'en-US')} {t.actions.sar}
+                  {formatPrice(subtotal, language)}
                 </span>
               </div>
               <p className="text-[11px] text-[#242220]/60">{t.actions.shippingCalc}</p>

@@ -93,8 +93,8 @@ export const COMMERCE_CONFIG = {
       freeThreshold: 500,
       estimatedDaysAr: '٢ - ٤ أيام عمل',
       estimatedDaysEn: '2 - 4 Business Days',
-      descriptionAr: 'شحن موثوق عبر شبكة النقل المعتمدة في المملكة. مجاني للطلبات فوق 500 ر.س.',
-      descriptionEn: 'Complimentary on orders over SAR 500. Reliable delivery to all regions.',
+      descriptionAr: 'شحن قياسي لكافة مناطق المملكة. مجاني للطلبات فوق 500 ر.س (خيار تجريبي).',
+      descriptionEn: 'Complimentary on orders over SAR 500. Standard delivery across all regions (demonstration option).',
     },
     {
       id: 'express',
@@ -103,8 +103,8 @@ export const COMMERCE_CONFIG = {
       price: 65,
       estimatedDaysAr: '١ - ٢ يوم عمل',
       estimatedDaysEn: '1 - 2 Business Days',
-      descriptionAr: 'معالجة فورية وأولوية شحن للطلبات المستعجلة.',
-      descriptionEn: 'Immediate processing with expedited priority handling.',
+      descriptionAr: 'معالجة فورية وتجهيز ذو أولوية للشحن السريع (خيار تجريبي).',
+      descriptionEn: 'Immediate processing with expedited priority handling (demonstration option).',
     },
     {
       id: 'riyadh_same_day',
@@ -113,8 +113,8 @@ export const COMMERCE_CONFIG = {
       price: 90,
       estimatedDaysAr: 'اليوم (للطلبات قبل ٢ ظهراً)',
       estimatedDaysEn: 'Same Day (For orders placed before 2 PM AST)',
-      descriptionAr: 'خدمة تسليم خاصة بالسيارات الفارهة داخل حدود مدينة الرياض.',
-      descriptionEn: 'Private white-glove courier service within Riyadh city limits.',
+      descriptionAr: 'توصيل كونسيرج خاص بالرياض في نفس اليوم — خيار تجريبي لاستعراض المنصة.',
+      descriptionEn: 'Riyadh Concierge Same-Day Delivery — demonstration delivery option.',
     },
   ] as DeliveryOption[],
 
@@ -197,4 +197,23 @@ export function calculateDiscount(subtotal: number, promo: PromoCode | null): nu
 export function generateOrderReference(): string {
   const randomDigits = Math.floor(10000 + Math.random() * 90000);
   return `RIFAA-26-${randomDigits}`;
+}
+
+/**
+ * Centralized Price & Currency Formatter for RIFAA Platform
+ * Formats price with appropriate locale digits and Saudi Riyal symbol
+ * Arabic: "١,٢٥٠ ر.س"
+ * English: "1,250 SAR"
+ */
+export function formatPrice(amount: number, language: 'ar' | 'en'): string {
+  const numStr = amount.toLocaleString(language === 'ar' ? 'ar-SA' : 'en-US');
+  const symbol = language === 'ar' ? COMMERCE_CONFIG.currencySymbolAr : COMMERCE_CONFIG.currencySymbolEn;
+  return `${numStr} ${symbol}`;
+}
+
+/**
+ * Formats number without currency symbol
+ */
+export function formatNumber(amount: number, language: 'ar' | 'en'): string {
+  return amount.toLocaleString(language === 'ar' ? 'ar-SA' : 'en-US');
 }

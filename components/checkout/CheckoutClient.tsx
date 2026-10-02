@@ -30,6 +30,8 @@ import {
   calculateDeliveryFee,
   calculateDiscount,
   generateOrderReference,
+  formatPrice,
+  formatNumber,
 } from '@/lib/commerce';
 
 export function CheckoutClient() {
@@ -96,16 +98,30 @@ export function CheckoutClient() {
   const expiryId = useId();
   const cvvId = useId();
 
-  // Calculations
+  // Calculations & Promo Edge Cases
+  const isPromoApplicable = appliedPromo ? (!appliedPromo.minOrder || subtotal >= appliedPromo.minOrder) : true;
+  const discountAmount = isPromoApplicable ? calculateDiscount(subtotal, appliedPromo) : 0;
   const deliveryFee = calculateDeliveryFee(subtotal, selectedDelivery);
-  const discountAmount = calculateDiscount(subtotal, appliedPromo);
   const total = Math.max(0, subtotal + deliveryFee - discountAmount);
-  const formatPrice = (val: number) => val.toLocaleString(language === 'ar' ? 'ar-SA' : 'en-US');
+  const formatMoney = (val: number) => formatPrice(val, language);
+
+  // Available delivery options based on selected city (Riyadh Same-Day only for Riyadh)
+  const availableDeliveryOptions = COMMERCE_CONFIG.deliveryOptions.filter(
+    (opt) => opt.id !== 'riyadh_same_day' || formData.city === 'riyadh'
+  );
 
   // Field change handler
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => {
+      const next = { ...prev, [name]: value };
+      // Requirement 9: If city changes away from Riyadh while Same-Day is selected, automatically switch
+      if (name === 'city' && value !== 'riyadh' && selectedDelivery.id === 'riyadh_same_day') {
+        setSelectedDelivery(COMMERCE_CONFIG.deliveryOptions[0]);
+      }
+      return next;
+    });
+
     if (errors[name]) {
       setErrors((prev) => {
         const updated = { ...prev };
@@ -157,7 +173,7 @@ export function CheckoutClient() {
   };
 
   // Validation function
-  const validateForm = () => {
+  const validateForm = (): Record<string, string> => {
     const newErrors: Record<string, string> = {};
 
     // Email
@@ -219,7 +235,7 @@ export function CheckoutClient() {
     }
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    return newErrors;
   };
 
   // Promo code apply handler
@@ -241,8 +257,8 @@ export function CheckoutClient() {
     if (found.minOrder && subtotal < found.minOrder) {
       setPromoError(
         language === 'ar'
-          ? `هذا الرمز يتطلب طلباً بقيمة ${found.minOrder} ر.س على الأقل`
-          : `This code requires a minimum order of SAR ${found.minOrder}`
+          ? `هذا الرمز يتطلب طلباً بقيمة ${formatPrice(found.minOrder, language)} على الأقل`
+          : `This code requires a minimum order of ${formatPrice(found.minOrder, language)}`
       );
       return;
     }
@@ -259,8 +275,19 @@ export function CheckoutClient() {
   // Submission handler
   const handleSubmitOrder = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validateForm()) {
-      window.scrollTo({ top: 150, behavior: 'smooth' });
+    const validationErrors = validateForm();
+    const errorKeys = Object.keys(validationErrors);
+    if (errorKeys.length > 0) {
+      const firstKey = errorKeys[0];
+      const targetElement =
+        (document.querySelector(`[name="${firstKey}"]`) as HTMLElement | null) ||
+        document.getElementById(firstKey);
+      if (targetElement) {
+        targetElement.focus();
+        targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        window.scrollTo({ top: 150, behavior: 'smooth' });
+      }
       return;
     }
 
@@ -443,7 +470,7 @@ export function CheckoutClient() {
               {mobileSummaryOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
             </div>
             <span className="text-sm font-bold text-[#111111] tabular-nums">
-              {formatPrice(total)} {t.actions.sar}
+              {formatMoney(total)}
             </span>
           </button>
 
@@ -464,7 +491,7 @@ export function CheckoutClient() {
                       </p>
                     </div>
                     <span className="font-semibold text-[#111111] tabular-nums shrink-0">
-                      {formatPrice(item.product.price * item.quantity)} {t.actions.sar}
+                      {formatMoney(item.product.price * item.quantity)}
                     </span>
                   </div>
                 ))}
@@ -581,10 +608,12 @@ export function CheckoutClient() {
                     id={firstNameId}
                     type="text"
                     name="firstName"
+                    autoComplete="given-name"
                     value={formData.firstName}
                     onChange={handleInputChange}
                     aria-describedby={errors.firstName ? `${firstNameId}-error` : undefined}
-                    className={`w-full py-2.5 px-3.5 bg-white border text-xs sm:text-sm text-[#111111] focus:outline-hidden transition-colors ${
+                    aria-invalid={Boolean(errors.firstName)}
+                    className={`w-full py-2.5 px-3.5 bg-white border text-base sm:text-sm text-[#111111] focus:outline-hidden transition-colors ${
                       errors.firstName ? 'border-[#511D24]' : 'border-[#242220]/20 focus:border-[#111111]'
                     }`}
                   />
@@ -604,10 +633,12 @@ export function CheckoutClient() {
                     id={lastNameId}
                     type="text"
                     name="lastName"
+                    autoComplete="family-name"
                     value={formData.lastName}
                     onChange={handleInputChange}
                     aria-describedby={errors.lastName ? `${lastNameId}-error` : undefined}
-                    className={`w-full py-2.5 px-3.5 bg-white border text-xs sm:text-sm text-[#111111] focus:outline-hidden transition-colors ${
+                    aria-invalid={Boolean(errors.lastName)}
+                    className={`w-full py-2.5 px-3.5 bg-white border text-base sm:text-sm text-[#111111] focus:outline-hidden transition-colors ${
                       errors.lastName ? 'border-[#511D24]' : 'border-[#242220]/20 focus:border-[#111111]'
                     }`}
                   />
@@ -627,7 +658,7 @@ export function CheckoutClient() {
                     type="text"
                     value={language === 'ar' ? 'المملكة العربية السعودية' : 'Saudi Arabia'}
                     disabled
-                    className="w-full py-2.5 px-3.5 bg-[#F2EDE4] border border-[#242220]/15 text-xs sm:text-sm text-[#242220]/80 cursor-not-allowed font-medium"
+                    className="w-full py-2.5 px-3.5 bg-[#F2EDE4] border border-[#242220]/15 text-base sm:text-sm text-[#242220]/80 cursor-not-allowed font-medium"
                   />
                 </div>
 
@@ -639,9 +670,10 @@ export function CheckoutClient() {
                   <select
                     id={cityId}
                     name="city"
+                    autoComplete="address-level2"
                     value={formData.city}
                     onChange={handleInputChange}
-                    className="w-full py-2.5 px-3 bg-white border border-[#242220]/20 text-xs sm:text-sm text-[#111111] focus:outline-hidden focus:border-[#111111] cursor-pointer"
+                    className="w-full py-2.5 px-3 bg-white border border-[#242220]/20 text-base sm:text-sm text-[#111111] focus:outline-hidden focus:border-[#111111] cursor-pointer"
                   >
                     {COMMERCE_CONFIG.saudiCities.map((city) => (
                       <option key={city.id} value={city.id}>
@@ -660,11 +692,13 @@ export function CheckoutClient() {
                     id={districtId}
                     type="text"
                     name="district"
+                    autoComplete="address-level3"
                     value={formData.district}
                     onChange={handleInputChange}
                     placeholder={language === 'ar' ? 'مثال: حي العليا، حطين، النرجس' : 'e.g. Al Olaya, Hittin, Al Narjis'}
                     aria-describedby={errors.district ? `${districtId}-error` : undefined}
-                    className={`w-full py-2.5 px-3.5 bg-white border text-xs sm:text-sm text-[#111111] focus:outline-hidden transition-colors ${
+                    aria-invalid={Boolean(errors.district)}
+                    className={`w-full py-2.5 px-3.5 bg-white border text-base sm:text-sm text-[#111111] focus:outline-hidden transition-colors ${
                       errors.district ? 'border-[#511D24]' : 'border-[#242220]/20 focus:border-[#111111]'
                     }`}
                   />
@@ -684,11 +718,13 @@ export function CheckoutClient() {
                     id={streetId}
                     type="text"
                     name="street"
+                    autoComplete="street-address"
                     value={formData.street}
                     onChange={handleInputChange}
                     placeholder={language === 'ar' ? 'مثال: طريق الملك فهد، شارع التحلية' : 'e.g. King Fahd Rd, Tahlia St'}
                     aria-describedby={errors.street ? `${streetId}-error` : undefined}
-                    className={`w-full py-2.5 px-3.5 bg-white border text-xs sm:text-sm text-[#111111] focus:outline-hidden transition-colors ${
+                    aria-invalid={Boolean(errors.street)}
+                    className={`w-full py-2.5 px-3.5 bg-white border text-base sm:text-sm text-[#111111] focus:outline-hidden transition-colors ${
                       errors.street ? 'border-[#511D24]' : 'border-[#242220]/20 focus:border-[#111111]'
                     }`}
                   />
@@ -708,10 +744,11 @@ export function CheckoutClient() {
                     id={buildingId}
                     type="text"
                     name="building"
+                    autoComplete="address-line2"
                     value={formData.building}
                     onChange={handleInputChange}
                     placeholder={language === 'ar' ? 'فيلا 12، عمارة 4' : 'Villa 12, Apt 4'}
-                    className="w-full py-2.5 px-3.5 bg-white border border-[#242220]/20 text-xs sm:text-sm text-[#111111] focus:outline-hidden focus:border-[#111111]"
+                    className="w-full py-2.5 px-3.5 bg-white border border-[#242220]/20 text-base sm:text-sm text-[#111111] focus:outline-hidden focus:border-[#111111]"
                   />
                 </div>
 
@@ -724,13 +761,16 @@ export function CheckoutClient() {
                     id={postalCodeId}
                     type="text"
                     name="postalCode"
+                    inputMode="numeric"
+                    autoComplete="postal-code"
                     maxLength={5}
                     value={formData.postalCode}
                     onChange={handleInputChange}
                     placeholder="12211"
                     dir="ltr"
                     aria-describedby={errors.postalCode ? `${postalCodeId}-error` : undefined}
-                    className={`w-full py-2.5 px-3.5 bg-white border text-xs sm:text-sm text-[#111111] focus:outline-hidden transition-colors tabular-nums ${
+                    aria-invalid={Boolean(errors.postalCode)}
+                    className={`w-full py-2.5 px-3.5 bg-white border text-base sm:text-sm text-[#111111] focus:outline-hidden transition-colors tabular-nums ${
                       errors.postalCode ? 'border-[#511D24]' : 'border-[#242220]/20 focus:border-[#111111]'
                     }`}
                   />
@@ -752,7 +792,7 @@ export function CheckoutClient() {
                     value={formData.additionalInfo}
                     onChange={handleInputChange}
                     placeholder={language === 'ar' ? 'بجانب معلم معروف أو بوابة محددة...' : 'Near landmark, gate number...'}
-                    className="w-full py-2.5 px-3.5 bg-white border border-[#242220]/20 text-xs sm:text-sm text-[#111111] focus:outline-hidden focus:border-[#111111]"
+                    className="w-full py-2.5 px-3.5 bg-white border border-[#242220]/20 text-base sm:text-sm text-[#111111] focus:outline-hidden focus:border-[#111111]"
                   />
                 </div>
               </div>
@@ -776,7 +816,7 @@ export function CheckoutClient() {
               </div>
 
               <div className="space-y-3">
-                {COMMERCE_CONFIG.deliveryOptions.map((opt) => {
+                {availableDeliveryOptions.map((opt) => {
                   const isSelected = selectedDelivery.id === opt.id;
                   const fee = calculateDeliveryFee(subtotal, opt);
                   const isFree = fee === 0;
@@ -828,7 +868,7 @@ export function CheckoutClient() {
                             </span>
                           ) : (
                             <span className="text-sm font-bold text-[#111111] tabular-nums">
-                              {opt.price} {t.actions.sar}
+                              {formatMoney(opt.price)}
                             </span>
                           )}
                         </div>
@@ -929,15 +969,19 @@ export function CheckoutClient() {
                     <input
                       id={cardNameId}
                       type="text"
+                      name="cardholderName"
+                      autoComplete="cc-name"
                       value={cardData.cardholderName}
                       onChange={(e) => setCardData((p) => ({ ...p, cardholderName: e.target.value }))}
                       placeholder={language === 'ar' ? 'كما يظهر على وجه البطاقة' : 'As printed on the card'}
-                      className={`w-full py-2.5 px-3.5 bg-white border text-xs sm:text-sm text-[#111111] focus:outline-hidden transition-colors ${
+                      aria-describedby={errors.cardholderName ? `${cardNameId}-error` : undefined}
+                      aria-invalid={Boolean(errors.cardholderName)}
+                      className={`w-full py-2.5 px-3.5 bg-white border text-base sm:text-sm text-[#111111] focus:outline-hidden transition-colors ${
                         errors.cardholderName ? 'border-[#511D24]' : 'border-[#242220]/20 focus:border-[#111111]'
                       }`}
                     />
                     {errors.cardholderName && (
-                      <p className="text-[11px] text-[#511D24] mt-1 font-medium">{errors.cardholderName}</p>
+                      <p id={`${cardNameId}-error`} className="text-[11px] text-[#511D24] mt-1 font-medium">{errors.cardholderName}</p>
                     )}
                   </div>
 
@@ -949,17 +993,23 @@ export function CheckoutClient() {
                       <input
                         id={cardNumberId}
                         type="text"
+                        name="cardNumber"
+                        inputMode="numeric"
+                        autoComplete="cc-number"
+                        maxLength={19}
                         value={cardData.cardNumber}
                         onChange={handleCardNumberChange}
                         placeholder="•••• •••• •••• ••••"
                         dir="ltr"
-                        className={`w-full py-2.5 px-3.5 bg-white border text-xs sm:text-sm text-[#111111] focus:outline-hidden transition-colors tabular-nums ${
+                        aria-describedby={errors.cardNumber ? `${cardNumberId}-error` : undefined}
+                        aria-invalid={Boolean(errors.cardNumber)}
+                        className={`w-full py-2.5 px-3.5 bg-white border text-base sm:text-sm text-[#111111] focus:outline-hidden transition-colors tabular-nums ${
                           errors.cardNumber ? 'border-[#511D24]' : 'border-[#242220]/20 focus:border-[#111111]'
                         }`}
                       />
                     </div>
                     {errors.cardNumber && (
-                      <p className="text-[11px] text-[#511D24] mt-1 font-medium">{errors.cardNumber}</p>
+                      <p id={`${cardNumberId}-error`} className="text-[11px] text-[#511D24] mt-1 font-medium">{errors.cardNumber}</p>
                     )}
                   </div>
 
@@ -971,16 +1021,22 @@ export function CheckoutClient() {
                       <input
                         id={expiryId}
                         type="text"
+                        name="expiry"
+                        inputMode="numeric"
+                        autoComplete="cc-exp"
+                        maxLength={5}
                         value={cardData.expiry}
                         onChange={handleExpiryChange}
                         placeholder="MM/YY"
                         dir="ltr"
-                        className={`w-full py-2.5 px-3.5 bg-white border text-xs sm:text-sm text-[#111111] focus:outline-hidden transition-colors tabular-nums ${
+                        aria-describedby={errors.expiry ? `${expiryId}-error` : undefined}
+                        aria-invalid={Boolean(errors.expiry)}
+                        className={`w-full py-2.5 px-3.5 bg-white border text-base sm:text-sm text-[#111111] focus:outline-hidden transition-colors tabular-nums ${
                           errors.expiry ? 'border-[#511D24]' : 'border-[#242220]/20 focus:border-[#111111]'
                         }`}
                       />
                       {errors.expiry && (
-                        <p className="text-[11px] text-[#511D24] mt-1 font-medium">{errors.expiry}</p>
+                        <p id={`${expiryId}-error`} className="text-[11px] text-[#511D24] mt-1 font-medium">{errors.expiry}</p>
                       )}
                     </div>
 
@@ -991,17 +1047,22 @@ export function CheckoutClient() {
                       <input
                         id={cvvId}
                         type="password"
+                        name="cvv"
+                        inputMode="numeric"
+                        autoComplete="cc-csc"
                         maxLength={4}
                         value={cardData.cvv}
                         onChange={handleCvvChange}
                         placeholder="•••"
                         dir="ltr"
-                        className={`w-full py-2.5 px-3.5 bg-white border text-xs sm:text-sm text-[#111111] focus:outline-hidden transition-colors tabular-nums ${
+                        aria-describedby={errors.cvv ? `${cvvId}-error` : undefined}
+                        aria-invalid={Boolean(errors.cvv)}
+                        className={`w-full py-2.5 px-3.5 bg-white border text-base sm:text-sm text-[#111111] focus:outline-hidden transition-colors tabular-nums ${
                           errors.cvv ? 'border-[#511D24]' : 'border-[#242220]/20 focus:border-[#111111]'
                         }`}
                       />
                       {errors.cvv && (
-                        <p className="text-[11px] text-[#511D24] mt-1 font-medium">{errors.cvv}</p>
+                        <p id={`${cvvId}-error`} className="text-[11px] text-[#511D24] mt-1 font-medium">{errors.cvv}</p>
                       )}
                     </div>
                   </div>
@@ -1034,8 +1095,8 @@ export function CheckoutClient() {
                   <>
                     <span>
                       {language === 'ar'
-                        ? `تأكيد الطلب — ${formatPrice(total)} ${t.actions.sar}`
-                        : `Place Order — ${formatPrice(total)} ${t.actions.sar}`}
+                        ? `تأكيد الطلب — ${formatMoney(total)}`
+                        : `Place Order — ${formatMoney(total)}`}
                     </span>
                     {isRtl ? <ArrowLeft className="w-4 h-4" /> : <ArrowRight className="w-4 h-4" />}
                   </>
@@ -1087,8 +1148,7 @@ export function CheckoutClient() {
                           </p>
                         </div>
                         <span className="font-semibold text-[#111111] tabular-nums">
-                          {formatPrice(item.product.price * item.quantity)}{' '}
-                          {t.actions.sar}
+                          {formatMoney(item.product.price * item.quantity)}
                         </span>
                       </div>
                     </div>
@@ -1144,6 +1204,17 @@ export function CheckoutClient() {
                     <span>{promoError}</span>
                   </p>
                 )}
+
+                {appliedPromo && !isPromoApplicable && (
+                  <p className="text-[11px] text-[#511D24] flex items-center gap-1">
+                    <AlertCircle className="w-3 h-3" />
+                    <span>
+                      {language === 'ar'
+                        ? `هذا الرمز يتطلب حداً أدنى للطلب قدره ${formatMoney(appliedPromo.minOrder || 0)}`
+                        : `This promo requires a minimum subtotal of ${formatMoney(appliedPromo.minOrder || 0)}`}
+                    </span>
+                  </p>
+                )}
               </div>
 
               {/* Price Calculations */}
@@ -1151,7 +1222,7 @@ export function CheckoutClient() {
                 <div className="flex justify-between">
                   <span>{t.actions.subtotal}</span>
                   <span className="font-semibold text-[#111111] tabular-nums">
-                    {formatPrice(subtotal)} {t.actions.sar}
+                    {formatMoney(subtotal)}
                   </span>
                 </div>
 
@@ -1163,7 +1234,7 @@ export function CheckoutClient() {
                         {language === 'ar' ? 'مجاني' : 'Free'}
                       </span>
                     ) : (
-                      `${formatPrice(deliveryFee)} ${t.actions.sar}`
+                      formatMoney(deliveryFee)
                     )}
                   </span>
                 </div>
@@ -1172,7 +1243,7 @@ export function CheckoutClient() {
                   <div className="flex justify-between text-[#511D24] font-medium">
                     <span>{language === 'ar' ? 'قيمة الخصم' : 'Discount Applied'}</span>
                     <span className="tabular-nums">
-                      -{formatPrice(discountAmount)} {t.actions.sar}
+                      -{formatMoney(discountAmount)}
                     </span>
                   </div>
                 )}
@@ -1180,7 +1251,7 @@ export function CheckoutClient() {
                 <div className="pt-3 border-t border-[#242220]/10 flex justify-between items-baseline text-sm">
                   <span className="font-bold text-[#111111]">{language === 'ar' ? 'الإجمالي التقديري' : 'Estimated Total'}</span>
                   <span className="text-lg font-bold text-[#111111] tabular-nums">
-                    {formatPrice(total)} {t.actions.sar}
+                    {formatMoney(total)}
                   </span>
                 </div>
               </div>

@@ -128,7 +128,7 @@ export default function AboutPage() {
             <p className="text-xs text-[#242220]/70 leading-relaxed font-light">
               {language === 'ar'
                 ? 'فريق متخصص في الرياض لتقديم المشورة في المقاسات وتنسيق الإطلالات الخاصة.'
-                : 'Dedicated Riyadh styling desk providing bespoke fit guidance and white-glove private appointments.'}
+                : 'Dedicated Riyadh styling desk providing bespoke fit guidance and private atelier appointments.'}
             </p>
           </div>
         </div>

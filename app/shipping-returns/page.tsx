@@ -87,8 +87,8 @@ export default function ShippingReturnsPage() {
               </span>
               <p className="text-xs text-[#242220]/70 leading-relaxed font-light">
                 {language === 'ar'
-                  ? 'خدمة خاصة برسوم 90 ر.س للطلبات المسجلة قبل الساعة 2 ظهراً بتوقيت الرياض مع مندوب خاص.'
-                  : 'White-glove concierge dispatch at SAR 90 for orders confirmed before 2:00 PM AST within Riyadh city.'}
+                  ? 'خيار تجريبي برسوم 90 ر.س للطلبات المسجلة قبل الساعة 2 ظهراً بتوقيت الرياض.'
+                  : 'Demonstration tier at SAR 90 for conceptual orders confirmed before 2:00 PM AST within Riyadh city.'}
               </p>
             </div>
           </div>

@@ -17,7 +17,7 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
-import { DemoOrder } from '@/lib/commerce';
+import { DemoOrder, formatPrice } from '@/lib/commerce';
 import { ImageWithFallback } from '@/components/common/ImageWithFallback';
 import { SaudiMotif } from '@/components/common/SaudiMotif';
 
@@ -49,7 +49,7 @@ export function OrderConfirmationClient() {
     }
   }, [rawOrderJson]);
 
-  const formatPrice = (val: number) => val.toLocaleString(language === 'ar' ? 'ar-SA' : 'en-US');
+  const formatMoney = (val: number) => formatPrice(val, language);
 
   const handlePrint = () => {
     if (typeof window !== 'undefined') {
@@ -91,7 +91,7 @@ export function OrderConfirmationClient() {
 
   return (
     <div className="pt-24 sm:pt-28 pb-24 bg-[#F7F4EF] min-h-screen">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 print-receipt-container">
         {/* Success Header Badge */}
         <div className="bg-[#FFFDFC] border border-[#242220]/10 p-6 sm:p-10 shadow-xs mb-8 text-center space-y-4">
           <div className="w-14 h-14 rounded-full bg-[#511D24]/10 text-[#511D24] flex items-center justify-center mx-auto">
@@ -225,10 +225,10 @@ export function OrderConfirmationClient() {
 
                 <div className="text-end shrink-0">
                   <span className="font-semibold text-sm text-[#111111] tabular-nums">
-                    {formatPrice(item.lineTotal)} {t.actions.sar}
+                    {formatMoney(item.lineTotal)}
                   </span>
                   <span className="text-[11px] text-[#242220]/50 block tabular-nums">
-                    ({formatPrice(item.unitPrice)} {t.actions.sar} / {language === 'ar' ? 'قطعة' : 'pc'})
+                    ({formatMoney(item.unitPrice)} / {language === 'ar' ? 'قطعة' : 'pc'})
                   </span>
                 </div>
               </div>
@@ -236,11 +236,11 @@ export function OrderConfirmationClient() {
           </div>
 
           {/* Financial Breakdown */}
-          <div className="pt-4 border-t border-[#242220]/10 space-y-2 text-xs text-[#242220]/80">
+          <div className="pt-4 border-t border-[#242220]/10 space-y-2 text-xs text-[#242220]/80 print-break-inside-avoid">
             <div className="flex justify-between">
               <span>{t.actions.subtotal}</span>
               <span className="font-semibold text-[#111111] tabular-nums">
-                {formatPrice(order.subtotal)} {t.actions.sar}
+                {formatMoney(order.subtotal)}
               </span>
             </div>
 
@@ -252,7 +252,7 @@ export function OrderConfirmationClient() {
                     {language === 'ar' ? 'مجاني' : 'Free'}
                   </span>
                 ) : (
-                  `${formatPrice(order.deliveryFee)} ${t.actions.sar}`
+                  formatMoney(order.deliveryFee)
                 )}
               </span>
             </div>
@@ -264,7 +264,7 @@ export function OrderConfirmationClient() {
                   {order.promoCodeApplied ? ` (${order.promoCodeApplied})` : ''}
                 </span>
                 <span className="tabular-nums">
-                  -{formatPrice(order.discount)} {t.actions.sar}
+                  -{formatMoney(order.discount)}
                 </span>
               </div>
             )}
@@ -272,14 +272,14 @@ export function OrderConfirmationClient() {
             <div className="pt-3 border-t border-[#242220]/10 flex justify-between items-baseline text-base font-bold text-[#111111]">
               <span>{language === 'ar' ? 'المجموع الكلي' : 'Final Total'}</span>
               <span className="text-xl tabular-nums">
-                {formatPrice(order.total)} {t.actions.sar}
+                {formatMoney(order.total)}
               </span>
             </div>
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2 no-print">
           <Link
             href="/new"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 py-3.5 px-8 bg-[#111111] hover:bg-[#511D24] text-white text-xs font-semibold tracking-widest uppercase transition-colors"

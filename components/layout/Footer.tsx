@@ -135,17 +135,17 @@ export function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/contact" className="hover:text-white transition-colors">
+                  <Link href="/stores" className="hover:text-white transition-colors">
                     {t.footer.links.stores}
                   </Link>
                 </li>
                 <li>
-                  <Link href="/about" className="hover:text-white transition-colors">
+                  <Link href="/sustainability" className="hover:text-white transition-colors">
                     {t.footer.links.sustainability}
                   </Link>
                 </li>
                 <li>
-                  <Link href="/contact" className="hover:text-white transition-colors">
+                  <Link href="/careers" className="hover:text-white transition-colors">
                     {t.footer.links.careers}
                   </Link>
                 </li>
