@@ -1,0 +1,8 @@
+{
+  "name": "رِفْعة | RIFAA",
+  "description": "رِفْعة | RIFAA — A Contemporary Saudi Fashion House for Women, Men, and Kids.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
