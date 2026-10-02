@@ -31,7 +31,9 @@ function QuickViewContent({ product, onClose }: QuickViewContentProps) {
   const description = language === 'ar' ? product.descriptionAr : product.descriptionEn;
   const details = language === 'ar' ? product.detailsAr : product.detailsEn;
 
-  const images = [product.image, product.secondImage].filter(Boolean) as string[];
+  const images = Array.from(
+    new Set([product.image, product.secondImage].filter(Boolean))
+  ) as string[];
 
   const handleAdd = () => {
     if (!selectedColor || !selectedSize) return;

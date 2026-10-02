@@ -98,15 +98,17 @@ export default function SearchPage() {
           {/* Department Filter Tabs & Suggestions */}
           <div className="flex flex-wrap items-center justify-between gap-4 pt-1">
             <div className="flex items-center gap-1.5 text-xs">
-              {[
-                { id: 'all', label: t.actions.filterAll },
-                { id: 'women', label: t.nav.women },
-                { id: 'men', label: t.nav.men },
-                { id: 'kids', label: t.nav.kids },
-              ].map((tab) => (
+              {(
+                [
+                  { id: 'all', label: t.actions.filterAll },
+                  { id: 'women', label: t.nav.women },
+                  { id: 'men', label: t.nav.men },
+                  { id: 'kids', label: t.nav.kids },
+                ] as const
+              ).map((tab) => (
                 <button
                   key={tab.id}
-                  onClick={() => setSelectedDepartment(tab.id as any)}
+                  onClick={() => setSelectedDepartment(tab.id)}
                   className={`py-1.5 px-3.5 font-medium tracking-wider uppercase transition-colors cursor-pointer ${
                     selectedDepartment === tab.id
                       ? 'bg-[#111111] text-white shadow-xs'

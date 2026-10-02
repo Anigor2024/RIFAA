@@ -14,7 +14,7 @@ export default function EditorialPage() {
     <div className="pt-24 sm:pt-28 pb-20 bg-[#F7F4EF] min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-xs text-[#242220]/50 mb-6">
+        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-[#242220]/50 mb-6">
           <Link href="/" className="hover:text-[#111111] transition-colors">
             {language === 'ar' ? 'الرئيسية' : 'Home'}
           </Link>
@@ -22,7 +22,7 @@ export default function EditorialPage() {
           <span className="text-[#111111] font-medium">
             {language === 'ar' ? 'الإطلالات والمجلة' : 'Editorial & Journal'}
           </span>
-        </div>
+        </nav>
 
         {/* Page Hero */}
         <div className="pb-8 mb-12 border-b border-[#242220]/10 flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -51,22 +51,25 @@ export default function EditorialPage() {
             const isReversed = idx % 2 === 1;
 
             return (
-              <div
+              <article
                 key={story.id}
                 className={`grid grid-cols-1 lg:grid-cols-12 gap-8 items-center ${
                   isReversed ? 'lg:flex-row-reverse' : ''
                 }`}
               >
                 <div className={`lg:col-span-7 ${isReversed ? 'lg:order-2' : 'lg:order-1'}`}>
-                  <div className="relative aspect-[16/10] overflow-hidden bg-[#E2DBD0]">
+                  <Link
+                    href={`/editorial/${story.slug}`}
+                    className="block relative aspect-[16/10] overflow-hidden bg-[#E2DBD0] group cursor-pointer shadow-xs"
+                  >
                     <ImageWithFallback
                       src={story.image}
                       alt={title}
                       fill
                       sizes="(max-width: 1024px) 100vw, 60vw"
-                      className="object-cover object-center transition-transform duration-700 hover:scale-105"
+                      className="object-cover object-center transition-transform duration-700 group-hover:scale-103"
                     />
-                  </div>
+                  </Link>
                 </div>
 
                 <div className={`lg:col-span-5 space-y-4 ${isReversed ? 'lg:order-1' : 'lg:order-2'}`}>
@@ -78,22 +81,27 @@ export default function EditorialPage() {
                     <span>{readTime}</span>
                   </div>
 
-                  <h2 className="text-2xl sm:text-3xl font-bold text-[#111111] leading-snug">
-                    {title}
-                  </h2>
+                  <Link href={`/editorial/${story.slug}`} className="block group">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-[#111111] leading-snug group-hover:text-[#511D24] transition-colors">
+                      {title}
+                    </h2>
+                  </Link>
 
                   <p className="text-sm text-[#242220]/80 font-light leading-relaxed">
                     {excerpt}
                   </p>
 
                   <div className="pt-2">
-                    <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-widest uppercase text-[#511D24] border-b border-[#511D24] pb-0.5">
+                    <Link
+                      href={`/editorial/${story.slug}`}
+                      className="inline-flex items-center gap-2 text-xs font-semibold tracking-widest uppercase text-[#511D24] border-b border-[#511D24] pb-0.5 hover:text-[#111111] hover:border-[#111111] transition-colors cursor-pointer"
+                    >
                       {t.journal.readStory}
                       {isRtl ? <ArrowLeft className="w-3.5 h-3.5" /> : <ArrowRight className="w-3.5 h-3.5" />}
-                    </span>
+                    </Link>
                   </div>
                 </div>
-              </div>
+              </article>
             );
           })}
         </div>

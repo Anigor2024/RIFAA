@@ -7,23 +7,28 @@ interface SaudiMotifProps {
 
 export function SaudiMotif({ className = '', variant = 'divider' }: SaudiMotifProps) {
   if (variant === 'mark') {
+    // Abstract geometric stepped diamond inspired by Najdi architectural ventilation apertures
     return (
       <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className={`inline-block ${className}`}
         aria-hidden="true"
       >
         <path
-          d="M12 2L15 8L21 9.5L16.5 14L18 20L12 17L6 20L7.5 14L3 9.5L9 8L12 2Z"
+          d="M10 2L18 10L10 18L2 10L10 2Z"
           stroke="currentColor"
           strokeWidth="0.75"
-          fill="none"
         />
-        <circle cx="12" cy="12" r="2" fill="currentColor" opacity="0.8" />
+        <path
+          d="M10 6L14 10L10 14L6 10L10 6Z"
+          stroke="currentColor"
+          strokeWidth="0.75"
+        />
+        <rect x="9.25" y="9.25" width="1.5" height="1.5" fill="currentColor" />
       </svg>
     );
   }

@@ -6,10 +6,9 @@ import {
   SlidersHorizontal,
   X,
   ChevronDown,
-  ArrowUpDown,
   RotateCcw,
 } from 'lucide-react';
-import { Product, Department } from '@/types';
+import { Product, Department, ProductColor } from '@/types';
 import { useLanguage } from '@/context/LanguageContext';
 import { ProductCard } from '@/components/product/ProductCard';
 import { ImageWithFallback } from '@/components/common/ImageWithFallback';
@@ -25,6 +24,8 @@ interface CatalogPageContentProps {
   products: Product[];
 }
 
+type SortOption = 'featured' | 'newest' | 'priceAsc' | 'priceDesc';
+
 export function CatalogPageContent({
   department,
   titleAr,
@@ -38,10 +39,11 @@ export function CatalogPageContent({
 
   // Filters State
   const [selectedCategoryKey, setSelectedCategoryKey] = useState<string>('all');
-  const [selectedPriceBand, setSelectedPriceBand] = useState<string>('all');
   const [selectedCollectionKey, setSelectedCollectionKey] = useState<string>('all');
+  const [selectedPriceBand, setSelectedPriceBand] = useState<string>('all');
   const [selectedSize, setSelectedSize] = useState<string>('all');
-  const [selectedSort, setSelectedSort] = useState<'featured' | 'newest' | 'priceAsc' | 'priceDesc'>('featured');
+  const [selectedColorHex, setSelectedColorHex] = useState<string>('all');
+  const [selectedSort, setSelectedSort] = useState<SortOption>('featured');
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
   // Extract available categories within this product set
@@ -59,11 +61,52 @@ export function CatalogPageContent({
     return Array.from(map.values());
   }, [products]);
 
+  // Extract available collections within this product set
+  const availableCollections = useMemo(() => {
+    const map = new Map<string, { key: string; labelAr: string; labelEn: string }>();
+    products.forEach((p) => {
+      if (!map.has(p.collectionKey)) {
+        let labelAr = p.collection;
+        let labelEn = p.collection;
+        if (p.collectionKey === 'autumn-winter-2026') {
+          labelAr = 'خريف / شتاء 2026';
+          labelEn = 'Autumn / Winter 2026';
+        } else if (p.collectionKey === 'eid-edit-2026') {
+          labelAr = 'تحرير العيد 2026';
+          labelEn = 'The Eid Edit 2026';
+        } else if (p.collectionKey === 'core-essentials') {
+          labelAr = 'أساسيات رِفْعة';
+          labelEn = 'Core Essentials';
+        }
+        map.set(p.collectionKey, {
+          key: p.collectionKey,
+          labelAr,
+          labelEn,
+        });
+      }
+    });
+    return Array.from(map.values());
+  }, [products]);
+
   // Extract available sizes
   const availableSizes = useMemo(() => {
     const set = new Set<string>();
     products.forEach((p) => p.sizes.forEach((s) => set.add(s)));
     return Array.from(set);
+  }, [products]);
+
+  // Extract available colors
+  const availableColors = useMemo(() => {
+    const map = new Map<string, ProductColor>();
+    products.forEach((p) => {
+      p.colors.forEach((c) => {
+        const key = c.hex.toLowerCase();
+        if (!map.has(key)) {
+          map.set(key, c);
+        }
+      });
+    });
+    return Array.from(map.values());
   }, [products]);
 
   // Filter & Sort Logic
@@ -92,6 +135,13 @@ export function CatalogPageContent({
         if (selectedSize !== 'all' && !p.sizes.includes(selectedSize)) {
           return false;
         }
+        // Color
+        if (
+          selectedColorHex !== 'all' &&
+          !p.colors.some((c) => c.hex.toLowerCase() === selectedColorHex.toLowerCase())
+        ) {
+          return false;
+        }
         return true;
       })
       .sort((a, b) => {
@@ -113,21 +163,31 @@ export function CatalogPageContent({
     selectedCollectionKey,
     selectedPriceBand,
     selectedSize,
+    selectedColorHex,
     selectedSort,
   ]);
 
   const hasActiveFilters =
     selectedCategoryKey !== 'all' ||
-    selectedPriceBand !== 'all' ||
     selectedCollectionKey !== 'all' ||
-    selectedSize !== 'all';
+    selectedPriceBand !== 'all' ||
+    selectedSize !== 'all' ||
+    selectedColorHex !== 'all';
 
   const resetAllFilters = () => {
     setSelectedCategoryKey('all');
-    setSelectedPriceBand('all');
     setSelectedCollectionKey('all');
+    setSelectedPriceBand('all');
     setSelectedSize('all');
+    setSelectedColorHex('all');
     setSelectedSort('featured');
+  };
+
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const val = e.target.value;
+    if (val === 'featured' || val === 'newest' || val === 'priceAsc' || val === 'priceDesc') {
+      setSelectedSort(val);
+    }
   };
 
   const title = language === 'ar' ? titleAr : titleEn;
@@ -158,8 +218,8 @@ export function CatalogPageContent({
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#111111]/80 via-[#111111]/30 to-transparent" />
               <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-10 text-white space-y-2">
-                <span className="text-[11px] uppercase tracking-[0.25em] text-[#D9D0C4] font-medium">
-                  {language === 'ar' ? 'دار رِفْعة للأزياء المعاصرة' : 'RIFAA FASHION HOUSE'}
+                <span className="text-[11px] uppercase tracking-[0.25em] text-[#E8DCC8] font-medium">
+                  {department ? (language === 'ar' ? 'دار رِفْعة المعاصرة' : 'RIFAA HOUSE ATELIER') : (language === 'ar' ? 'مختارات دار رِفْعة' : 'RIFAA SELECTION')}
                 </span>
                 <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white">
                   {title}
@@ -170,10 +230,10 @@ export function CatalogPageContent({
               </div>
             </div>
           ) : (
-            <div className="py-10 px-6 sm:px-10 border-b border-[#242220]/10 flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div className="p-8 sm:p-12 border-b border-[#242220]/10 flex flex-col md:flex-row md:items-end justify-between gap-4">
               <div>
                 <span className="text-xs uppercase tracking-[0.25em] text-[#511D24] font-medium block mb-1">
-                  {language === 'ar' ? 'مجموعات الدار' : 'RIFAA REPERTOIRE'}
+                  {language === 'ar' ? 'دار رِفْعة' : 'RIFAA HOUSE'}
                 </span>
                 <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#111111]">
                   {title}
@@ -186,9 +246,9 @@ export function CatalogPageContent({
           )}
         </div>
 
-        {/* Primary Category Quick Switcher Tabs */}
+        {/* Sub-Category Horizontal Quick Nav */}
         {availableCategories.length > 1 && (
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-3 mb-6 border-b border-[#242220]/10 text-xs">
+          <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-4 text-xs">
             <button
               onClick={() => setSelectedCategoryKey('all')}
               className={`py-2 px-4 font-medium tracking-wider uppercase transition-colors whitespace-nowrap cursor-pointer ${
@@ -251,7 +311,7 @@ export function CatalogPageContent({
             <div className="relative">
               <select
                 value={selectedSort}
-                onChange={(e) => setSelectedSort(e.target.value as any)}
+                onChange={handleSortChange}
                 className="bg-[#FFFDFC] border border-[#242220]/15 py-2 px-3 pe-8 text-[#111111] font-medium appearance-none focus:outline-hidden cursor-pointer"
               >
                 <option value="featured">{t.sort.featured}</option>
@@ -273,7 +333,7 @@ export function CatalogPageContent({
             <p className="text-xs text-[#242220]/60 max-w-sm mx-auto">
               {language === 'ar'
                 ? 'يرجى تجربة تعديل معايير السعر أو المقاس أو إعادة تعيين الفلاتر لعرض كافة القطع.'
-                : 'Please try adjusting your price or size criteria or reset all filters to view our full collection.'}
+                : 'Please try adjusting your price, color, or size criteria or reset all filters to view our full collection.'}
             </p>
             <button
               onClick={resetAllFilters}
@@ -314,7 +374,7 @@ export function CatalogPageContent({
               </div>
               <button
                 onClick={() => setMobileFilterOpen(false)}
-                className="p-1.5 text-[#242220]/60 hover:text-[#111111]"
+                className="p-1.5 text-[#242220]/60 hover:text-[#111111] cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -330,7 +390,7 @@ export function CatalogPageContent({
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     onClick={() => setSelectedCategoryKey('all')}
-                    className={`py-2 px-3 text-start border transition-colors ${
+                    className={`py-2 px-3 text-start border transition-colors cursor-pointer ${
                       selectedCategoryKey === 'all'
                         ? 'border-[#111111] bg-[#111111] text-white'
                         : 'border-[#242220]/15 bg-white text-[#242220]'
@@ -342,7 +402,7 @@ export function CatalogPageContent({
                     <button
                       key={c.key}
                       onClick={() => setSelectedCategoryKey(c.key)}
-                      className={`py-2 px-3 text-start border transition-colors truncate ${
+                      className={`py-2 px-3 text-start border transition-colors truncate cursor-pointer ${
                         selectedCategoryKey === c.key
                           ? 'border-[#111111] bg-[#111111] text-white'
                           : 'border-[#242220]/15 bg-white text-[#242220]'
@@ -353,6 +413,81 @@ export function CatalogPageContent({
                   ))}
                 </div>
               </div>
+
+              {/* Collection */}
+              {availableCollections.length > 1 && (
+                <div className="space-y-3 pt-4">
+                  <h4 className="font-semibold text-[#111111] uppercase tracking-wider text-[11px]">
+                    {language === 'ar' ? 'التشكيلة' : 'Collection'}
+                  </h4>
+                  <div className="space-y-2">
+                    <button
+                      onClick={() => setSelectedCollectionKey('all')}
+                      className={`w-full py-2 px-3 text-start border transition-colors cursor-pointer ${
+                        selectedCollectionKey === 'all'
+                          ? 'border-[#111111] bg-[#111111] text-white'
+                          : 'border-[#242220]/15 bg-white text-[#242220]'
+                      }`}
+                    >
+                      {t.actions.filterAll}
+                    </button>
+                    {availableCollections.map((col) => (
+                      <button
+                        key={col.key}
+                        onClick={() => setSelectedCollectionKey(col.key)}
+                        className={`w-full py-2 px-3 text-start border transition-colors cursor-pointer ${
+                          selectedCollectionKey === col.key
+                            ? 'border-[#111111] bg-[#111111] text-white'
+                            : 'border-[#242220]/15 bg-white text-[#242220]'
+                        }`}
+                      >
+                        {language === 'ar' ? col.labelAr : col.labelEn}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Color */}
+              {availableColors.length > 0 && (
+                <div className="space-y-3 pt-4">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-semibold text-[#111111] uppercase tracking-wider text-[11px]">
+                      {t.actions.color}
+                    </h4>
+                    {selectedColorHex !== 'all' && (
+                      <button
+                        onClick={() => setSelectedColorHex('all')}
+                        className="text-[11px] text-[#511D24] hover:underline cursor-pointer"
+                      >
+                        {t.actions.filterAll}
+                      </button>
+                    )}
+                  </div>
+                  <div className="flex flex-wrap gap-2.5">
+                    {availableColors.map((color) => {
+                      const isSelected = selectedColorHex.toLowerCase() === color.hex.toLowerCase();
+                      return (
+                        <button
+                          key={color.hex}
+                          onClick={() => setSelectedColorHex(isSelected ? 'all' : color.hex)}
+                          className={`w-7 h-7 rounded-full flex items-center justify-center transition-all cursor-pointer ${
+                            isSelected
+                              ? 'ring-2 ring-[#111111] ring-offset-2 ring-offset-[#F7F4EF]'
+                              : 'hover:scale-105 opacity-80 hover:opacity-100'
+                          }`}
+                          style={{ backgroundColor: color.hex }}
+                          title={language === 'ar' ? color.nameAr : color.nameEn}
+                        >
+                          {isSelected && (
+                            <span className="w-1.5 h-1.5 rounded-full bg-white shadow-xs" />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
 
               {/* Price Band */}
               <div className="space-y-3 pt-4">
@@ -369,7 +504,7 @@ export function CatalogPageContent({
                     <button
                       key={band.key}
                       onClick={() => setSelectedPriceBand(band.key)}
-                      className={`w-full py-2 px-3 text-start border transition-colors ${
+                      className={`w-full py-2 px-3 text-start border transition-colors cursor-pointer ${
                         selectedPriceBand === band.key
                           ? 'border-[#111111] bg-[#111111] text-white'
                           : 'border-[#242220]/15 bg-white text-[#242220]'
@@ -390,7 +525,7 @@ export function CatalogPageContent({
                   <div className="grid grid-cols-3 gap-2">
                     <button
                       onClick={() => setSelectedSize('all')}
-                      className={`py-2 px-2 text-center border transition-colors ${
+                      className={`py-2 px-2 text-center border transition-colors cursor-pointer ${
                         selectedSize === 'all'
                           ? 'border-[#111111] bg-[#111111] text-white'
                           : 'border-[#242220]/15 bg-white text-[#242220]'
@@ -402,7 +537,7 @@ export function CatalogPageContent({
                       <button
                         key={s}
                         onClick={() => setSelectedSize(s)}
-                        className={`py-2 px-2 text-center border transition-colors truncate ${
+                        className={`py-2 px-2 text-center border transition-colors truncate cursor-pointer ${
                           selectedSize === s
                             ? 'border-[#111111] bg-[#111111] text-white'
                             : 'border-[#242220]/15 bg-white text-[#242220]'
@@ -420,13 +555,13 @@ export function CatalogPageContent({
             <div className="p-6 border-t border-[#242220]/10 bg-white flex items-center gap-3">
               <button
                 onClick={resetAllFilters}
-                className="py-3 px-4 border border-[#242220]/20 text-[#111111] text-xs font-semibold uppercase hover:border-[#111111]"
+                className="py-3 px-4 border border-[#242220]/20 text-[#111111] text-xs font-semibold uppercase hover:border-[#111111] cursor-pointer"
               >
                 {t.actions.resetFilters}
               </button>
               <button
                 onClick={() => setMobileFilterOpen(false)}
-                className="flex-1 py-3 px-4 bg-[#111111] text-white text-xs font-semibold uppercase hover:bg-[#511D24] text-center"
+                className="flex-1 py-3 px-4 bg-[#111111] text-white text-xs font-semibold uppercase hover:bg-[#511D24] text-center cursor-pointer"
               >
                 {language === 'ar'
                   ? `عرض ${filteredProducts.length} قطعة`

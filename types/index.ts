@@ -73,6 +73,8 @@ export interface JournalStory {
   date: string;
   authorAr?: string;
   authorEn?: string;
+  paragraphsAr?: string[];
+  paragraphsEn?: string[];
 }
 
 export interface CuratedLook {
