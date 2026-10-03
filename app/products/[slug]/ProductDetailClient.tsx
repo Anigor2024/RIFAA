@@ -137,7 +137,7 @@ export function ProductDetailClient({
                 alt={name}
                 priority
                 sizes="(max-width: 1024px) 100vw, 60vw"
-                hint={language === 'ar' ? 'مرّر أو اضغط واسحب لتكبير التفاصيل' : 'Hover or press and drag to zoom'}
+                hint={language === 'ar' ? 'مرّر أو اضغط واسحب لفحص نسيج القماش بدقة' : 'Hover or press and drag to inspect fabric texture'}
               />
 
               {/* Status Badges */}
