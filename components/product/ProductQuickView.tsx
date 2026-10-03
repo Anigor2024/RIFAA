@@ -1,13 +1,16 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { X, Heart, ShoppingBag, Check, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { useQuickView } from '@/context/QuickViewContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { useWishlist } from '@/context/WishlistContext';
 import { useBag } from '@/context/BagContext';
+import { useAccount } from '@/context/AccountContext';
 import { ImageWithFallback } from '@/components/common/ImageWithFallback';
+import { ProductImageZoom } from '@/components/product/ProductImageZoom';
+import { formatPrice } from '@/lib/commerce';
 import { Product, ProductColor } from '@/types';
 
 interface QuickViewContentProps {
@@ -19,6 +22,7 @@ function QuickViewContent({ product, onClose }: QuickViewContentProps) {
   const { language, t } = useLanguage();
   const { isWishlisted, toggleWishlist } = useWishlist();
   const { addToBag } = useBag();
+  const { recordRecentlyViewed } = useAccount();
 
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState<ProductColor>(product.colors[0]);
@@ -34,6 +38,10 @@ function QuickViewContent({ product, onClose }: QuickViewContentProps) {
   const images = Array.from(
     new Set([product.image, product.secondImage].filter(Boolean))
   ) as string[];
+
+  useEffect(() => {
+    recordRecentlyViewed(product.id);
+  }, [product.id, recordRecentlyViewed]);
 
   const handleAdd = () => {
     if (!selectedColor || !selectedSize) return;
@@ -60,12 +68,11 @@ function QuickViewContent({ product, onClose }: QuickViewContentProps) {
         {/* Gallery Column */}
         <div className="relative bg-[#EFECE6] p-4 flex flex-col items-center justify-between">
           <div className="relative w-full aspect-[3/4] overflow-hidden">
-            <ImageWithFallback
+            <ProductImageZoom
               src={images[activeImageIndex] || product.image}
               alt={name}
-              fill
               sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover object-center transition-all duration-500"
+              hint={language === 'ar' ? 'اضغط واسحب لفحص القماش عن قرب' : 'Press, drag, or hover to inspect fabric'}
             />
           </div>
 
@@ -109,11 +116,11 @@ function QuickViewContent({ product, onClose }: QuickViewContentProps) {
             {/* Price */}
             <div className="flex items-baseline gap-3 pb-3 border-b border-[#242220]/10">
               <span className="text-xl font-semibold text-[#111111] tabular-nums">
-                {product.price.toLocaleString(language === 'ar' ? 'ar-SA' : 'en-US')} {t.actions.sar}
+                {formatPrice(product.price, language)}
               </span>
               {product.oldPrice && (
                 <span className="text-sm text-[#242220]/45 line-through tabular-nums">
-                  {product.oldPrice.toLocaleString(language === 'ar' ? 'ar-SA' : 'en-US')} {t.actions.sar}
+                  {formatPrice(product.oldPrice, language)}
                 </span>
               )}
             </div>

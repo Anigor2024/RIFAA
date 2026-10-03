@@ -9,6 +9,7 @@ import { useWishlist } from '@/context/WishlistContext';
 import { useBag } from '@/context/BagContext';
 import { useQuickView } from '@/context/QuickViewContext';
 import { ImageWithFallback } from '@/components/common/ImageWithFallback';
+import { formatPrice } from '@/lib/commerce';
 
 interface ProductCardProps {
   product: Product;
@@ -169,11 +170,11 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
         {/* Price */}
         <div className="flex items-baseline gap-2 pt-0.5">
           <span className="text-sm font-semibold tracking-tight text-[#111111] tabular-nums">
-            {product.price.toLocaleString(language === 'ar' ? 'ar-SA' : 'en-US')} {t.actions.sar}
+            {formatPrice(product.price, language)}
           </span>
           {product.oldPrice && (
             <span className="text-xs text-[#242220]/45 line-through tabular-nums">
-              {product.oldPrice.toLocaleString(language === 'ar' ? 'ar-SA' : 'en-US')} {t.actions.sar}
+              {formatPrice(product.oldPrice, language)}
             </span>
           )}
         </div>
