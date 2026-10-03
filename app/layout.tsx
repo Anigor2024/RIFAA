@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { IBM_Plex_Sans_Arabic, Plus_Jakarta_Sans, Cormorant_Garamond } from 'next/font/google';
 import './globals.css';
 import { AppProviders } from '@/providers/AppProviders';
@@ -38,15 +38,23 @@ export const metadata: Metadata = {
   keywords: ['أزياء سعودية', 'رِفْعة', 'RIFAA', 'Saudi Fashion', 'Contemporary Modest', 'عبايات فاخرة', 'أزياء رجالية', 'أزياء أطفال', 'Riyadh Fashion'],
   openGraph: {
     title: 'رِفْعة | RIFAA — Contemporary Saudi Fashion',
+    url: '/',
     description: 'Premium bilingual Saudi fashion ecommerce experience with responsive shopping, wishlist, bag, checkout, and client account flows.',
     type: 'website',
     locale: 'ar_SA',
+    images: [{ url: '/images/hero_campaign_riyadh.jpg', alt: 'RIFAA contemporary Saudi fashion campaign' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'رِفْعة | RIFAA — Contemporary Saudi Fashion',
     description: 'Premium bilingual Saudi fashion ecommerce experience with responsive shopping, wishlist, bag, checkout, and client account flows.',
+    images: ['/images/hero_campaign_riyadh.jpg'],
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: '#511D24',
+  colorScheme: 'light',
 };
 
 export default function RootLayout({
@@ -65,9 +73,9 @@ export default function RootLayout({
         <a href="#main-content" className="skip-link">تجاوز إلى المحتوى / Skip to content</a>
         <AppProviders>
           <Header />
-          <main id="main-content" className="flex-1 w-full" tabIndex={-1}>
+          <div id="main-content" className="flex-1 w-full" tabIndex={-1}>
             {children}
-          </main>
+          </div>
           <ProductQuickView />
           <BagDrawer />
           <SearchModal />
