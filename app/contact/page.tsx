@@ -49,11 +49,23 @@ export default function ContactPage() {
               {language === 'ar' ? 'الاتصال المباشر والواتساب' : 'Direct Telephone & WhatsApp'}
             </h3>
             <p className="text-xs text-[#242220]/60">
-              {language === 'ar' ? 'يومياً من 9 صباحاً حتى 10 مساءً' : 'Daily 9:00 AM – 10:00 PM (AST)'}
+              {supportPhone
+                ? (language === 'ar' ? 'قناة اتصال تشغيلية مفعلة' : 'Live phone channel configured')
+                : (language === 'ar' ? 'ساعات العمل تُحدد عند الإطلاق' : 'Business hours are configured at launch')}
             </p>
-            <p className="text-sm font-medium text-[#111111] tabular-nums" dir="ltr">
-              {supportPhone || (language === 'ar' ? 'يُضبط عند الإطلاق الفعلي' : 'Configure for live launch')}
-            </p>
+            {supportPhone ? (
+              <a
+                href={`tel:${supportPhone.replace(/\s+/g, '')}`}
+                className="inline-block text-sm font-medium text-[#111111] tabular-nums hover:text-[#511D24] hover:underline"
+                dir="ltr"
+              >
+                {supportPhone}
+              </a>
+            ) : (
+              <p className="text-sm font-medium text-[#111111]">
+                {language === 'ar' ? 'يُضبط عند الإطلاق الفعلي' : 'Configure for live launch'}
+              </p>
+            )}
           </div>
 
           <div className="bg-[#FFFDFC] p-6 border border-[#242220]/10 space-y-3">
@@ -62,11 +74,22 @@ export default function ContactPage() {
               {language === 'ar' ? 'البريد الإلكتروني' : 'Electronic Mail'}
             </h3>
             <p className="text-xs text-[#242220]/60">
-              {language === 'ar' ? 'نرد خلال ساعتين خلال أوقات العمل' : 'Response within 2 hours during business hours'}
+              {supportEmail
+                ? (language === 'ar' ? 'قناة بريد تشغيلية مفعلة' : 'Live support email configured')
+                : (language === 'ar' ? 'زمن الاستجابة يُحدد حسب فريق التشغيل' : 'Response SLA is configured by the operating team')}
             </p>
-            <p className="text-sm font-medium text-[#111111]">
-              {supportEmail || (language === 'ar' ? 'يُضبط عند الإطلاق الفعلي' : 'Configure for live launch')}
-            </p>
+            {supportEmail ? (
+              <a
+                href={`mailto:${supportEmail}`}
+                className="inline-block break-all text-sm font-medium text-[#111111] hover:text-[#511D24] hover:underline"
+              >
+                {supportEmail}
+              </a>
+            ) : (
+              <p className="text-sm font-medium text-[#111111]">
+                {language === 'ar' ? 'يُضبط عند الإطلاق الفعلي' : 'Configure for live launch'}
+              </p>
+            )}
           </div>
 
           <div className="bg-[#FFFDFC] p-6 border border-[#242220]/10 space-y-3">
