@@ -60,6 +60,56 @@
   .investment-inputs,.investment-results{grid-template-columns:1fr}.investment-card{padding:20px}.advisor-grid{grid-template-columns:1fr}.platform-demo{align-items:flex-start;flex-direction:column}
   .detail-gallery{grid-template-columns:1fr}.detail-gallery-main{height:300px}.detail-gallery-side{grid-template-columns:1fr 1fr;grid-template-rows:130px}.detail-body{padding:22px}.detail-title-row{flex-direction:column}.amenities{grid-template-columns:1fr 1fr}.score-grid{grid-template-columns:1fr}.hub-hero{margin:-25px -25px 25px}.hub-kpis,.crm-kpis{grid-template-columns:1fr 1fr}.pipeline{grid-template-columns:1fr}.crm-head{flex-direction:column}.mini-property-row{grid-template-columns:58px 1fr}.mini-property-row img{width:58px}
 }
+
+/* Phase 02.1 — mobile hero & search reconstruction */
+@media(max-width:700px){
+  .container{width:min(calc(100% - 24px),1240px)}
+  .site-header{background:linear-gradient(180deg,rgba(5,6,6,.62),rgba(5,6,6,0));}
+  .site-header.scrolled{background:rgba(10,11,11,.96)}
+  .nav-wrap{height:72px;gap:10px}
+  .brand{gap:9px}.brand-mark{width:38px;height:38px;font-size:19px}.brand b{font-size:19px}.brand small{font-size:7px;letter-spacing:1.7px}
+  .nav-actions{gap:4px}.icon-btn{font-size:21px}.menu-btn{font-size:30px;padding:4px 0 4px 8px}.icon-btn span{top:-5px;right:-6px}
+  .mobile-menu{padding:18px 20px 22px;background:rgba(10,11,11,.98);backdrop-filter:blur(16px)}
+
+  .hero{height:auto!important;min-height:0!important;display:block!important;padding:0!important;overflow:visible;background:#0b0c0c}
+  .hero-bg,.hero-overlay{height:clamp(470px,62svh,540px);inset:0 0 auto!important}
+  .hero-bg{background-position:center 69%!important;transform:none!important}
+  .hero-overlay{background:linear-gradient(180deg,rgba(4,5,5,.36) 0%,rgba(4,5,5,.12) 34%,rgba(4,5,5,.88) 100%)!important}
+  .hero-content{height:clamp(470px,62svh,540px);padding:108px 0 44px!important;display:flex;flex-direction:column;justify-content:flex-end;position:relative;z-index:2}
+  .hero .eyebrow{font-size:10.5px;letter-spacing:.4px;margin:0 0 8px;max-width:92%}
+  .hero h1{font-size:clamp(46px,14vw,58px)!important;line-height:.92;letter-spacing:-2.5px!important;margin:8px 0 14px;max-width:100%}
+  .hero-copy{font-size:13.5px!important;line-height:1.72;max-width:96%;margin:0;color:rgba(255,255,255,.84)}
+  .hero-chips{display:none!important}
+
+  .search-shell{position:relative!important;right:auto!important;bottom:auto!important;transform:none!important;width:calc(100% - 24px)!important;margin:-30px auto 0!important;padding:0 14px 16px!important;border-radius:22px 22px 0 0;background:rgba(247,243,235,.985);box-shadow:0 18px 50px rgba(0,0,0,.22)}
+  .search-tabs{height:50px;margin-bottom:12px;gap:0;overflow:visible!important}
+  .search-tabs button{height:50px;flex:1;min-width:0;padding:0 5px;font-size:11px!important;white-space:nowrap}
+  .smart-search{grid-template-columns:34px minmax(0,1fr)!important;gap:9px!important;padding:10px!important;margin:0 0 8px;border-radius:15px}
+  .smart-search-icon{width:34px;height:34px}
+  .smart-search-field span{font-size:9.5px}.smart-search-field input{font-size:13px;min-width:0}
+  .smart-search-btn{grid-column:1/3!important;width:100%;height:42px;padding:8px 14px;margin-top:1px}
+  .smart-search-status{font-size:9.5px!important;line-height:1.55;min-height:15px;margin-bottom:9px}
+  .search-grid{grid-template-columns:1fr 1fr!important;gap:9px!important}
+  .search-grid label{gap:5px;font-size:10px}.search-grid select{padding:11px 10px;font-size:12px;min-width:0;width:100%}
+  .search-grid label:nth-child(3){grid-column:1/3}
+  .search-btn{grid-column:1/3!important;width:100%;height:44px!important;min-width:0;padding:10px 14px}
+
+  .stats-grid{padding:27px 0;gap:20px 0}.stats-grid b{font-size:28px}.stats-grid span{font-size:10px}
+  .section,.dark-section,.finance-section{padding:66px 0}.section h2,.dark-section h2,.finance-section h2,.cta-section h2{font-size:38px;letter-spacing:-1.5px}
+  .property-img{height:260px}.modal-panel{max-height:92svh;margin:4svh auto}.detail-gallery-main{height:270px}
+}
+@media(max-width:430px){
+  .hero-bg,.hero-overlay,.hero-content{height:470px}
+  .hero-content{padding-top:94px!important;padding-bottom:40px!important}
+  .hero h1{font-size:48px!important}.hero-copy{font-size:12.8px!important;max-width:100%}
+  .search-shell{margin-top:-26px!important}
+  .search-grid{grid-template-columns:1fr!important}
+  .search-grid label:nth-child(3),.search-btn{grid-column:auto!important}
+}
+@media(max-width:370px){
+  .hero h1{font-size:44px!important}.hero-copy{display:none}.hero-content{padding-bottom:34px!important}
+  .search-tabs button{font-size:10px!important;padding-inline:2px}
+}
 </style>
 </head>
 <body>
