@@ -72,7 +72,7 @@ function QuickViewContent({ product, onClose }: QuickViewContentProps) {
               src={images[activeImageIndex] || product.image}
               alt={name}
               sizes="(max-width: 768px) 100vw, 50vw"
-              hint={language === 'ar' ? 'اضغط واسحب لتكبير التفاصيل' : 'Press, drag, or hover to zoom'}
+              hint={language === 'ar' ? 'اضغط واسحب لفحص القماش عن قرب' : 'Press, drag, or hover to inspect fabric'}
             />
           </div>
 
