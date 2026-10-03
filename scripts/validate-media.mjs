@@ -28,6 +28,10 @@ for (let i = 1; i < productBlocks.length; i += 2) {
   const deptMatch = block.match(/department:\s*['"]([^'"]+)['"]/);
   const imageMatch = block.match(/image:\s*['"]([^'"]+)['"]/);
   const nameEnMatch = block.match(/nameEn:\s*['"]([^'"]+)['"]/);
+  const priceMatch = block.match(/price:\s*(\d+(?:\.\d+)?)/);
+  const oldPriceMatch = block.match(/oldPrice:\s*(\d+(?:\.\d+)?)/);
+  const sizesMatch = block.match(/sizes:\s*\[([^\]]*)\]/s);
+  const colorsMatch = block.match(/colors:\s*\[([\s\S]*?)\],\s*sizes:/);
 
   parsedProducts.push({
     id,
@@ -35,6 +39,10 @@ for (let i = 1; i < productBlocks.length; i += 2) {
     department: deptMatch ? deptMatch[1] : null,
     image: imageMatch ? imageMatch[1] : null,
     nameEn: nameEnMatch ? nameEnMatch[1] : null,
+    price: priceMatch ? Number(priceMatch[1]) : null,
+    oldPrice: oldPriceMatch ? Number(oldPriceMatch[1]) : null,
+    sizeCount: sizesMatch ? [...sizesMatch[1].matchAll(/['"][^'"]+['"]/g)].length : 0,
+    colorCount: colorsMatch ? [...colorsMatch[1].matchAll(/nameEn:\s*['"][^'"]+['"]/g)].length : 0,
   });
 }
 
@@ -54,8 +62,45 @@ if (menCount !== 12) errors.push(`Expected 12 Men products, found ${menCount}`);
 if (kidsCount !== 12) errors.push(`Expected 12 Kids products, found ${kidsCount}`);
 
 const seenImages = new Map();
+const seenIds = new Set();
+const seenSlugs = new Set();
 
 for (const p of parsedProducts) {
+  if (!p.id || seenIds.has(p.id)) {
+    errors.push(`Duplicate or missing product id: ${p.id || 'unknown'}`);
+  } else {
+    seenIds.add(p.id);
+  }
+
+  if (!p.slug || seenSlugs.has(p.slug)) {
+    errors.push(`Duplicate or missing product slug: ${p.slug || 'unknown'}`);
+  } else {
+    seenSlugs.add(p.slug);
+  }
+
+  if (p.slug && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(p.slug)) {
+    errors.push(`Product ${p.id} has a non-canonical slug: ${p.slug}`);
+  }
+
+  if (!p.nameEn || !p.nameEn.trim()) {
+    errors.push(`Product ${p.id} is missing an English name`);
+  }
+
+  if (!Number.isFinite(p.price) || p.price <= 0) {
+    errors.push(`Product ${p.id} has invalid price: ${p.price}`);
+  }
+
+  if (p.oldPrice !== null && p.oldPrice <= p.price) {
+    errors.push(`Product ${p.id} oldPrice must be greater than current price`);
+  }
+
+  if (p.sizeCount === 0) {
+    errors.push(`Product ${p.id} has no selectable sizes`);
+  }
+
+  if (p.colorCount === 0) {
+    errors.push(`Product ${p.id} has no selectable colors`);
+  }
   if (!p.image) {
     errors.push(`Product ${p.id} (${p.slug}) has no primary image!`);
     continue;
@@ -173,6 +218,7 @@ if (errors.length > 0) {
   console.log(`  - Women: 12/12 verified local in /images/products/women/`);
   console.log(`  - Men: 12/12 verified local in /images/products/men/`);
   console.log(`  - Kids: 12/12 verified local in /images/products/kids/`);
+  console.log(`  - Product ids/slugs, prices, colors, and sizes passed catalog sanity checks.`);
   console.log(`  - 0 Duplicate product primary images.`);
   console.log(`  - 0 Remote stock photography references.`);
   console.log(`  - All campaign & journal images verified on disk.`);
