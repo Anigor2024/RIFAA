@@ -72,7 +72,7 @@ export function ProductImageZoom({
     <div
       ref={containerRef}
       className={`relative h-full w-full overflow-hidden cursor-crosshair select-none ${className}`}
-      style={{ touchAction: 'none' }}
+      style={{ touchAction: 'pan-y' }}
       onPointerEnter={handlePointerEnter}
       onPointerMove={handlePointerMove}
       onPointerDown={handlePointerDown}
