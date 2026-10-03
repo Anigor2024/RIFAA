@@ -2,11 +2,11 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { ShieldCheck, Lock, Eye, FileText } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
 export default function PrivacyPage() {
-  const { language, isRtl } = useLanguage();
+  const { language } = useLanguage();
+  const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL;
 
   return (
     <div className="pt-24 sm:pt-28 pb-24 bg-[#F7F4EF] min-h-screen">
@@ -32,8 +32,8 @@ export default function PrivacyPage() {
           </h1>
           <p className="text-xs sm:text-sm text-[#242220]/75 max-w-xl font-light leading-relaxed">
             {language === 'ar'
-              ? 'تلتزم دار رِفْعة بحماية خصوصية عملائها وزوار منصتها وفق أعلى المعايير الأخلاقية والمبادئ العامة لحماية البيانات الشخصية في المملكة العربية السعودية.'
-              : 'RIFAA is committed to upholding rigorous standards of confidentiality and client privacy in alignment with applicable Saudi Personal Data Protection principles.'}
+              ? 'تعرض هذه الصفحة نموذجاً لسياسة خصوصية متجر إلكتروني. يجب مراجعتها قانونياً وتحديثها بحسب الكيان التجاري ومزودي الخدمة الفعليين قبل الإطلاق.'
+              : 'This page is a model ecommerce privacy policy. It must be legally reviewed and updated for the actual merchant, processors, and launch jurisdiction before commercial use.'}
           </p>
         </header>
 
@@ -58,8 +58,8 @@ export default function PrivacyPage() {
             </h2>
             <p>
               {language === 'ar'
-                ? 'عند استخدام المنصة أو تجربة إتمام الطلب، قد نقوم بجمع البيانات الضرورية لتقديم الخدمة، مثل: الاسم الكامل، عنوان البريد الإلكتروني، رقم الجوال للتوصيل، العنوان الجغرافي داخل المملكة، وتفضيلات المقاسات واللغة.'
-                : 'When interacting with our platform or test checkout, we process information necessary to fulfill service requests, including: client name, email address, courier delivery phone number, delivery address in Saudi Arabia, and sizing/language preferences.'}
+                ? 'في نسخة العرض الحالية، تُحفظ بيانات الحساب والعناوين والحقيبة والتفضيلات محلياً في متصفح المستخدم. عند تفعيل Backend فعلي، يجب تحديث هذه السياسة لتحديد البيانات التي تُجمع وأغراضها وفترات الاحتفاظ بها.'
+                : 'In the current showcase, account, address, bag, and preference data are stored locally in the user’s browser. Once a real backend is enabled, this policy must identify collected data, purposes, processors, and retention periods.'}
             </p>
             <p>
               {language === 'ar'
@@ -75,14 +75,14 @@ export default function PrivacyPage() {
             </h2>
             <p>
               {language === 'ar'
-                ? 'تُستخدم البيانات المجمعة للأغراض التالية فقط:'
-                : 'Collected client details are utilized strictly for the following purposes:'}
+                ? 'في التشغيل الفعلي يمكن أن تُستخدم البيانات المصرح بها للأغراض التالية بعد توثيق الأساس النظامي والموافقة المناسبة:'
+                : 'In live operation, authorized data may be used for the following purposes once the lawful basis and required consent are documented:'}
             </p>
             <ul className="list-disc list-inside space-y-1.5 ps-2 text-[#242220]/80">
-              <li>{language === 'ar' ? 'معالجة وتوثيق الطلبات وتنسيق تسليم الشحنات مع الكونسيرج.' : 'Processing and logging orders and coordinating delivery with couriers.'}</li>
-              <li>{language === 'ar' ? 'تقديم المساعدة الشخصية في اختيار المقاسات والاستفسارات.' : 'Providing bespoke fit and styling consultations via our Riyadh concierge.'}</li>
+              <li>{language === 'ar' ? 'معالجة الطلبات وربطها بمزود دفع وشحن فعلي عند تفعيلهما.' : 'Processing orders through configured payment and delivery providers once enabled.'}</li>
+              <li>{language === 'ar' ? 'تقديم دعم العملاء والمقاسات عند تفعيل قناة دعم تشغيلية.' : 'Providing client and sizing support when a live support channel is configured.'}</li>
               <li>{language === 'ar' ? 'حفظ تفضيلات اللغة (العربية / الإنجليزية) وحقيبة التسوق في متصفحك.' : 'Retaining local language (Arabic / English) and shopping bag states.'}</li>
-              <li>{language === 'ar' ? 'إرسال تحديثات المجموعات الموسمية في حال اشتراكك الاختياري في النشرة.' : 'Sending seasonal collection updates upon voluntary newsletter opt-in.'}</li>
+              <li>{language === 'ar' ? 'إرسال رسائل تسويقية فقط بعد ربط مزود بريد وتسجيل موافقة المستخدم.' : 'Sending marketing messages only after an email provider and valid opt-in are configured.'}</li>
             </ul>
           </section>
 
@@ -105,8 +105,8 @@ export default function PrivacyPage() {
             </h2>
             <p>
               {language === 'ar'
-                ? 'يحق لكل عميل طلب الاطلاع على بياناته أو تعديلها أو حذفها من سجلاتنا في أي وقت. لأي استفسار يتعلق بالخصوصية، يمكنكم التواصل مع مسؤول حماية البيانات عبر concierge@rifaa.sa.'
-                : 'Clients hold the right to access, rectify, or request the erasure of their records at any time. For privacy inquiries, please contact our data stewardship desk at concierge@rifaa.sa.'}
+                ? `في وضع العرض الحالي يمكن للمستخدم مسح بيانات الحساب المحلية من مساحة العميل. عند الإطلاق التجاري يجب إضافة قناة خصوصية فعلية وإجراءات للوصول والتصحيح والحذف. ${supportEmail ? `للتواصل: ${supportEmail}` : ''}`
+                : `In showcase mode, users can clear local account data from Client Space. Commercial launch requires a real privacy contact and procedures for access, correction, and deletion. ${supportEmail ? `Contact: ${supportEmail}` : ''}`}
             </p>
           </section>
         </div>
