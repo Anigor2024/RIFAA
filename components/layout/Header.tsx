@@ -108,7 +108,7 @@ export function Header() {
                   {t.brandName}
                 </span>
                 <span
-                  className={`font-editorial text-base sm:text-lg lg:text-xl tracking-[0.22em] font-medium uppercase ${
+                  className={`font-editorial text-lg sm:text-xl lg:text-2xl tracking-[0.2em] font-medium uppercase ${
                     isScrolled ? 'text-[#511D24]' : 'text-[#EFECE6]'
                   }`}
                 >
