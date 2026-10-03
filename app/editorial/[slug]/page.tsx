@@ -27,8 +27,11 @@ export async function generateMetadata({ params }: EditorialPageProps): Promise<
 
   return {
     title: `${story.titleAr} | ${story.titleEn} — مجلة رِفْعة`,
+    alternates: { canonical: `/editorial/${story.slug}` },
     description: `${story.excerptAr} ${story.excerptEn}`,
     openGraph: {
+      type: 'article',
+      url: `/editorial/${story.slug}`,
       title: `${story.titleAr} | مجلة رِفْعة`,
       description: story.excerptAr,
       images: [

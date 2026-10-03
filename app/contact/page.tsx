@@ -2,11 +2,15 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Mail, Phone, MapPin, Clock, ShieldCheck, Truck } from 'lucide-react';
+import { Mail, Phone, MapPin } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
 export default function ContactPage() {
-  const { language, t } = useLanguage();
+  const { language } = useLanguage();
+  const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL;
+  const supportPhone = process.env.NEXT_PUBLIC_SUPPORT_PHONE;
+  const storeLocation = process.env.NEXT_PUBLIC_STORE_LOCATION;
+  const liveContactConfigured = Boolean(supportEmail || supportPhone || storeLocation);
 
   return (
     <div className="pt-24 sm:pt-28 pb-20 bg-[#F7F4EF] min-h-screen">
@@ -32,8 +36,8 @@ export default function ContactPage() {
           </h1>
           <p className="text-sm text-[#242220]/70 max-w-xl font-light leading-relaxed mt-2">
             {language === 'ar'
-              ? 'فريقنا المتخصص في الرياض متاح لمساعدتكم في اختيار المقاسات، تنسيق الإطلالات، ومتابعة الطلبات الخاصة.'
-              : 'Our dedicated Riyadh concierge team is at your disposal for sizing guidance, bespoke styling advice, and order inquiries.'}
+              ? 'هذه الصفحة تعرض نموذج تجربة خدمة عملاء راقية. عند تشغيل المتجر فعلياً يمكن ربطها ببيانات التواصل الحقيقية، نظام التذاكر، وواتساب الأعمال.'
+              : 'This page demonstrates a premium client-care experience. A live store can connect real contact details, ticketing, and WhatsApp Business.'}
           </p>
         </div>
 
@@ -45,11 +49,23 @@ export default function ContactPage() {
               {language === 'ar' ? 'الاتصال المباشر والواتساب' : 'Direct Telephone & WhatsApp'}
             </h3>
             <p className="text-xs text-[#242220]/60">
-              {language === 'ar' ? 'يومياً من 9 صباحاً حتى 10 مساءً' : 'Daily 9:00 AM – 10:00 PM (AST)'}
+              {supportPhone
+                ? (language === 'ar' ? 'قناة اتصال تشغيلية مفعلة' : 'Live phone channel configured')
+                : (language === 'ar' ? 'ساعات العمل تُحدد عند الإطلاق' : 'Business hours are configured at launch')}
             </p>
-            <p className="text-sm font-medium text-[#111111] tabular-nums" dir="ltr">
-              +966 11 234 5678
-            </p>
+            {supportPhone ? (
+              <a
+                href={`tel:${supportPhone.replace(/\s+/g, '')}`}
+                className="inline-block text-sm font-medium text-[#111111] tabular-nums hover:text-[#511D24] hover:underline"
+                dir="ltr"
+              >
+                {supportPhone}
+              </a>
+            ) : (
+              <p className="text-sm font-medium text-[#111111]">
+                {language === 'ar' ? 'يُضبط عند الإطلاق الفعلي' : 'Configure for live launch'}
+              </p>
+            )}
           </div>
 
           <div className="bg-[#FFFDFC] p-6 border border-[#242220]/10 space-y-3">
@@ -58,11 +74,22 @@ export default function ContactPage() {
               {language === 'ar' ? 'البريد الإلكتروني' : 'Electronic Mail'}
             </h3>
             <p className="text-xs text-[#242220]/60">
-              {language === 'ar' ? 'نرد خلال ساعتين خلال أوقات العمل' : 'Response within 2 hours during business hours'}
+              {supportEmail
+                ? (language === 'ar' ? 'قناة بريد تشغيلية مفعلة' : 'Live support email configured')
+                : (language === 'ar' ? 'زمن الاستجابة يُحدد حسب فريق التشغيل' : 'Response SLA is configured by the operating team')}
             </p>
-            <p className="text-sm font-medium text-[#111111]">
-              concierge@rifaa.sa
-            </p>
+            {supportEmail ? (
+              <a
+                href={`mailto:${supportEmail}`}
+                className="inline-block break-all text-sm font-medium text-[#111111] hover:text-[#511D24] hover:underline"
+              >
+                {supportEmail}
+              </a>
+            ) : (
+              <p className="text-sm font-medium text-[#111111]">
+                {language === 'ar' ? 'يُضبط عند الإطلاق الفعلي' : 'Configure for live launch'}
+              </p>
+            )}
           </div>
 
           <div className="bg-[#FFFDFC] p-6 border border-[#242220]/10 space-y-3">
@@ -71,10 +98,10 @@ export default function ContactPage() {
               {language === 'ar' ? 'صالات العرض' : 'Salons & Flagships'}
             </h3>
             <p className="text-xs text-[#242220]/60">
-              {language === 'ar' ? 'حي العليا، الرياض، المملكة العربية السعودية' : 'Al Olaya District, Riyadh, Saudi Arabia'}
+              {storeLocation || (language === 'ar' ? 'موقع العرض يُضبط عند الإطلاق الفعلي' : 'Store location is configured for live launch')}
             </p>
             <p className="text-xs text-[#511D24] font-medium">
-              {language === 'ar' ? 'الزيارات بالمواعيد المسبقة' : 'Private Appointments Available'}
+              {liveContactConfigured ? (language === 'ar' ? 'بيانات التواصل التشغيلية مفعلة' : 'Live contact configuration enabled') : (language === 'ar' ? 'وضع العرض التجريبي' : 'Showcase mode')}
             </p>
           </div>
         </div>
@@ -82,28 +109,28 @@ export default function ContactPage() {
         {/* Policy Pillars */}
         <div className="bg-[#EAE4D9]/60 p-8 border border-[#242220]/10 space-y-4">
           <h2 className="text-lg font-semibold text-[#111111]">
-            {language === 'ar' ? 'سياسات رِفْعة المعتمدة' : 'RIFAA Client Commitments'}
+            {language === 'ar' ? 'معايير التشغيل المقترحة' : 'PROPOSED OPERATING STANDARDS'}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-[#242220]/80 leading-relaxed">
             <p>
               {language === 'ar'
-                ? '• التوصيل: شحن مجاني لكافة مناطق المملكة للطلبات فوق 500 ريال. مدة التوصيل 1-3 أيام عمل.'
-                : '• Delivery: Complimentary across Saudi Arabia on orders over SAR 500. Expected delivery within 1-3 business days.'}
+                ? '• التوصيل: نموذج تسعير وشحن قابل للربط بمزود لوجستي حقيقي ومناطق الخدمة الفعلية.'
+                : '• Delivery: configurable pricing and service-zone model ready for a real logistics provider.'}
             </p>
             <p>
               {language === 'ar'
-                ? '• الإرجاع والاستبدال: متاح مجاناً خلال 14 يوماً من استلام الشحنة بشرط بقاء القطعة في حالتها الأصلية مع بطاقات السعر.'
-                : '• Returns & Exchanges: Complimentary within 14 days of receipt, provided items remain unworn with original tags attached.'}
+                ? '• الإرجاع والاستبدال: تجربة واجهة جاهزة لربط سياسة الإرجاع الفعلية وموافقات خدمة العملاء.'
+                : '• Returns & Exchanges: interface flow ready to connect to the store’s real policy and support approvals.'}
             </p>
             <p>
               {language === 'ar'
-                ? '• طرق الدفع: مدى، آبل باي، فيزا، ماستركارد، وخيارات الدفع المقسم عبر تابي وتمارا.'
-                : '• Payment: Mada, Apple Pay, Visa, Mastercard, and interest-free installment options via Tabby and Tamara.'}
+                ? '• الدفع: بنية الواجهة جاهزة لمزود دفع حقيقي؛ لا يتم تحصيل أي مبلغ في وضع العرض الحالي.'
+                : '• Payment: the UI is ready for a real payment provider; showcase mode does not capture funds.'}
             </p>
             <p>
               {language === 'ar'
-                ? '• التغليف: كل قطعة تُغلَف يدوياً بورق حريري وصندوق دار رِفْعة الصلب المميز برائحة العود الخفيفة.'
-                : '• Packaging: Each creation is wrapped in archival tissue and presented in RIFAA’s signature scented presentation box.'}
+                ? '• التغليف: تصور فاخر قابل للتحويل إلى معيار تشغيل حقيقي حسب تجهيزات العلامة وسلسلة التوريد.'
+                : '• Packaging: premium concept ready to become a real fulfillment standard when brand operations are configured.'}
             </p>
           </div>
         </div>

@@ -18,7 +18,7 @@ export const DICTIONARY = {
       sale: 'التخفيضات',
       journal: 'مجلة رِفْعة',
     },
-    topBanner: 'توصيل مجاني لكافة مناطق المملكة للطلبات فوق 500 ر.س · تغليف هدايا رِفْعة الفاخر متاح',
+    topBanner: 'نموذج تجارة إلكترونية احترافي · إعدادات الشحن والدفع قابلة للربط التشغيلي',
     
     // Actions & Common
     actions: {
@@ -207,13 +207,13 @@ export const DICTIONARY = {
     // Trust Strip
     trust: {
       deliveryTitle: 'توصيل داخل المملكة',
-      deliveryDesc: 'توصيل سريع لكافة المدن مع خيار الشحن الفوري في الرياض.',
-      returnsTitle: 'إرجاع سهل وميسر',
-      returnsDesc: 'خدمة إرجاع واستبدال مجانية سلسة خلال 14 يوماً.',
-      secureTitle: 'دفع آمن ومتعدد',
-      secureDesc: 'دعم كامل لمدى، آبل باي، فيزا، وخيارات التقسيط المريح.',
+      deliveryDesc: 'نموذج شحن مرن قابل لربط شركات التوصيل وتخصيص المدن والجداول الزمنية.',
+      returnsTitle: 'سياسة إرجاع قابلة للتخصيص',
+      returnsDesc: 'تجربة إرجاع واستبدال جاهزة للربط بسياسات التشغيل الفعلية للمتجر.',
+      secureTitle: 'بنية دفع جاهزة للربط',
+      secureDesc: 'واجهة دفع مؤهلة للربط بمزود دفع حقيقي دون تخزين بيانات البطاقة الحساسة.',
       packagingTitle: 'تغليف رِفْعة المميز',
-      packagingDesc: 'كل طلب يصل في صندوق فاخر معد للإهداء مع بطاقة خاصة.',
+      packagingDesc: 'تصور لتجربة تغليف فاخرة يمكن اعتمادها وتشغيلها حسب تجهيزات العلامة.',
     },
 
     // Newsletter
@@ -223,8 +223,8 @@ export const DICTIONARY = {
       description: 'إصدارات جديدة، تحريرات موسمية، ودعوات خاصة لأعضاء رِفْعة.',
       placeholder: 'أدخل بريدك الإلكتروني...',
       submit: 'انضمام',
-      successMessage: 'شكراً لانضمامك إلى رِفْعة. سنتواصل معك قريباً بالإصدارات الحصرية.',
-      disclaimer: 'نحترم خصوصيتك بالكامل. يمكنك إلغاء الاشتراك في أي وقت.',
+      successMessage: 'تمت محاكاة الاشتراك داخل هذه الجلسة فقط. يمكن ربط النموذج لاحقاً بمنصة بريد فعلية.',
+      disclaimer: 'نسخة استعراضية: لا يتم إرسال بريد أو مشاركة بيانات. الربط الفعلي يحتاج مزود بريد وسياسة موافقة.',
     },
 
     // Search
@@ -295,7 +295,7 @@ export const DICTIONARY = {
       sale: 'Sale',
       journal: 'Journal',
     },
-    topBanner: 'Complimentary shipping across Saudi Arabia on orders over SAR 500 · Signature gift packaging included',
+    topBanner: 'Production-ready ecommerce showcase · Delivery and payment integrations are configurable',
     
     // Actions & Common
     actions: {
@@ -484,13 +484,13 @@ export const DICTIONARY = {
     // Trust Strip
     trust: {
       deliveryTitle: 'Delivery Across Saudi Arabia',
-      deliveryDesc: 'Swift nationwide courier service with same-day delivery in Riyadh.',
-      returnsTitle: 'Complimentary Returns',
-      returnsDesc: 'Hassle-free 14-day exchange and collection service.',
-      secureTitle: 'Secure Seamless Payments',
-      secureDesc: 'Mada, Apple Pay, Visa, Mastercard, and flexible payment plans.',
+      deliveryDesc: 'Flexible delivery model ready for real carrier, city, and SLA integrations.',
+      returnsTitle: 'Configurable Returns Policy',
+      returnsDesc: 'Returns and exchange experience ready to connect to real operating policies.',
+      secureTitle: 'Payment Integration Ready',
+      secureDesc: 'Checkout architecture is ready for a live payment provider without storing sensitive card data.',
       packagingTitle: 'Signature RIFAA Packaging',
-      packagingDesc: 'Every order arrives in a keepsake presentation box with gift card.',
+      packagingDesc: 'Premium packaging concept ready to align with the brand’s real fulfillment setup.',
     },
 
     // Newsletter
@@ -500,8 +500,8 @@ export const DICTIONARY = {
       description: 'Private previews, seasonal releases, and bespoke invitations for RIFAA patrons.',
       placeholder: 'Enter your email address...',
       submit: 'Subscribe',
-      successMessage: 'Thank you for joining RIFAA. You will receive private previews and early invitations.',
-      disclaimer: 'We honor your privacy. Unsubscribe at any time with a single click.',
+      successMessage: 'Subscription was simulated for this session only. Connect a real email provider to activate delivery.',
+      disclaimer: 'Showcase mode: no email is sent or shared. Live subscriptions require an email provider and consent policy.',
     },
 
     // Search

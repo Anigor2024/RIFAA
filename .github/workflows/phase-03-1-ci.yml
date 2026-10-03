@@ -33,8 +33,14 @@ jobs:
       - name: Install dependencies
         run: npm install --no-audit --no-fund
 
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=critical
+
       - name: Validate media
         run: npm run validate:media
+
+      - name: Validate production quality
+        run: npm run validate:quality
 
       - name: Lint
         run: npm run lint
