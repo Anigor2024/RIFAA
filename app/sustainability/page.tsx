@@ -16,32 +16,32 @@ export default function SustainabilityPage() {
       icon: Feather,
       titleAr: 'أنسجة طبيعية نقية ونبيلة',
       titleEn: 'Noble Natural Fibers',
-      descriptionAr: 'نختار حصرياً خيوط الكتان الطبيعي، والحرير التوتي، والصوف الصيفي الخفيف، والقطن العضوي طويل التيلة لضمان راحة الجسم ودوام النسيج.',
-      descriptionEn: 'Prioritizing pure European flax linen, mulberry silk, cool wool, and extra-long staple organic cotton for supreme skin breathability and endurance.',
+      descriptionAr: 'يقترح المفهوم انتقاء خيوط الكتان الطبيعي، والحرير التوتي، والصوف الصيفي الخفيف، والقطن العضوي طويل التيلة كمعيار أساسي لراحة الجسم ودوام النسيج.',
+      descriptionEn: 'Envisioning a material standard centered on pure flax linen, mulberry silk, cool wool, and extra-long staple organic cotton for natural breathability and endurance.',
     },
     {
       id: 'cutting',
       icon: Recycle,
       titleAr: 'قص هندسي قليل الهدر',
       titleEn: 'Low-Waste Geometric Tailoring',
-      descriptionAr: 'نستوحي من أساليب حياكة الثوب والعباية التاريخية قصّات قائمة على الزوايا المستقيمة والتخطيط الدقيق لتقليل هدر الأقمشة أثناء التفصيل.',
-      descriptionEn: 'Drawing inspiration from historic Saudi rectilinear garment geometry to optimize layout efficiency and drastically reduce cutting room scraps.',
+      descriptionAr: 'استلهام تقنيات حياكة الثوب والعباية التاريخية القائمة على التشكيل الهندسي المستطيل، كنموذج تصميمي للحد من هدر الأقمشة أثناء التفصيل.',
+      descriptionEn: 'Drawing inspiration from historic Saudi rectilinear garment geometry as a design framework to maximize fabric efficiency and minimize textile offcuts.',
     },
     {
       id: 'slow-luxury',
       icon: Leaf,
       titleAr: 'فلسفة الأناقة الممتدة عبر الأجيال',
       titleEn: 'Heirloom Slow Luxury',
-      descriptionAr: 'نرفض الإنتاج المتسارع السطحي؛ نصنع قطعاً محدودة ذات خياطة مدعومة وتشطيبات يدوية مصممة لتبقى وتورث عبر المواسم والأعياد.',
-      descriptionEn: 'Opposing seasonal obsolescence; we craft limited editions with reinforced French seams and hand finishes designed to be worn across years and festive milestones.',
+      descriptionAr: 'تقوم الرؤية التصميمية على رفض الاستهلاك المتسارع، واقتراح مجموعات محدودة تعتمد خياطة متقنة وتشطيبات يدوية مصممة لتدوم وتورث عبر المواسم والأعياد.',
+      descriptionEn: 'Challenging seasonal obsolescence through a slow-luxury philosophy, proposing limited editions with reinforced seams and enduring hand finishes.',
     },
     {
       id: 'artisan',
       icon: HeartHandshake,
       titleAr: 'تمكين الحرف والتراث المحلي',
       titleEn: 'Regional Craft & Cultural Continuity',
-      descriptionAr: 'التعاون مع أمهر أصحاب حِرف التطريز والزري والتشطيب في المملكة والمنطقة للحفاظ على تراث التطريز اليدوي ودعمه في سوق الأزياء الحديث.',
-      descriptionEn: 'Partnering with regional masters of zari, cord embroidery, and finishings to sustain Saudi heritage crafts in contemporary design markets.',
+      descriptionAr: 'يستشرف مفهوم العلامة التعاون مع أصحاب حِرف التطريز والزري والتشطيب في المملكة والمنطقة للحفاظ على تراث التطريز اليدوي ودعمه في سوق الأزياء الحديث.',
+      descriptionEn: 'The concept envisions collaboration with regional craft specialists in zari and traditional embroidery, celebrating Saudi artisanal heritage within contemporary couture.',
     },
   ];
 
@@ -66,19 +66,19 @@ export default function SustainabilityPage() {
             <span>{language === 'ar' ? 'المسؤولية والأصالة' : 'ETHICAL CRAFT & RESPONSIBILITY'}</span>
           </div>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#111111]">
-            {language === 'ar' ? 'التزام رِفْعة بالاستدامة والأصالة' : 'RIFAA’s Commitment to Sustainable Luxury'}
+            {language === 'ar' ? 'رؤية رِفْعة للاستدامة والأصالة' : 'RIFAA’s Vision for Sustainable Luxury'}
           </h1>
           <p className="text-xs sm:text-sm text-[#242220]/75 max-w-2xl font-light leading-relaxed">
             {language === 'ar'
-              ? 'الرفاهية الحقيقية تنبع من احترام المادة والحرفة والبيئة. نتعامل مع كل قطعة كاستثمار جمالي طويل الأمد يحتفي بالطبيعة والتراث.'
-              : 'True luxury arises from deep reverence for material, craft, and ecology. Every garment is conceived as an enduring sartorial investment.'}
+              ? 'يقوم المفهوم على إبراز احترام المادة والحرفة والبيئة، مقدماً تصورا لأزياء معاصرة ذات قيمة جمالية طويلة الأمد تحتفي بالطبيعة والتراث.'
+              : 'Conceived on deep reverence for material, craft, and ecology, presenting a brand concept where every garment is envisioned as an enduring sartorial investment.'}
           </p>
         </header>
 
         {/* Hero Visual Feature */}
         <div className="relative aspect-[16/9] w-full bg-[#EAE3D6] overflow-hidden mb-16 shadow-xs">
           <ImageWithFallback
-            src="/images/editorial/feature_men_bisht.jpg"
+            src="/images/feature_men_bisht.jpg"
             alt="Handcrafted Saudi Heritage & Sustainable Craft"
             fill
             className="object-cover object-center"
@@ -116,15 +116,15 @@ export default function SustainabilityPage() {
         {/* Archival Packaging Feature */}
         <div className="bg-[#FFFDFC] border border-[#242220]/10 p-8 sm:p-12 space-y-4 shadow-xs">
           <span className="text-xs uppercase tracking-[0.2em] text-[#B59A73] font-semibold block">
-            {language === 'ar' ? 'التغليف المسؤول' : 'ARCHIVAL & RECYCLABLE PACKAGING'}
+            {language === 'ar' ? 'معيار التغليف المقترح' : 'PROPOSED PACKAGING STANDARD'}
           </span>
           <h3 className="text-xl sm:text-2xl font-bold text-[#111111]">
-            {language === 'ar' ? 'تغليف أرشيفي خالٍ من البلاستيك أحادي الاستخدام' : 'Single-Use Plastic-Free Presentation Packaging'}
+            {language === 'ar' ? 'تصور لتغليف أرشيفي خالٍ من البلاستيك' : 'Proposed Plastic-Free Presentation Packaging'}
           </h3>
           <p className="text-xs sm:text-sm text-[#242220]/80 font-light leading-relaxed">
             {language === 'ar'
-              ? 'تصل إبداعات رِفْعة داخل صناديق صلبة مصنوعة من ورق مقوى معاد تدويره بنسبة 100٪، مع ورق حريري طبيعي خالٍ من الأحماض، وأكياس قماشية كتانية يمكن إعادة استخدامها لحفظ القطع لسنوات طويلة.'
-              : 'RIFAA orders arrive in rigid presentation boxes crafted from 100% certified recycled board, acid-free archival tissue, and reusable linen garment covers designed for generational wardrobe care.'}
+              ? 'يقدم النموذج التوضيحي للعلامة معياراً مقترحاً للتغليف يعتمد على علب صلبة مصنعة من مواد معاد تدويرها، وورق حريري أرشيفي خالٍ من الأحماض، وأكياس كتانية قابلة لإعادة الاستخدام لحفظ القطع لسنوات طويلة.'
+              : 'As part of the demonstration brand standard, RIFAA proposes presentation boxes crafted from recycled board, acid-free archival tissue, and reusable linen covers designed for generational wardrobe care.'}
           </p>
         </div>
       </div>

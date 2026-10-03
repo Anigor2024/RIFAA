@@ -101,7 +101,7 @@ export default function StoresPage() {
           <div className="bg-[#FFFDFC] border border-[#242220]/10 overflow-hidden shadow-xs flex flex-col">
             <div className="relative aspect-[16/10] bg-[#EAE3D6]">
               <ImageWithFallback
-                src="/images/editorial/women_editorial_abaya.jpg"
+                src="/images/women_editorial_abaya.jpg"
                 alt="Jeddah Coastal Atelier Concept"
                 fill
                 className="object-cover"
@@ -149,17 +149,17 @@ export default function StoresPage() {
         {/* Digital Concierge CTA */}
         <div className="bg-[#111111] text-white p-8 sm:p-12 text-center space-y-6">
           <span className="text-xs uppercase tracking-[0.25em] text-[#B59A73] font-semibold block">
-            {language === 'ar' ? 'خدمة العملاء والكونسيرج' : 'CLIENT CONCIERGE'}
+            {language === 'ar' ? 'مفهوم خدمة الكونسيرج الرقمي' : 'CONCIERGE CONCEPT'}
           </span>
           <h3 className="text-2xl sm:text-3xl font-bold max-w-xl mx-auto">
             {language === 'ar'
-              ? 'هل ترغب في الاستفسار عن تفاصيل القطع أو حجز استشارة رقمية؟'
-              : 'Have Questions on Sizing or Seeking Bespoke Styling Guidance?'}
+              ? 'استعراض تجربة الاستشارات الخاصة والأناقة المخصصة'
+              : 'Demonstrating Bespoke Client Guidance & Concierge Care'}
           </h3>
           <p className="text-xs sm:text-sm text-white/70 max-w-md mx-auto font-light leading-relaxed">
             {language === 'ar'
-              ? 'فريق كونسيرج رِفْعة متاح لتقديم المشورة المباشرة حول القصّات والأنسجة وخيارات التوصيل.'
-              : 'Our Riyadh team is delighted to assist with cut, textile care, and order navigation.'}
+              ? 'يستعرض هذا القسم تصور دار رِفْعة لخدمة الكونسيرج الفاخرة، موضحاً كيفية تقديم المشورة الشخصية حول الأنسجة والقياسات والتنسيق في المنظومة الإنتاجية.'
+              : 'Illustrating the RIFAA concept for luxury client care, demonstrating how bespoke textile advisory and private styling consultations would operate in a production store.'}
           </p>
           <div className="pt-2">
             <Link
