@@ -1,13 +1,12 @@
 'use client';
 
-import React from 'react';
 import Link from 'next/link';
-import { Briefcase, Feather, Sparkles, Compass, Users, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Briefcase, Users, ArrowRight, ArrowLeft } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { SaudiMotif } from '@/components/common/SaudiMotif';
 
 export default function CareersPage() {
-  const { language, isRtl, t } = useLanguage();
+  const { language, isRtl } = useLanguage();
 
   const departments = [
     {
@@ -65,8 +64,8 @@ export default function CareersPage() {
           </h1>
           <p className="text-xs sm:text-sm text-[#242220]/75 max-w-2xl font-light leading-relaxed">
             {language === 'ar'
-              ? 'نجمع بين شغف الحرفيين النادر ورؤية المصممين المعماريين لبناء علامة أزياء سعودية معاصرة تنافس على منصات العالم.'
-              : 'Uniting rare master craft with architectural vision to build a contemporary Saudi fashion house setting global standards.'}
+              ? 'تستعرض الصفحة تصوراً تنظيمياً يجمع الحرفة والتصميم والتجارة الرقمية داخل علامة أزياء سعودية معاصرة مفاهيمية.'
+              : 'This page presents a conceptual organization blending craft, design, and digital commerce inside a contemporary Saudi fashion-house showcase.'}
           </p>
         </header>
 
@@ -115,15 +114,15 @@ export default function CareersPage() {
           </h3>
           <p className="text-xs sm:text-sm text-[#242220]/70 max-w-lg mx-auto font-light leading-relaxed">
             {language === 'ar'
-              ? 'نرحب دائماً بالتواصل مع المصممين والكتّاب والمبدعين المهتمين بالأزياء المعاصرة والهوية الثقافية السعودية.'
-              : 'We welcome connections with designers, craft specialists, and creators passionate about Saudi fashion identity.'}
+              ? 'يعرض هذا القسم مثالاً على نقطة تواصل يمكن استخدامها للتعاون الإبداعي في نسخة إنتاجية مستقبلية، ولا يمثل دعوة توظيف أو شراكة تجارية نشطة.'
+              : 'This section demonstrates how a future production brand could present a creative-collaboration inquiry touchpoint; it is not an active hiring or commercial partnership invitation.'}
           </p>
           <div className="pt-3">
             <Link
               href="/contact"
               className="inline-flex items-center gap-2 py-3 px-8 bg-[#111111] text-white text-xs font-semibold tracking-widest uppercase hover:bg-[#511D24] transition-colors"
             >
-              <span>{language === 'ar' ? 'تواصل مع الدار' : 'Contact the Atelier'}</span>
+              <span>{language === 'ar' ? 'استكشف نموذج التواصل' : 'Explore Inquiry Experience'}</span>
               {isRtl ? <ArrowLeft className="w-4 h-4" /> : <ArrowRight className="w-4 h-4" />}
             </Link>
           </div>

@@ -118,8 +118,10 @@ for (const img of mediaManifestImages) {
   }
 }
 
-// 4. Check for any remaining Unsplash / Picsum references in runtime code
+// 4. Check runtime code for remote stock photography and broken literal local image paths
 const runtimeDirectories = ['app', 'components', 'data'];
+const checkedRuntimeImages = new Set();
+
 for (const dir of runtimeDirectories) {
   const fullDir = path.join(rootDir, dir);
   if (!fs.existsSync(fullDir)) continue;
@@ -132,15 +134,30 @@ for (const dir of runtimeDirectories) {
         scanDir(fullPath);
       } else if (/\.(tsx|ts|jsx|js|mjs)$/.test(entry.name)) {
         const content = fs.readFileSync(fullPath, 'utf-8');
+        const relativeSource = fullPath.replace(rootDir, '');
+
         if (content.includes('images.unsplash.com')) {
-          errors.push(`File ${fullPath.replace(rootDir, '')} still contains "images.unsplash.com"`);
+          errors.push(`File ${relativeSource} still contains "images.unsplash.com"`);
         }
         if (content.includes('picsum.photos')) {
-          errors.push(`File ${fullPath.replace(rootDir, '')} still contains "picsum.photos"`);
+          errors.push(`File ${relativeSource} still contains "picsum.photos"`);
+        }
+
+        const literalImageRefs = [
+          ...content.matchAll(/['"`](\/images\/[^'"`?#]+\.(?:jpg|jpeg|png|webp|avif|gif|svg))['"`]/gi),
+        ].map((match) => match[1]);
+
+        for (const img of literalImageRefs) {
+          checkedRuntimeImages.add(img);
+          const localImagePath = path.join(rootDir, 'public', img.replace(/^\//, ''));
+          if (!fs.existsSync(localImagePath)) {
+            errors.push(`Runtime source ${relativeSource} references missing local image: ${img}`);
+          }
         }
       }
     }
   }
+
   scanDir(fullDir);
 }
 
@@ -159,5 +176,6 @@ if (errors.length > 0) {
   console.log(`  - 0 Duplicate product primary images.`);
   console.log(`  - 0 Remote stock photography references.`);
   console.log(`  - All campaign & journal images verified on disk.`);
+  console.log(`  - ${checkedRuntimeImages.size} literal runtime image references verified on disk.`);
   process.exit(0);
 }

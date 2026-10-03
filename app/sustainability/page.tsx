@@ -1,14 +1,13 @@
 'use client';
 
-import React from 'react';
 import Link from 'next/link';
-import { Leaf, ShieldCheck, Feather, Recycle, HeartHandshake, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Leaf, Feather, Recycle, HeartHandshake } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { ImageWithFallback } from '@/components/common/ImageWithFallback';
 import { SaudiMotif } from '@/components/common/SaudiMotif';
 
 export default function SustainabilityPage() {
-  const { language, isRtl, t } = useLanguage();
+  const { language } = useLanguage();
 
   const pillars = [
     {
