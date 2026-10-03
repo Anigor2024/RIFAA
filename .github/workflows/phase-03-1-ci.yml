@@ -36,6 +36,9 @@ jobs:
       - name: Validate media
         run: npm run validate:media
 
+      - name: Validate production quality
+        run: npm run validate:quality
+
       - name: Lint
         run: npm run lint
 
