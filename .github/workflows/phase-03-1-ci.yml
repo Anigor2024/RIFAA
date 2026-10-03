@@ -1,13 +1,17 @@
-name: RIFAA Phase 03.1 CI
+name: RIFAA Quality CI
 
 on:
   push:
     branches:
-      - phase-03-1-quality-lock
+      - main
+      - 'phase-*'
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 concurrency:
-  group: rifaa-phase-03-1-${{ github.ref }}
+  group: rifaa-quality-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
