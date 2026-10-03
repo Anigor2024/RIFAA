@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   Heart,
@@ -19,10 +19,13 @@ import { Product, ProductColor } from '@/types';
 import { useLanguage } from '@/context/LanguageContext';
 import { useBag } from '@/context/BagContext';
 import { useWishlist } from '@/context/WishlistContext';
+import { useAccount } from '@/context/AccountContext';
 import { ImageWithFallback } from '@/components/common/ImageWithFallback';
 import { ProductCard } from '@/components/product/ProductCard';
 import { SizeGuideModal } from '@/components/product/SizeGuideModal';
 import { SaudiMotif } from '@/components/common/SaudiMotif';
+import { ProductImageZoom } from '@/components/product/ProductImageZoom';
+import { formatPrice } from '@/lib/commerce';
 
 interface ProductDetailClientProps {
   product: Product;
@@ -36,6 +39,7 @@ export function ProductDetailClient({
   const { language, isRtl, t } = useLanguage();
   const { addToBag } = useBag();
   const { isWishlisted, toggleWishlist } = useWishlist();
+  const { recordRecentlyViewed } = useAccount();
 
   // Gallery Images
   const galleryImages = [
@@ -53,6 +57,10 @@ export function ProductDetailClient({
 
   // Accordion state
   const [openAccordion, setOpenAccordion] = useState<string | null>('specs');
+
+  useEffect(() => {
+    recordRecentlyViewed(product.id);
+  }, [product.id, recordRecentlyViewed]);
 
   const isFavorite = isWishlisted(product.id);
   const name = language === 'ar' ? product.nameAr : product.nameEn;
@@ -124,13 +132,12 @@ export function ProductDetailClient({
 
             {/* Main Image Display */}
             <div className="relative w-full aspect-[3/4] overflow-hidden bg-[#EAE4D9] shadow-sm">
-              <ImageWithFallback
+              <ProductImageZoom
                 src={galleryImages[activeImageIndex] || product.image}
                 alt={name}
-                fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 60vw"
-                className="object-cover object-center transition-all duration-700 ease-out"
+                hint={language === 'ar' ? 'مرّر أو اضغط واسحب لتكبير التفاصيل' : 'Hover or press and drag to zoom'}
               />
 
               {/* Status Badges */}
@@ -185,11 +192,11 @@ export function ProductDetailClient({
             {/* Price Row */}
             <div className="flex items-baseline gap-3 pb-4 border-b border-[#242220]/10">
               <span className="text-2xl sm:text-3xl font-bold text-[#111111] tabular-nums">
-                {product.price.toLocaleString(language === 'ar' ? 'ar-SA' : 'en-US')} {t.actions.sar}
+                {formatPrice(product.price, language)}
               </span>
               {product.oldPrice && (
                 <span className="text-sm text-[#242220]/45 line-through tabular-nums">
-                  {product.oldPrice.toLocaleString(language === 'ar' ? 'ar-SA' : 'en-US')} {t.actions.sar}
+                  {formatPrice(product.oldPrice, language)}
                 </span>
               )}
               <span className="ms-auto text-xs text-[#242220]/60">
