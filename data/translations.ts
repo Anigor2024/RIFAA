@@ -223,7 +223,7 @@ export const DICTIONARY = {
       description: 'إصدارات جديدة، تحريرات موسمية، ودعوات خاصة لأعضاء رِفْعة.',
       placeholder: 'أدخل بريدك الإلكتروني...',
       submit: 'انضمام',
-      successMessage: 'تم حفظ اهتمامك محلياً في هذه النسخة الاستعراضية. يمكن ربط النموذج لاحقاً بمنصة بريد فعلية.',
+      successMessage: 'تمت محاكاة الاشتراك داخل هذه الجلسة فقط. يمكن ربط النموذج لاحقاً بمنصة بريد فعلية.',
       disclaimer: 'نسخة استعراضية: لا يتم إرسال بريد أو مشاركة بيانات. الربط الفعلي يحتاج مزود بريد وسياسة موافقة.',
     },
 
@@ -500,7 +500,7 @@ export const DICTIONARY = {
       description: 'Private previews, seasonal releases, and bespoke invitations for RIFAA patrons.',
       placeholder: 'Enter your email address...',
       submit: 'Subscribe',
-      successMessage: 'Your interest is saved locally in this showcase. Connect a real email provider to activate delivery.',
+      successMessage: 'Subscription was simulated for this session only. Connect a real email provider to activate delivery.',
       disclaimer: 'Showcase mode: no email is sent or shared. Live subscriptions require an email provider and consent policy.',
     },
 
