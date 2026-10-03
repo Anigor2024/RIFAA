@@ -574,8 +574,8 @@ export function CheckoutClient() {
                   ) : (
                     <p className="text-[10px] text-[#242220]/50 mt-1">
                       {language === 'ar'
-                        ? 'يستخدم من قِبل مندوب التوصيل للتنسيق وإرسال إشعار التتبع عبر الرسائل النصية.'
-                        : 'Used by the concierge courier for delivery updates and SMS tracking.'}
+                        ? 'يُستخدم لمحاكاة تفاصيل الاتصال وإشعار التتبع التوضيحي للطلب التجريبي.'
+                        : 'Used for demonstration contact details and simulated order tracking notifications.'}
                     </p>
                   )}
                 </div>
@@ -891,8 +891,8 @@ export function CheckoutClient() {
                   </h2>
                 </div>
                 <span className="text-[11px] text-[#511D24] font-medium flex items-center gap-1">
-                  <Lock className="w-3 h-3" />
-                  <span>{language === 'ar' ? 'مشفر وآمن' : 'Secured'}</span>
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  <span>{language === 'ar' ? 'استعراض تجريبي آمن' : 'Simulated Checkout'}</span>
                 </span>
               </div>
 
@@ -1103,12 +1103,12 @@ export function CheckoutClient() {
                 )}
               </button>
 
-              <div className="flex items-center justify-center gap-2 text-xs text-[#242220]/60">
-                <ShieldCheck className="w-4 h-4 text-[#511D24]" />
+              <div className="flex items-center justify-center gap-2 text-xs text-[#242220]/60 text-center">
+                <ShieldCheck className="w-4 h-4 text-[#511D24] shrink-0" />
                 <span>
                   {language === 'ar'
-                    ? 'تجربة تسوق آمنة بنسبة 100٪ ضمن معايير دار رِفْعة'
-                    : '100% Secure Shopping Experience by RIFAA Standards'}
+                    ? 'تجربة تسوق تجريبية تحاكي أرقى معايير التجارة الرقمية الفاخرة'
+                    : 'A demonstration ecommerce showcase reflecting luxury digital commerce standards'}
                 </span>
               </div>
             </div>

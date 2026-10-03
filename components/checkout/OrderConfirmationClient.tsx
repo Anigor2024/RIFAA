@@ -100,7 +100,7 @@ export function OrderConfirmationClient() {
 
           <div className="space-y-1">
             <span className="text-[11px] uppercase tracking-widest text-[#511D24] font-semibold block">
-              {language === 'ar' ? 'تم استلام وتوثيق طلبك' : 'ORDER CONFIRMED & RECEIVED'}
+              {language === 'ar' ? 'تم توثيق الطلب التجريبي بنجاح' : 'DEMONSTRATION ORDER CONFIRMED'}
             </span>
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#111111]">
               {language === 'ar'
@@ -109,8 +109,8 @@ export function OrderConfirmationClient() {
             </h1>
             <p className="text-xs sm:text-sm text-[#242220]/75 max-w-md mx-auto font-light leading-relaxed pt-1">
               {language === 'ar'
-                ? 'تم تسجيل طلبك بنجاح وسيتواصل معك فريق كونسيرج رِفْعة في الرياض لتنسيق تفاصيل التسليم.'
-                : 'Your order has been recorded. Our Riyadh concierge desk will coordinate delivery arrangements with you.'}
+                ? 'تم إنشاء وتوثيق طلبك التجريبي بنجاح ضمن استعراض تجربة التجارة الرقمية لدار رِفْعة.'
+                : 'Your demonstration order has been successfully created and recorded within the RIFAA digital commerce showcase.'}
             </p>
           </div>
 
