@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { X, ArrowRight, ArrowLeft, Globe, Phone, MapPin } from 'lucide-react';
+import { X, ArrowRight, ArrowLeft, Globe, UserRound } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
 interface MobileMenuProps {
@@ -37,9 +37,10 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         {/* Top Header */}
         <div className="px-6 py-5 border-b border-[#242220]/10 flex items-center justify-between">
           <div className="flex flex-col">
-            <span className="font-editorial text-2xl font-bold tracking-widest text-[#111111]">
-              RIFAA
-            </span>
+            <div className="flex items-baseline gap-2.5">
+              <span className="text-2xl font-bold tracking-tight text-[#111111]">{t.brandName}</span>
+              <span className="font-editorial text-lg font-semibold tracking-[0.2em] text-[#511D24]">RIFAA</span>
+            </div>
             <span className="text-[10px] tracking-widest text-[#242220]/60 uppercase">
               {t.brandSentiment}
             </span>
@@ -81,6 +82,20 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               </Link>
             );
           })}
+        </div>
+
+        <div className="px-6 pb-2">
+          <Link
+            href="/account"
+            onClick={onClose}
+            className="flex items-center justify-between border border-[#242220]/10 bg-[#FFFDFC] px-4 py-3.5 text-sm font-semibold text-[#111111]"
+          >
+            <span className="flex items-center gap-2">
+              <UserRound className="h-4 w-4 text-[#511D24]" />
+              <span>{language === 'ar' ? 'مساحة العميل' : 'Client Space'}</span>
+            </span>
+            {isRtl ? <ArrowLeft className="h-4 w-4 text-[#242220]/40" /> : <ArrowRight className="h-4 w-4 text-[#242220]/40" />}
+          </Link>
         </div>
 
         {/* Bottom Panel & Language Selector */}
