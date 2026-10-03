@@ -31,7 +31,7 @@ export function Newsletter() {
         </div>
 
         {submitted ? (
-          <div className="py-6 px-8 bg-[#242220] border border-[#B59A73]/40 inline-flex items-center gap-3 text-xs sm:text-sm text-white">
+          <div role="status" aria-live="polite" className="py-6 px-8 bg-[#242220] border border-[#B59A73]/40 inline-flex items-center gap-3 text-xs sm:text-sm text-white">
             <Check className="w-5 h-5 text-[#B59A73]" />
             <span>{t.newsletter.successMessage}</span>
           </div>
@@ -40,6 +40,9 @@ export function Newsletter() {
             <div className="flex border border-white/30 focus-within:border-white transition-colors bg-white/5">
               <input
                 type="email"
+                name="email"
+                autoComplete="email"
+                aria-label={t.newsletter.placeholder}
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
