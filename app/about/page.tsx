@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import Link from 'next/link';
 import { Compass, Sparkles, Feather, Shield, ArrowRight, ArrowLeft } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
@@ -76,8 +75,8 @@ export default function AboutPage() {
             </p>
             <p>
               {language === 'ar'
-                ? 'نعمل بشراكة مع أعرق مصانع الأقمشة المتخصصة حول العالم—من الكريب الياباني المزدوج فائق الجودة، إلى الكتان الفرنسي الطبيعي، والحرير التوتي، والصوف الإيطالي خفيف الوزن—لتطوير منسوجات تتنفس بطبيعتها وتلائم مناخ المملكة المتنوع.'
-                : 'We partner with master fabric mills globally—curating dense Japanese double crepes, natural French flax linen, pure mulberry silk, and tropical-weight Italian virgin wool—to weave textiles that breathe effortlessly and adapt to Saudi Arabia’s dynamic climatic shifts.'}
+                ? 'يتصور مفهوم رِفْعة لوحة خامات فاخرة مستوحاة من الكريب الياباني المزدوج والكتان الطبيعي والحرير والصوف خفيف الوزن، بما يوضح كيف يمكن لعلامة إنتاجية مستقبلية مواءمة الخامة مع مناخ المملكة.'
+                : 'The RIFAA concept explores a premium material palette inspired by dense double crepes, natural linen, silk, and lightweight wool, illustrating how a future production label could adapt fabric choices to Saudi Arabia’s climate.'}
             </p>
           </div>
         </div>
@@ -103,8 +102,8 @@ export default function AboutPage() {
             </h3>
             <p className="text-xs text-[#242220]/70 leading-relaxed font-light">
               {language === 'ar'
-                ? 'ألياف طبيعية خالية من الاصطناع توفر نعومة فائقة وتهوية مثالية طوال العام.'
-                : 'Pure breathable fibers engineered for enduring comfort, fluid movement, and supreme resilience against seasonal wear.'}
+                ? 'تصور لخامات طبيعية قابلة للتنفس تُختار لتحقيق الراحة والانسيابية والمتانة ضمن معيار تصميمي مقترح.'
+                : 'A proposed palette of breathable natural fibers selected to illustrate comfort, fluid movement, and enduring wear.'}
             </p>
           </div>
 
@@ -115,8 +114,8 @@ export default function AboutPage() {
             </h3>
             <p className="text-xs text-[#242220]/70 leading-relaxed font-light">
               {language === 'ar'
-                ? 'خياطة دقيقة بدرزات فرنسية مخفية وتطريز زري يدوي خافت للمناسبات الكبرى.'
-                : 'Hand-finished internal French seams and restrained matte zari embroidery meticulously tailored for momentous occasions.'}
+                ? 'تصور لحرفية راقية تجمع الدرزات الفرنسية والتطريز الزري الهادئ كجزء من لغة التصميم المفاهيمية.'
+                : 'A craft concept combining refined French seams and restrained zari detailing as part of the proposed atelier language.'}
             </p>
           </div>
 
@@ -127,8 +126,8 @@ export default function AboutPage() {
             </h3>
             <p className="text-xs text-[#242220]/70 leading-relaxed font-light">
               {language === 'ar'
-                ? 'فريق متخصص في الرياض لتقديم المشورة في المقاسات وتنسيق الإطلالات الخاصة.'
-                : 'Dedicated Riyadh styling desk providing bespoke fit guidance and private atelier appointments.'}
+                ? 'تصور لتجربة ضيافة رقمية وخاصة توضح كيف يمكن تقديم إرشاد المقاسات وتنسيق الإطلالات في متجر إنتاجي.'
+                : 'A hospitality concept demonstrating how private fit guidance and styling support could work in a production store.'}
             </p>
           </div>
         </div>
