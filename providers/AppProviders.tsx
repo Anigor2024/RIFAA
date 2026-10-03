@@ -12,15 +12,15 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
   return (
     <LanguageProvider>
       <AccountProvider>
-      <WishlistProvider>
-        <BagProvider>
-          <SearchProvider>
-            <QuickViewProvider>
-              {children}
-            </QuickViewProvider>
-          </SearchProvider>
-        </BagProvider>
-      </WishlistProvider>
+        <WishlistProvider>
+          <BagProvider>
+            <SearchProvider>
+              <QuickViewProvider>
+                {children}
+              </QuickViewProvider>
+            </SearchProvider>
+          </BagProvider>
+        </WishlistProvider>
       </AccountProvider>
     </LanguageProvider>
   );
