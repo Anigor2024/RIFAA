@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Search, Heart, ShoppingBag, Menu, Globe } from 'lucide-react';
+import { Search, Heart, ShoppingBag, Menu, Globe, UserRound } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useWishlist } from '@/context/WishlistContext';
 import { useBag } from '@/context/BagContext';
@@ -49,7 +49,7 @@ export function Header() {
         {/* Subtle Announcement Strip (Visible on desktop when not scrolled) */}
         {!isScrolled && (
           <div className="hidden lg:block w-full border-b border-white/10 py-1.5 px-6 text-center">
-            <p className="text-[11px] tracking-wider text-white/90">
+            <p className="text-xs tracking-[0.08em] text-white/90">
               {t.topBanner}
             </p>
           </div>
@@ -101,14 +101,14 @@ export function Header() {
                 className="group flex items-baseline gap-2.5 transition-transform duration-300 hover:scale-[1.01]"
               >
                 <span
-                  className={`text-xl sm:text-2xl font-bold tracking-tight ${
+                  className={`text-2xl sm:text-3xl lg:text-[2rem] font-bold tracking-tight leading-none ${
                     isScrolled ? 'text-[#111111]' : 'text-white'
                   }`}
                 >
                   {t.brandName}
                 </span>
                 <span
-                  className={`font-editorial text-sm sm:text-base tracking-[0.25em] font-normal uppercase ${
+                  className={`font-editorial text-base sm:text-lg lg:text-xl tracking-[0.22em] font-medium uppercase ${
                     isScrolled ? 'text-[#511D24]' : 'text-[#EFECE6]'
                   }`}
                 >
@@ -116,7 +116,7 @@ export function Header() {
                 </span>
               </Link>
               <span
-                className={`hidden sm:block text-[9px] tracking-[0.2em] uppercase font-light mt-0.5 ${
+                className={`hidden sm:block text-[10px] lg:text-[11px] tracking-[0.16em] uppercase font-light mt-1 ${
                   isScrolled ? 'text-[#242220]/50' : 'text-white/70'
                 }`}
               >
@@ -138,6 +138,19 @@ export function Header() {
               >
                 <Search className="w-5 h-5" />
               </button>
+
+              {/* Account Link */}
+              <Link
+                href="/account"
+                className={`hidden sm:inline-flex relative p-2 transition-colors cursor-pointer ${
+                  isScrolled
+                    ? 'text-[#111111] hover:text-[#511D24]'
+                    : 'text-white hover:text-[#F7F4EF]'
+                }`}
+                aria-label={t.actions.account}
+              >
+                <UserRound className="w-5 h-5" />
+              </Link>
 
               {/* Wishlist Link */}
               <Link
@@ -178,12 +191,12 @@ export function Header() {
           </div>
 
           {/* Desktop Primary Navigation Bar */}
-          <nav className="hidden md:flex items-center justify-center gap-8 py-2.5 border-t border-[#242220]/05">
+          <nav className="hidden md:flex items-center justify-center gap-5 lg:gap-8 py-3 border-t border-[#242220]/05">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-xs font-medium tracking-widest uppercase transition-colors relative py-1 after:absolute after:bottom-0 after:inset-x-0 after:h-[1px] after:bg-current after:transition-all after:duration-300 after:scale-x-0 hover:after:scale-x-100 ${
+                className={`text-[13px] lg:text-sm font-semibold tracking-[0.1em] uppercase transition-colors relative py-1 after:absolute after:bottom-0 after:inset-x-0 after:h-[1px] after:bg-current after:transition-all after:duration-300 after:scale-x-0 hover:after:scale-x-100 ${
                   isScrolled
                     ? 'text-[#242220] hover:text-[#511D24]'
                     : 'text-white/90 hover:text-white'
