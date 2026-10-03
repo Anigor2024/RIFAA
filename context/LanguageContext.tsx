@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useSyncExternalStore } from 'react';
 import { Language } from '@/types';
 import { DICTIONARY } from '@/data/translations';
 
@@ -17,35 +17,66 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguageState] = useState<Language>('ar');
-  const [isHydrated, setIsHydrated] = useState(false);
+const LANGUAGE_STORAGE_KEY = 'rifaa_language';
+const LANGUAGE_CHANGE_EVENT = 'rifaa-language-change';
+let languageMemorySnapshot: Language = 'ar';
 
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem('rifaa_language') as Language | null;
-      if (saved === 'ar' || saved === 'en') {
-        setLanguageState(saved);
-      }
-    } finally {
-      setIsHydrated(true);
+function subscribeLanguage(onStoreChange: () => void) {
+  window.addEventListener('storage', onStoreChange);
+  window.addEventListener(LANGUAGE_CHANGE_EVENT, onStoreChange);
+  return () => {
+    window.removeEventListener('storage', onStoreChange);
+    window.removeEventListener(LANGUAGE_CHANGE_EVENT, onStoreChange);
+  };
+}
+
+function getLanguageSnapshot(): Language {
+  try {
+    const saved = localStorage.getItem(LANGUAGE_STORAGE_KEY);
+    if (saved === 'ar' || saved === 'en') {
+      languageMemorySnapshot = saved;
+      return saved;
     }
-  }, []);
+  } catch {
+    // Fall back to in-memory state when storage is unavailable.
+  }
+  return languageMemorySnapshot;
+}
+
+function getLanguageServerSnapshot(): Language {
+  return 'ar';
+}
+
+export function LanguageProvider({ children }: { children: React.ReactNode }) {
+  const language = useSyncExternalStore(
+    subscribeLanguage,
+    getLanguageSnapshot,
+    getLanguageServerSnapshot
+  );
 
   useEffect(() => {
-    if (!isHydrated) return;
     const dir = language === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.lang = language;
     document.documentElement.dir = dir;
-    localStorage.setItem('rifaa_language', language);
-  }, [language, isHydrated]);
+    try {
+      localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
+    } catch {
+      // The in-memory snapshot remains the fallback.
+    }
+  }, [language]);
 
   const setLanguage = (lang: Language) => {
-    setLanguageState(lang);
+    languageMemorySnapshot = lang;
+    try {
+      localStorage.setItem(LANGUAGE_STORAGE_KEY, lang);
+    } catch {
+      // The in-memory snapshot remains the fallback.
+    }
+    window.dispatchEvent(new Event(LANGUAGE_CHANGE_EVENT));
   };
 
   const toggleLanguage = () => {
-    setLanguageState((prev) => (prev === 'ar' ? 'en' : 'ar'));
+    setLanguage(language === 'ar' ? 'en' : 'ar');
   };
 
   const direction = language === 'ar' ? 'rtl' : 'ltr';

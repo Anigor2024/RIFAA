@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useState, useSyncExternalStore } from 'react';
 import { Product, ProductColor, CartItem } from '@/types';
 
 interface BagContextType {
@@ -19,31 +19,61 @@ interface BagContextType {
 
 const BagContext = createContext<BagContextType | undefined>(undefined);
 
-export function BagProvider({ children }: { children: React.ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
-  const [isHydrated, setIsHydrated] = useState(false);
+const BAG_STORAGE_KEY = 'rifaa_bag';
+const BAG_CHANGE_EVENT = 'rifaa-bag-change';
+let bagMemorySnapshot = '[]';
 
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem('rifaa_bag');
-      if (saved) {
-        setItems(JSON.parse(saved));
-      }
-    } catch {
-      // Keep the deterministic empty fallback when storage is unavailable.
-    } finally {
-      setIsHydrated(true);
+function subscribeBag(onStoreChange: () => void) {
+  window.addEventListener('storage', onStoreChange);
+  window.addEventListener(BAG_CHANGE_EVENT, onStoreChange);
+  return () => {
+    window.removeEventListener('storage', onStoreChange);
+    window.removeEventListener(BAG_CHANGE_EVENT, onStoreChange);
+  };
+}
+
+function getBagSnapshot(): string {
+  try {
+    const saved = localStorage.getItem(BAG_STORAGE_KEY);
+    if (saved !== null) {
+      bagMemorySnapshot = saved;
+      return saved;
     }
-  }, []);
+  } catch {
+    // Fall back to in-memory state when storage is unavailable.
+  }
+  return bagMemorySnapshot;
+}
+
+function getBagServerSnapshot(): null {
+  return null;
+}
+
+function parseBagSnapshot(raw: string | null): CartItem[] {
+  if (raw === null) return [];
+  try {
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+export function BagProvider({ children }: { children: React.ReactNode }) {
+  const rawItems = useSyncExternalStore(subscribeBag, getBagSnapshot, getBagServerSnapshot);
+  const items = React.useMemo(() => parseBagSnapshot(rawItems), [rawItems]);
+  const [isOpen, setIsOpen] = useState(false);
+  const isHydrated = rawItems !== null;
 
   const saveItems = (newItems: CartItem[]) => {
-    setItems(newItems);
+    const serialized = JSON.stringify(newItems);
+    bagMemorySnapshot = serialized;
     try {
-      localStorage.setItem('rifaa_bag', JSON.stringify(newItems));
+      localStorage.setItem(BAG_STORAGE_KEY, serialized);
     } catch {
-      // ignore
+      // In-memory snapshot still keeps the current session responsive.
     }
+    window.dispatchEvent(new Event(BAG_CHANGE_EVENT));
   };
 
   const addToBag = (
@@ -61,7 +91,10 @@ export function BagProvider({ children }: { children: React.ReactNode }) {
 
     if (existingIndex > -1) {
       const updated = [...items];
-      updated[existingIndex].quantity += quantity;
+      updated[existingIndex] = {
+        ...updated[existingIndex],
+        quantity: updated[existingIndex].quantity + quantity,
+      };
       saveItems(updated);
     } else {
       const newItem: CartItem = {
@@ -77,8 +110,7 @@ export function BagProvider({ children }: { children: React.ReactNode }) {
   };
 
   const removeFromBag = (itemId: string) => {
-    const filtered = items.filter((item) => item.id !== itemId);
-    saveItems(filtered);
+    saveItems(items.filter((item) => item.id !== itemId));
   };
 
   const updateQuantity = (itemId: string, quantity: number) => {
@@ -86,10 +118,11 @@ export function BagProvider({ children }: { children: React.ReactNode }) {
       removeFromBag(itemId);
       return;
     }
-    const updated = items.map((item) =>
-      item.id === itemId ? { ...item, quantity } : item
+    saveItems(
+      items.map((item) =>
+        item.id === itemId ? { ...item, quantity } : item
+      )
     );
-    saveItems(updated);
   };
 
   const clearBag = () => {
