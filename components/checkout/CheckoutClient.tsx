@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { useBag } from '@/context/BagContext';
 import { useLanguage } from '@/context/LanguageContext';
+import { useAccount } from '@/context/AccountContext';
 import { ImageWithFallback } from '@/components/common/ImageWithFallback';
 import {
   COMMERCE_CONFIG,
@@ -38,6 +39,7 @@ export function CheckoutClient() {
   const router = useRouter();
   const { items, subtotal, bagCount, clearBag, isHydrated } = useBag();
   const { language, isRtl, t } = useLanguage();
+  const { recordOrder } = useAccount();
 
   // Form Fields State
   const [formData, setFormData] = useState({
@@ -355,6 +357,9 @@ export function CheckoutClient() {
       promoCodeApplied: appliedPromo ? appliedPromo.code : undefined,
       total,
     };
+
+    // Preserve the order in the local demo client account history.
+    recordOrder(demoOrder);
 
     // Store in sessionStorage for order confirmation page
     try {
