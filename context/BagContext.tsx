@@ -32,7 +32,7 @@ function subscribeBag(onStoreChange: () => void) {
   };
 }
 
-function getBagSnapshot(): string {
+function getBagSnapshot(): string | null {
   try {
     const saved = localStorage.getItem(BAG_STORAGE_KEY);
     if (saved !== null) {
