@@ -109,8 +109,8 @@ export function OrderConfirmationClient() {
             </h1>
             <p className="text-xs sm:text-sm text-[#242220]/75 max-w-md mx-auto font-light leading-relaxed pt-1">
               {language === 'ar'
-                ? 'تم إنشاء وتوثيق طلبك التجريبي بنجاح ضمن استعراض تجربة التجارة الرقمية لدار رِفْعة.'
-                : 'Your demonstration order has been successfully created and recorded within the RIFAA digital commerce showcase.'}
+                ? 'تم توثيق طلبك التجريبي بنجاح. يوضح هذا الإيصال التوضيحي أسلوب تنسيق التوصيل والمتابعة كما سيظهر في تجربة تجارة حقيقية.'
+                : 'Your demonstration order has been successfully recorded. This receipt illustrates how delivery coordination would appear in a production commerce experience.'}
             </p>
           </div>
 
@@ -129,8 +129,8 @@ export function OrderConfirmationClient() {
                 {language === 'ar' ? 'إشعار استعراض المنصة: ' : 'Portfolio Demonstration Notice: '}
               </span>
               {language === 'ar'
-                ? 'هذه المعاملة تمثل محاكاة واقعية لرحلة العميل في دار رِفْعة. لم يتم خصم مبالغ مالية حقيقية.'
-                : 'This transaction is a realistic demonstration of the RIFAA ecommerce journey. No real funds were charged.'}
+                ? 'هذه المعاملة تمثل محاكاة واقعية لرحلة العميل في دار رِفْعة. لم يتم خصم أي مبالغ مالية، ولا يتم تفعيل شحن أو اتصال فعلي.'
+                : 'This transaction is a realistic demonstration of the RIFAA ecommerce journey. No actual funds were charged, and no real delivery or customer contact will take place.'}
             </div>
           </div>
         </div>

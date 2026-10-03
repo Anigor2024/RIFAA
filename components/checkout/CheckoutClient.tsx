@@ -1075,8 +1075,8 @@ export function CheckoutClient() {
                   <span className="text-xl font-bold tracking-tight"> Pay</span>
                   <p className="text-xs text-white/70 max-w-sm mx-auto leading-relaxed">
                     {language === 'ar'
-                      ? 'سيتم استخدام بطاقتك الافتراضية المرتبطة بجهازك عند تأكيد الطلب التجريبي أدناه.'
-                      : 'Your device’s default Apple Pay card will be verified upon confirming this demo order.'}
+                      ? 'خيار آبل باي معروض هنا كنموذج استعراضي تجريبي فقط، ولا تتم أي مصادقة على محفظتك الرقمية أو خصم أي مبالغ مالية.'
+                      : 'Apple Pay is presented here as a demonstration payment option only. No digital wallet verification or actual monetary charge occurs.'}
                   </p>
                 </div>
               )}
@@ -1090,13 +1090,13 @@ export function CheckoutClient() {
                 className="w-full py-4 px-8 bg-[#111111] hover:bg-[#511D24] text-white text-xs sm:text-sm font-semibold tracking-widest uppercase transition-colors flex items-center justify-center gap-3 cursor-pointer shadow-sm disabled:opacity-75"
               >
                 {isSubmitting ? (
-                  <span>{language === 'ar' ? 'جاري تأكيد الطلب...' : 'Processing Demo Order...'}</span>
+                  <span>{language === 'ar' ? 'جاري توثيق الطلب التجريبي...' : 'Recording Demo Order...'}</span>
                 ) : (
                   <>
                     <span>
                       {language === 'ar'
-                        ? `تأكيد الطلب — ${formatMoney(total)}`
-                        : `Place Order — ${formatMoney(total)}`}
+                        ? `تأكيد الطلب التجريبي — ${formatMoney(total)}`
+                        : `Place Demo Order — ${formatMoney(total)}`}
                     </span>
                     {isRtl ? <ArrowLeft className="w-4 h-4" /> : <ArrowRight className="w-4 h-4" />}
                   </>
