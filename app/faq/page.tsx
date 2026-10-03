@@ -21,16 +21,16 @@ const FAQ_DATA: FAQItem[] = [
     category: 'orders',
     questionAr: 'كم تستغرق مدة توصيل الطلبات داخل المملكة العربية السعودية؟',
     questionEn: 'What is the estimated delivery timeframe across Saudi Arabia?',
-    answerAr: 'يستغرق التوصيل القياسي من يومين إلى 4 أيام عمل لكافة مناطق ومحافظات المملكة. كما يتوفر خيار الشحن السريع (1-2 يوم عمل)، وخيار كونسيرج الرياض للتسليم في نفس اليوم للطلبات المسجلة قبل الساعة 2 ظهراً.',
-    answerEn: 'Standard shipping takes 2 to 4 business days nationwide. Priority express takes 1 to 2 business days, and our Riyadh Same-Day Concierge courier delivers the same day for orders placed before 2:00 PM AST.',
+    answerAr: 'تعرض النسخة الحالية إعدادات شحن توضيحية تشمل قياسياً وسريعاً وخياراً خاصاً بالرياض. عند الإطلاق الفعلي يجب ربط الأزمنة والمناطق بمزود الشحن الحقيقي ومستوى الخدمة المتفق عليه.',
+    answerEn: 'The current showcase includes standard, express, and Riyadh-specific delivery configurations. Live launch must connect delivery windows and service areas to the actual carrier and agreed SLA.',
   },
   {
     id: 'faq-2',
     category: 'orders',
     questionAr: 'هل يتوفر شحن مجاني للطلبات؟',
     questionEn: 'Is complimentary shipping available?',
-    answerAr: 'نعم، تمنح دار رِفْعة شحناً قياسياً مجانياً لكافة مناطق المملكة للطلبات التي تبلغ قيمتها 500 ريال سعودي فأكثر.',
-    answerEn: 'Yes, RIFAA provides complimentary standard domestic shipping across all Saudi regions on all orders of SAR 500 or more.',
+    answerAr: 'تستخدم النسخة الحالية حداً تجريبياً للشحن المجاني عند 500 ريال لتوضيح منطق المتجر. يمكن تغييره أو إلغاؤه حسب سياسة التشغيل الفعلية.',
+    answerEn: 'The showcase uses SAR 500 as a demo free-shipping threshold to illustrate store logic. It can be changed or removed for the merchant’s real operating policy.',
   },
 
   // Sizing & Fit
@@ -39,16 +39,16 @@ const FAQ_DATA: FAQItem[] = [
     category: 'sizing',
     questionAr: 'كيف أحدد مقاس الثوب أو العباية المناسب لي بدقة؟',
     questionEn: 'How do I choose the correct size for a Saudi thobe or abaya?',
-    answerAr: 'تعتمد مقاسات الثياب والعبايات في رِفْعة على الطول الكامل بالبوصة (مثال: مقاس 54 يناسب القامات بين 156-162 سم). يمكنك مراجعة صفحة "دليل المقاسات" التفصيلية أو التواصل مع كونسيرج رِفْعة لمساعدتك في قياس الصدر والكم بدقة.',
-    answerEn: 'Thobe and abaya sizes at RIFAA correspond to the total length in inches (e.g. size 54 fits heights between 156–162 cm). You can review our dedicated Size Guide page or connect with our concierge desk for personalized tailoring recommendations.',
+    answerAr: 'يعرض دليل المقاسات نموذجاً تفصيلياً لمقاسات الثياب والعبايات. قبل الاستخدام التجاري يجب اعتماد جداول القياس النهائية لكل منتج وربطها بمواصفات المورد أو المصمم.',
+    answerEn: 'The Size Guide demonstrates a detailed sizing experience for thobes and abayas. Commercial use requires final product-specific measurements aligned with the real supplier or designer specifications.',
   },
   {
     id: 'faq-4',
     category: 'sizing',
     questionAr: 'هل مقاسات الأطفال مطابقة للفئات العمرية المعتادة؟',
     questionEn: 'Are children’s sizes true to standard age brackets?',
-    answerAr: 'نعم، صُممت مقاسات الأطفال لتلائم الفئات العمرية من سنتين وحتى 13 سنة، مع مراعاة اتساع مريح يتيح حرية الحركة واللعب والنمو الطبيعي.',
-    answerEn: 'Yes, our children’s assortment is engineered to fit age groups from 2 to 13 years, cut with gentle proportions allowing unrestricted joyful movement.',
+    answerAr: 'الفئات العمرية الحالية بيانات عرض توضيحية. يجب اعتماد جدول قياسات الأطفال الفعلي لكل منتج قبل البيع المباشر.',
+    answerEn: 'Current children’s age brackets are showcase data. Live selling requires an approved size chart for each actual product.',
   },
 
   // Returns & Exchanges
@@ -57,16 +57,16 @@ const FAQ_DATA: FAQItem[] = [
     category: 'returns',
     questionAr: 'ما هي مهلة وسياسة استبدال أو إرجاع القطع؟',
     questionEn: 'What is the return and exchange window?',
-    answerAr: 'يحق لعملائنا طلب استبدال المقاس أو الإرجاع مجاناً خلال 14 يوماً من تاريخ استلام الشحنة، شريطة بقاء القطعة في حالتها الأصلية غير ملبوسة ومع بطاقاتها السعرية وصندوقها التغليفي.',
-    answerEn: 'Clients may request a complimentary exchange or return within 14 days of physical delivery, provided items remain unworn with original tags and presentation packaging intact.',
+    answerAr: 'تعرض النسخة الحالية نموذج نافذة إرجاع لمدة 14 يوماً. قبل الإطلاق يجب اعتماد سياسة الإرجاع الفعلية وربطها بإجراءات خدمة العملاء والشحن العكسي.',
+    answerEn: 'The showcase models a 14-day return window. Live launch requires the merchant’s approved returns policy and reverse-logistics workflow.',
   },
   {
     id: 'faq-6',
     category: 'returns',
     questionAr: 'متى يتم استرداد المبلغ المدفوع بعد الإرجاع؟',
     questionEn: 'How soon are refunds processed after a return?',
-    answerAr: 'تتم معالجة استرداد المبلغ إلى بطاقتك البنكية الأصلية خلال 3 إلى 5 أيام عمل من تاريخ وصول القطعة وفحص جودتها في محترفنا بالرياض.',
-    answerEn: 'Refunds are reversed to the original card within 3 to 5 business days following receipt and quality inspection at our Riyadh atelier.',
+    answerAr: 'في التشغيل الفعلي تعتمد مدة الاسترداد على مزود الدفع والبنك المصدر وحالة الإرجاع المعتمدة. النسخة الحالية لا تنفذ استرداداً مالياً حقيقياً.',
+    answerEn: 'In live operation, refund timing depends on the payment provider, issuing bank, and approved return status. The current showcase does not execute real refunds.',
   },
 
   // Payments & Pricing
@@ -75,8 +75,8 @@ const FAQ_DATA: FAQItem[] = [
     category: 'payment',
     questionAr: 'ما هي طرق الدفع المعتمدة لدى دار رِفْعة؟',
     questionEn: 'Which payment methods are accepted by RIFAA?',
-    answerAr: 'نقبل بطاقات مدى البنكية السعودية، البطاقات الائتمانية (فيزا وماستركارد)، وخدمة آبل باي (Apple Pay). كافة الأسعار المعروضة هي بالريال السعودي (SAR) وشاملة لضريبة القيمة المضافة.',
-    answerEn: 'We support Mada debit cards, major credit cards (Visa and Mastercard), and Apple Pay. All prices are denominated in Saudi Riyals (SAR) and include applicable VAT.',
+    answerAr: 'واجهة الدفع تعرض مدى والبطاقات وآبل باي كتجربة تصميمية. تفعيل أي طريقة فعلياً يتطلب مزود دفع معتمداً وإعداداً ضريبياً صحيحاً.',
+    answerEn: 'The checkout UI demonstrates Mada, card, and Apple Pay options. Activating any method requires an approved payment provider and correct tax configuration.',
   },
 
   // Care
@@ -85,8 +85,8 @@ const FAQ_DATA: FAQItem[] = [
     category: 'care',
     questionAr: 'كيف أعتني بأقمشة الكريب والكتان والحرير الطبيعي؟',
     questionEn: 'How should I care for Japanese crepe, linen, and silk pieces?',
-    answerAr: 'نوصي دائماً بالتنظيف الجاف المعتمد للعبايات الكريب والبليزرات الصوفية والبشوت للحفاظ على هيكل القصّة وألياف الزري. أما أقمشة الكتان الخالص وأطقم الأطفال فيمكن غسلها يدوياً بماء بارد ومسحوق لطيف.',
-    answerEn: 'We recommend professional delicate dry cleaning for crepe abayas, wool blazers, and ceremonial bishts to preserve their structural drape. Pure linen pieces and children’s organic cotton coordinates may be gently hand-washed in cold water.',
+    answerAr: 'تعليمات العناية الحالية أمثلة مرتبطة ببيانات المنتجات التجريبية. يجب استبدالها بتعليمات المورد أو المصمم الفعلية قبل البيع.',
+    answerEn: 'Current care guidance is illustrative and tied to showcase product data. Replace it with the real supplier or designer care instructions before sale.',
   },
 
   // Demo Platform Clarification
@@ -137,8 +137,8 @@ export default function FAQPage() {
           </h1>
           <p className="text-xs sm:text-sm text-[#242220]/75 max-w-xl font-light leading-relaxed">
             {language === 'ar'
-              ? 'إجابات وافية حول سياسات الشحن، اختيار المقاسات، طرق الدفع، وخدمات دار رِفْعة لعملائنا في المملكة.'
-              : 'Detailed answers concerning shipping timelines, fit recommendations, payment methods, and client services.'}
+              ? 'إجابات توضيحية عن تجربة الشحن والمقاسات والدفع والعناية، مع فصل واضح بين نموذج العرض والإعداد التشغيلي الفعلي.'
+              : 'Illustrative answers covering delivery, sizing, payment, and care, with a clear distinction between showcase behavior and live operations.'}
           </p>
         </header>
 
@@ -222,8 +222,8 @@ export default function FAQPage() {
             </h3>
             <p className="text-xs text-[#242220]/70 font-light">
               {language === 'ar'
-                ? 'فريق كونسيرج رِفْعة بالرياض يسعد بخدمتكم هاتفياً أو عبر البريد الإلكتروني.'
-                : 'Our Riyadh client services desk is available daily to assist you.'}
+                ? 'صفحة التواصل تعرض قناة الدعم ويمكن ربطها ببيانات خدمة العملاء الحقيقية عند الإطلاق.'
+                : 'The contact page is ready to connect to the merchant’s real client-support channels at launch.'}
             </p>
           </div>
           <Link
