@@ -2,11 +2,11 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Scale, FileCheck, AlertCircle } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
 export default function TermsPage() {
-  const { language, isRtl } = useLanguage();
+  const { language } = useLanguage();
+  const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL;
 
   return (
     <div className="pt-24 sm:pt-28 pb-24 bg-[#F7F4EF] min-h-screen">
@@ -32,8 +32,8 @@ export default function TermsPage() {
           </h1>
           <p className="text-xs sm:text-sm text-[#242220]/75 max-w-xl font-light leading-relaxed">
             {language === 'ar'
-              ? 'تحدد هذه الوثيقة الضوابط المنظمة لاستخدام منصة دار رِفْعة الرقمية والخدمات التابعة لها في المملكة العربية السعودية.'
-              : 'These terms articulate the operating principles and guidelines governing access to the RIFAA digital platform and affiliated services in Saudi Arabia.'}
+              ? 'هذه وثيقة شروط نموذجية لتجربة متجر إلكتروني، وليست بديلاً عن صياغة قانونية خاصة بالكيان التجاري الذي سيشغل المتجر فعلياً.'
+              : 'These are model storefront terms and are not a substitute for merchant-specific legal terms reviewed for the business that will operate the store.'}
           </p>
         </header>
 
@@ -58,8 +58,8 @@ export default function TermsPage() {
             </h2>
             <p>
               {language === 'ar'
-                ? 'يُعد تصفحك لمنصة رِفْعة أو تجربة خدماتها بمثابة موافقة صريحة على الالتزام بهذه الشروط والأحكام، وكافة السياسات الملحقة بها كسياسة الخصوصية والشحن والإرجاع.'
-                : 'Accessing or utilizing the RIFAA digital storefront constitutes agreement to be bound by these Terms of Service, along with related Shipping, Return, and Privacy policies.'}
+                ? 'في هذه النسخة الاستعراضية لا ينشأ عقد بيع أو التزام دفع. عند الإطلاق التجاري يجب تفعيل شروط ملزمة وموافقة واضحة قبل إنشاء الطلب.'
+                : 'This showcase does not create a sale contract or payment obligation. Commercial launch requires merchant-approved binding terms and explicit checkout acceptance.'}
             </p>
           </section>
 
@@ -70,8 +70,8 @@ export default function TermsPage() {
             </h2>
             <p>
               {language === 'ar'
-                ? 'كافة المواد المعروضة على المنصة، بما يشمل التصاميم، الصور التحريرية، النصوص الوصفية، والزخارف المعمارية المستوحاة من هوية المملكة، هي ملكية فكرية حصرية لدار رِفْعة ومحمية بموجب أنظمة حماية حقوق المؤلف والعلامات التجارية.'
-                : 'All visual assets, editorial photography, garment designs, narrative prose, and architectural emblems featured on this platform are proprietary assets of RIFAA and protected under regional copyright and intellectual property conventions.'}
+                ? 'يجب على المالك التجاري التأكد من حقوق استخدام العلامة والصور والنصوص والتصاميم قبل الإطلاق. مواد نموذج العرض لا تُعد تلقائياً إثباتاً لملكية حقوق تجارية مسجلة.'
+                : 'The commercial operator must verify rights to all branding, imagery, copy, and product designs before launch. Showcase assets do not automatically establish registered commercial ownership.'}
             </p>
           </section>
 
@@ -82,8 +82,8 @@ export default function TermsPage() {
             </h2>
             <p>
               {language === 'ar'
-                ? 'نحرص على دقة عرض مواصفات الأقمشة (الكريب، الكتان، الحرير، الصوف) والتطريز. كافة الأسعار معلنة بالريال السعودي (SAR) وتشمل ضريبة القيمة المضافة. قد يطرأ تعديل على الأسعار أو توفر المجموعات الموسمية وفق جدول الإصدارات التحريرية للدار.'
-                : 'We endeavor to portray textile compositions, tailoring dimensions, and hues with photographic fidelity. All prices are published in Saudi Riyals (SAR) inclusive of VAT. Availability is subject to seasonal curation release schedules.'}
+                ? 'المنتجات والأسعار والمواصفات الحالية بيانات عرض. قبل الإطلاق التجاري يجب ربطها بالمخزون الفعلي، الضرائب الصحيحة، وسياسة التسعير المعتمدة.'
+                : 'Current products, pricing, and specifications are showcase data. Commercial launch requires real inventory, validated tax treatment, and approved pricing.'}
             </p>
           </section>
 
@@ -94,8 +94,8 @@ export default function TermsPage() {
             </h2>
             <p>
               {language === 'ar'
-                ? 'تخضع هذه الشروط وتُفسر وفق الأنظمة واللوائح المعمول بها في المملكة العربية السعودية. في حال وجود أي استفسار حول هذه البنود، يرجى التواصل مع فريق الشؤون المؤسسية عبر concierge@rifaa.sa.'
-                : 'These terms are governed in accordance with the regulatory framework of the Kingdom of Saudi Arabia. For institutional inquiries, kindly address correspondence to concierge@rifaa.sa.'}
+                ? `يجب تحديد القانون المختص، بيانات التاجر، وسياسة النزاعات بعد مراجعة قانونية قبل الإطلاق. ${supportEmail ? `قناة التواصل الحالية: ${supportEmail}` : ''}`
+                : `Governing law, merchant identity, and dispute procedures must be finalized through legal review before launch. ${supportEmail ? `Current contact: ${supportEmail}` : ''}`}
             </p>
           </section>
         </div>
