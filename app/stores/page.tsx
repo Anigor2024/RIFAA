@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import Link from 'next/link';
 import { MapPin, Clock, Calendar, Sparkles, Building2, Compass, ArrowRight, ArrowLeft } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
@@ -8,7 +7,7 @@ import { ImageWithFallback } from '@/components/common/ImageWithFallback';
 import { SaudiMotif } from '@/components/common/SaudiMotif';
 
 export default function StoresPage() {
-  const { language, isRtl, t } = useLanguage();
+  const { language, isRtl } = useLanguage();
 
   return (
     <div className="pt-24 sm:pt-28 pb-24 bg-[#F7F4EF] min-h-screen">
