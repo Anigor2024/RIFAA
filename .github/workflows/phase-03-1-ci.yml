@@ -6,6 +6,10 @@ on:
       - phase-03-1-quality-lock
   workflow_dispatch:
 
+concurrency:
+  group: rifaa-phase-03-1-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
