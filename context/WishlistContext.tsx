@@ -27,7 +27,7 @@ function subscribeWishlist(onStoreChange: () => void) {
   };
 }
 
-function getWishlistSnapshot(): string {
+function getWishlistSnapshot(): string | null {
   try {
     const saved = localStorage.getItem(WISHLIST_STORAGE_KEY);
     if (saved !== null) {
