@@ -7,11 +7,13 @@ import { BagProvider } from '@/context/BagContext';
 import { SearchProvider } from '@/context/SearchContext';
 import { QuickViewProvider } from '@/context/QuickViewContext';
 import { AccountProvider } from '@/context/AccountContext';
+import { AuthProvider } from '@/context/AuthContext';
 
 export function AppProviders({ children }: { children: React.ReactNode }) {
   return (
     <LanguageProvider>
-      <AccountProvider>
+      <AuthProvider>
+        <AccountProvider>
         <WishlistProvider>
           <BagProvider>
             <SearchProvider>
@@ -21,7 +23,8 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
             </SearchProvider>
           </BagProvider>
         </WishlistProvider>
-      </AccountProvider>
+        </AccountProvider>
+      </AuthProvider>
     </LanguageProvider>
   );
 }

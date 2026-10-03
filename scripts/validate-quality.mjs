@@ -23,6 +23,9 @@ const requiredPaths = [
   'app/global-error.tsx',
   'app/api/health/route.ts',
   'docs/PRODUCTION-HANDOFF.md',
+  'context/AuthContext.tsx',
+  'lib/supabase/client.ts',
+  'supabase/migrations/20261003070000_rifaa_customer_cloud.sql',
 ];
 
 for (const required of requiredPaths) {
@@ -60,6 +63,10 @@ function scanDirectory(dir) {
       }
     }
 
+    if (/SUPABASE_SERVICE_ROLE_KEY|service_role/i.test(content)) {
+      errors.push(`${relative} contains a server-side Supabase credential marker in runtime source`);
+    }
+
     if (/\beval\s*\(/.test(content)) {
       errors.push(`${relative} contains eval(), which is not allowed in storefront runtime code`);
     }
@@ -91,6 +98,7 @@ if (errors.length) {
 console.log('✅ Production quality validation passed:');
 console.log('  - Required production routes and recovery files exist.');
 console.log('  - No stale fictional contact/canonical literals detected.');
+console.log('  - Supabase cloud-account integration files are present without service-role credentials in runtime source.');
 console.log('  - No malformed encoded dynamic-route directories detected.');
 console.log('  - No eval() or unsanctioned dangerouslySetInnerHTML usage detected.');
 console.log('  - No obvious sensitive payment persistence patterns detected.');

@@ -1,8 +1,16 @@
 'use client';
 
-import React, { createContext, useContext, useSyncExternalStore } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useSyncExternalStore,
+} from 'react';
 import { Product } from '@/types';
 import { DEMO_PRODUCTS } from '@/data/products';
+import { useAuth } from '@/context/AuthContext';
+import { supabase } from '@/lib/supabase/client';
 
 interface WishlistContextType {
   wishlistIds: string[];
@@ -35,7 +43,7 @@ function getWishlistSnapshot(): string | null {
       return saved;
     }
   } catch {
-    // Fall back to in-memory state when storage is unavailable.
+    // Use memory when storage is unavailable.
   }
   return wishlistMemorySnapshot;
 }
@@ -48,40 +56,100 @@ function parseWishlistSnapshot(raw: string | null): string[] {
   if (raw === null) return [];
   try {
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed.filter((id): id is string => typeof id === 'string') : [];
+    return Array.isArray(parsed)
+      ? parsed.filter((id): id is string => typeof id === 'string')
+      : [];
   } catch {
     return [];
   }
 }
 
+function persistWishlist(ids: string[]) {
+  const serialized = JSON.stringify(ids);
+  wishlistMemorySnapshot = serialized;
+  try {
+    localStorage.setItem(WISHLIST_STORAGE_KEY, serialized);
+  } catch {
+    // In-memory state remains available.
+  }
+  window.dispatchEvent(new Event(WISHLIST_CHANGE_EVENT));
+}
+
 export function WishlistProvider({ children }: { children: React.ReactNode }) {
+  const { user } = useAuth();
   const rawWishlist = useSyncExternalStore(
     subscribeWishlist,
     getWishlistSnapshot,
     getWishlistServerSnapshot
   );
-  const wishlistIds = React.useMemo(
+  const wishlistIds = useMemo(
     () => parseWishlistSnapshot(rawWishlist),
     [rawWishlist]
   );
 
+  useEffect(() => {
+    if (!user) return;
+
+    let cancelled = false;
+
+    void (async () => {
+      const localIds = parseWishlistSnapshot(getWishlistSnapshot());
+      const { data, error } = await supabase
+        .from('wishlist_items')
+        .select('product_id')
+        .eq('user_id', user.id);
+
+      if (cancelled || error) return;
+
+      const cloudIds = (data || []).map((row) => row.product_id);
+      const merged = Array.from(new Set([...cloudIds, ...localIds]));
+
+      persistWishlist(merged);
+
+      if (merged.length > 0) {
+        await supabase.from('wishlist_items').upsert(
+          merged.map((productId) => ({
+            user_id: user.id,
+            product_id: productId,
+          })),
+          { onConflict: 'user_id,product_id' }
+        );
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [user]);
+
   const toggleWishlist = (productId: string) => {
-    const next = wishlistIds.includes(productId)
+    const removing = wishlistIds.includes(productId);
+    const next = removing
       ? wishlistIds.filter((id) => id !== productId)
       : [...wishlistIds, productId];
 
-    const serialized = JSON.stringify(next);
-    wishlistMemorySnapshot = serialized;
-    try {
-      localStorage.setItem(WISHLIST_STORAGE_KEY, serialized);
-    } catch {
-      // In-memory snapshot still keeps the current session responsive.
+    persistWishlist(next);
+
+    if (user) {
+      if (removing) {
+        void supabase
+          .from('wishlist_items')
+          .delete()
+          .eq('user_id', user.id)
+          .eq('product_id', productId);
+      } else {
+        void supabase.from('wishlist_items').upsert(
+          {
+            user_id: user.id,
+            product_id: productId,
+          },
+          { onConflict: 'user_id,product_id' }
+        );
+      }
     }
-    window.dispatchEvent(new Event(WISHLIST_CHANGE_EVENT));
   };
 
   const isWishlisted = (productId: string) => wishlistIds.includes(productId);
-
   const wishlistItems = DEMO_PRODUCTS.filter((product) =>
     wishlistIds.includes(product.id)
   );
