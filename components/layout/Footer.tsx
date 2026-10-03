@@ -115,6 +115,11 @@ export function Footer() {
                     {t.footer.links.faq}
                   </Link>
                 </li>
+                <li>
+                  <Link href="/account" className="hover:text-white transition-colors">
+                    {language === 'ar' ? 'مساحة العميل' : 'Client Space'}
+                  </Link>
+                </li>
               </ul>
             </div>
 
