@@ -8,6 +8,8 @@ import { ProductQuickView } from '@/components/product/ProductQuickView';
 import { BagDrawer } from '@/components/bag/BagDrawer';
 import { SearchModal } from '@/components/search/SearchModal';
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://rifaa-ashy.vercel.app';
+
 const ibmPlexArabic = IBM_Plex_Sans_Arabic({
   subsets: ['arabic', 'latin'],
   weight: ['300', '400', '500', '600', '700'],
@@ -30,20 +32,20 @@ const cormorantGaramond = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://rifaa.sa'),
+  metadataBase: new URL(siteUrl),
   title: 'رِفْعة | RIFAA — Contemporary Saudi Fashion',
-  description: 'دار رِفْعة للأزياء المعاصرة — تصاميم راقية للمرأة والرجل والطفل في المملكة العربية السعودية. Contemporary Saudi Fashion House.',
+  description: 'RIFAA — a premium bilingual Saudi fashion ecommerce experience for women, men, and children, engineered as a production-ready portfolio storefront.',
   keywords: ['أزياء سعودية', 'رِفْعة', 'RIFAA', 'Saudi Fashion', 'Contemporary Modest', 'عبايات فاخرة', 'أزياء رجالية', 'أزياء أطفال', 'Riyadh Fashion'],
   openGraph: {
     title: 'رِفْعة | RIFAA — Contemporary Saudi Fashion',
-    description: 'دار رِفْعة للأزياء المعاصرة — تصاميم راقية للمرأة والرجل والطفل في المملكة العربية السعودية.',
+    description: 'Premium bilingual Saudi fashion ecommerce experience with responsive shopping, wishlist, bag, checkout, and client account flows.',
     type: 'website',
     locale: 'ar_SA',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'رِفْعة | RIFAA — Contemporary Saudi Fashion',
-    description: 'دار رِفْعة للأزياء المعاصرة — تصاميم راقية للمرأة والرجل والطفل في المملكة العربية السعودية.',
+    description: 'Premium bilingual Saudi fashion ecommerce experience with responsive shopping, wishlist, bag, checkout, and client account flows.',
   },
 };
 
@@ -60,11 +62,12 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="bg-[#F7F4EF] text-[#111111] antialiased overflow-x-hidden selection:bg-[#511D24] selection:text-white min-h-screen flex flex-col justify-between" suppressHydrationWarning>
+        <a href="#main-content" className="skip-link">تجاوز إلى المحتوى / Skip to content</a>
         <AppProviders>
           <Header />
-          <div className="flex-1 w-full">
+          <main id="main-content" className="flex-1 w-full" tabIndex={-1}>
             {children}
-          </div>
+          </main>
           <ProductQuickView />
           <BagDrawer />
           <SearchModal />
