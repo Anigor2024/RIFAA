@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Product, ProductColor, CartItem } from '@/types';
 
 interface BagContextType {
@@ -12,6 +12,7 @@ interface BagContextType {
   bagCount: number;
   subtotal: number;
   isOpen: boolean;
+  isHydrated: boolean;
   openBag: () => void;
   closeBag: () => void;
 }
@@ -19,20 +20,22 @@ interface BagContextType {
 const BagContext = createContext<BagContextType | undefined>(undefined);
 
 export function BagProvider({ children }: { children: React.ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const saved = localStorage.getItem('rifaa_bag');
-        if (saved) {
-          return JSON.parse(saved);
-        }
-      } catch {
-        // ignore
-      }
-    }
-    return [];
-  });
+  const [items, setItems] = useState<CartItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('rifaa_bag');
+      if (saved) {
+        setItems(JSON.parse(saved));
+      }
+    } catch {
+      // Keep the deterministic empty fallback when storage is unavailable.
+    } finally {
+      setIsHydrated(true);
+    }
+  }, []);
 
   const saveItems = (newItems: CartItem[]) => {
     setItems(newItems);
@@ -107,6 +110,7 @@ export function BagProvider({ children }: { children: React.ReactNode }) {
         bagCount,
         subtotal,
         isOpen,
+        isHydrated,
         openBag: () => setIsOpen(true),
         closeBag: () => setIsOpen(false),
       }}

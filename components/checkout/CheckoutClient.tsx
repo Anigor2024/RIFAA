@@ -36,7 +36,7 @@ import {
 
 export function CheckoutClient() {
   const router = useRouter();
-  const { items, subtotal, bagCount, clearBag } = useBag();
+  const { items, subtotal, bagCount, clearBag, isHydrated } = useBag();
   const { language, isRtl, t } = useLanguage();
 
   // Form Fields State
@@ -217,20 +217,20 @@ export function CheckoutClient() {
         language === 'ar' ? 'الرمز البريدي يتكون من 5 أرقام' : 'Postal code must be 5 digits';
     }
 
-    // Card validation if card/mada selected
+    // Card validation if card/mada selected (demo fields only; never persisted)
     if (paymentMethod === 'card' || paymentMethod === 'mada') {
-      if (!cardData.cardholderName.trim()) {
-        newErrors.cardholderName = language === 'ar' ? 'اسم حامل البطاقة مطلوب' : 'Cardholder name is required';
+      if (cardData.cardholderName.trim().length < 2) {
+        newErrors.cardholderName = language === 'ar' ? 'أدخل اسماً تجريبياً لحامل البطاقة' : 'Enter a demo cardholder name';
       }
       const rawNumber = cardData.cardNumber.replace(/\s/g, '');
-      if (!rawNumber || rawNumber.length < 15) {
-        newErrors.cardNumber = language === 'ar' ? 'رقم البطاقة غير مكتمل' : 'Complete card number is required';
+      if (!/^\d{16}$/.test(rawNumber)) {
+        newErrors.cardNumber = language === 'ar' ? 'استخدم رقماً تجريبياً من 16 خانة' : 'Use a 16-digit demo card number';
       }
-      if (!cardData.expiry || cardData.expiry.length < 5) {
-        newErrors.expiry = language === 'ar' ? 'تاريخ الانتهاء (MM/YY)' : 'Expiry required (MM/YY)';
+      if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(cardData.expiry)) {
+        newErrors.expiry = language === 'ar' ? 'استخدم تاريخاً تجريبياً بصيغة MM/YY' : 'Use a demo expiry in MM/YY format';
       }
-      if (!cardData.cvv || cardData.cvv.length < 3) {
-        newErrors.cvv = language === 'ar' ? 'رمز الأمان (CVV)' : 'CVV required';
+      if (!/^\d{3,4}$/.test(cardData.cvv)) {
+        newErrors.cvv = language === 'ar' ? 'استخدم رمزاً تجريبياً من 3 أو 4 أرقام' : 'Use a 3 or 4 digit demo CVV';
       }
     }
 
@@ -372,6 +372,29 @@ export function CheckoutClient() {
     }, 600);
   };
 
+  // Wait for persisted bag state before deciding whether checkout is empty.
+  if (!isHydrated) {
+    return (
+      <div className="pt-28 pb-24 bg-[#F7F4EF] min-h-screen">
+        <div className="max-w-xl mx-auto px-4 sm:px-6 text-center">
+          <div
+            role="status"
+            aria-live="polite"
+            className="bg-[#FFFDFC] border border-[#242220]/10 p-8 sm:p-10 space-y-3 shadow-xs"
+          >
+            <ShoppingBag className="w-7 h-7 text-[#511D24] mx-auto" />
+            <p className="text-sm font-semibold text-[#111111]">
+              {language === 'ar' ? 'جاري تجهيز تجربة إتمام الطلب...' : 'Preparing your checkout experience...'}
+            </p>
+            <p className="text-xs text-[#242220]/60 font-light">
+              {language === 'ar' ? 'نستعيد محتويات حقيبتك المحفوظة محلياً.' : 'Restoring your locally saved shopping bag.'}
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // 1. EMPTY BAG STATE
   if (items.length === 0) {
     return (
@@ -444,7 +467,7 @@ export function CheckoutClient() {
           </div>
           <div className="flex items-center gap-2 text-xs text-[#242220]/60">
             <Lock className="w-3.5 h-3.5 text-[#511D24]" />
-            <span>{language === 'ar' ? 'جلسة دفع آمنة ومشفرة' : 'Encrypted & Secure Checkout Session'}</span>
+            <span>{language === 'ar' ? 'محاكاة دفع بدون خصم فعلي' : 'Simulated Checkout — No Real Charge'}</span>
           </div>
         </div>
 
@@ -548,7 +571,7 @@ export function CheckoutClient() {
 
                 <div className="space-y-1 sm:col-span-2">
                   <label htmlFor={phoneId} className="block text-xs font-semibold text-[#242220]/90">
-                    {language === 'ar' ? 'رقم الجوال السعودي للتوصيل' : 'Saudi Mobile Number for Courier'} *
+                    {language === 'ar' ? 'رقم جوال سعودي لتجربة الطلب' : 'Saudi Mobile Number for Demo Order'} *
                   </label>
                   <div className="relative flex items-center">
                     <input
@@ -903,8 +926,8 @@ export function CheckoutClient() {
                 </p>
                 <p>
                   {language === 'ar'
-                    ? 'هذا نموذج عرض تجريبي لمحفظة أعمال رِفْعة، ولن يتم خصم أي مبالغ مالية فعلية من بطاقتك.'
-                    : 'This is a portfolio demonstration checkout. No real monetary transactions will be charged.'}
+                    ? 'هذا نموذج عرض تجريبي لمحفظة أعمال رِفْعة. لا تدخل بيانات دفع حقيقية؛ استخدم بيانات اختبار فقط، ولن يتم تنفيذ أي خصم مالي.'
+                    : 'This is a portfolio demonstration checkout. Do not enter real payment details; use test data only. No monetary charge will be processed.'}
                 </p>
               </div>
 
@@ -972,7 +995,16 @@ export function CheckoutClient() {
                       name="cardholderName"
                       autoComplete="cc-name"
                       value={cardData.cardholderName}
-                      onChange={(e) => setCardData((p) => ({ ...p, cardholderName: e.target.value }))}
+                      onChange={(e) => {
+                        setCardData((p) => ({ ...p, cardholderName: e.target.value }));
+                        if (errors.cardholderName) {
+                          setErrors((prev) => {
+                            const next = { ...prev };
+                            delete next.cardholderName;
+                            return next;
+                          });
+                        }
+                      }}
                       placeholder={language === 'ar' ? 'كما يظهر على وجه البطاقة' : 'As printed on the card'}
                       aria-describedby={errors.cardholderName ? `${cardNameId}-error` : undefined}
                       aria-invalid={Boolean(errors.cardholderName)}
@@ -1260,23 +1292,23 @@ export function CheckoutClient() {
             {/* Client Commitments Trust Card */}
             <div className="bg-[#EAE4D9]/60 border border-[#242220]/10 p-5 space-y-3 text-xs text-[#242220]/80">
               <span className="text-[11px] uppercase tracking-wider text-[#511D24] font-semibold block">
-                {language === 'ar' ? 'التزامات رِفْعة لعملائنا' : 'RIFAA Client Commitments'}
+                {language === 'ar' ? 'معايير تجربة رِفْعة المقترحة' : 'PROPOSED RIFAA EXPERIENCE'}
               </span>
               <ul className="space-y-2 text-[11px] leading-relaxed">
                 <li className="flex items-start gap-2">
                   <Package className="w-3.5 h-3.5 text-[#511D24] shrink-0 mt-0.5" />
                   <span>
                     {language === 'ar'
-                      ? 'تغليف هدايا ملكي: كل قطعة تأتي في صندوق رِفْعة الصلب برائحة العود الخاصة.'
-                      : 'Signature archival gift boxing infused with subtle authentic oud.'}
+                      ? 'تصور تجريبي لتغليف عرض فاخر بصندوق صلب ومواد أرشيفية قابلة للتطبيق في نسخة إنتاجية.'
+                      : 'A demonstration concept for premium presentation packaging using rigid and archival materials in a future production implementation.'}
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <ShieldCheck className="w-3.5 h-3.5 text-[#511D24] shrink-0 mt-0.5" />
                   <span>
                     {language === 'ar'
-                      ? 'استبدال وإرجاع مجاني خلال 14 يوماً من استلام الشحنة في المملكة.'
-                      : 'Complimentary 14-day exchange and return policy across Saudi Arabia.'}
+                      ? 'نموذج سياسة يوضح كيف يمكن تقديم نافذة إرجاع واستبدال لمدة 14 يوماً في متجر إنتاجي.'
+                      : 'A sample policy illustrating how a 14-day return and exchange window could work in a production store.'}
                   </span>
                 </li>
               </ul>

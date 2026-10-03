@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Product } from '@/types';
 import { DEMO_PRODUCTS } from '@/data/products';
 
@@ -15,19 +15,18 @@ interface WishlistContextType {
 const WishlistContext = createContext<WishlistContextType | undefined>(undefined);
 
 export function WishlistProvider({ children }: { children: React.ReactNode }) {
-  const [wishlistIds, setWishlistIds] = useState<string[]>(() => {
-    if (typeof window !== 'undefined') {
-      try {
-        const saved = localStorage.getItem('rifaa_wishlist');
-        if (saved) {
-          return JSON.parse(saved);
-        }
-      } catch {
-        // ignore
+  const [wishlistIds, setWishlistIds] = useState<string[]>([]);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('rifaa_wishlist');
+      if (saved) {
+        setWishlistIds(JSON.parse(saved));
       }
+    } catch {
+      // Keep the deterministic empty fallback when storage is unavailable.
     }
-    return [];
-  });
+  }, []);
 
   const toggleWishlist = (productId: string) => {
     setWishlistIds((prev) => {

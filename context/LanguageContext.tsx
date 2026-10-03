@@ -18,22 +18,27 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguageState] = useState<Language>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('rifaa_language') as Language | null;
-      if (saved === 'ar' || saved === 'en') {
-        return saved;
-      }
-    }
-    return 'ar';
-  });
+  const [language, setLanguageState] = useState<Language>('ar');
+  const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
+    try {
+      const saved = localStorage.getItem('rifaa_language') as Language | null;
+      if (saved === 'ar' || saved === 'en') {
+        setLanguageState(saved);
+      }
+    } finally {
+      setIsHydrated(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isHydrated) return;
     const dir = language === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.lang = language;
     document.documentElement.dir = dir;
     localStorage.setItem('rifaa_language', language);
-  }, [language]);
+  }, [language, isHydrated]);
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
