@@ -1,0 +1,35 @@
+name: RIFAA Phase 03.1 CI
+
+on:
+  push:
+    branches:
+      - phase-03-1-quality-lock
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quality-lock:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Validate media
+        run: npm run validate:media
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Production build
+        run: npm run build
