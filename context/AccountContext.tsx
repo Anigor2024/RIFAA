@@ -314,7 +314,11 @@ export function AccountProvider({ children }: { children: React.ReactNode }) {
   }, [user]);
 
   useEffect(() => {
-    void refreshCloudAccount();
+    const syncTimer = window.setTimeout(() => {
+      void refreshCloudAccount();
+    }, 0);
+
+    return () => window.clearTimeout(syncTimer);
   }, [refreshCloudAccount]);
 
   const saveProfile = useCallback(

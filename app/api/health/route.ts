@@ -12,6 +12,14 @@ export async function GET() {
       status: 'ok',
       service: 'rifaa-storefront',
       commerceMode,
+      customerData: {
+        provider: 'supabase',
+        projectRef: 'hsolegtgpisdqcahxjow',
+        rls: true,
+      },
+      payments: {
+        mode: commerceMode === 'live' ? 'provider-required' : 'demo-no-charge',
+      },
       catalog: {
         products: DEMO_PRODUCTS.length,
         editorialStories: JOURNAL_STORIES.length,

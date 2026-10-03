@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useId } from 'react';
+import React, { useEffect, useId, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
@@ -39,7 +39,8 @@ export function CheckoutClient() {
   const router = useRouter();
   const { items, subtotal, bagCount, clearBag, isHydrated } = useBag();
   const { language, isRtl, t } = useLanguage();
-  const { recordOrder } = useAccount();
+  const { recordOrder, profile, addresses } = useAccount();
+  const accountPrefillApplied = useRef(false);
 
   // Form Fields State
   const [formData, setFormData] = useState({
@@ -55,6 +56,41 @@ export function CheckoutClient() {
     postalCode: '',
     additionalInfo: '',
   });
+
+  useEffect(() => {
+    if (accountPrefillApplied.current) return;
+
+    const hasProfile = Boolean(
+      profile.firstName || profile.lastName || profile.email || profile.phone
+    );
+    const savedAddress = addresses[0];
+
+    if (!hasProfile && !savedAddress) return;
+
+    const matchedCity = savedAddress
+      ? COMMERCE_CONFIG.saudiCities.find(
+          (city) =>
+            city.id === savedAddress.city ||
+            city.nameEn.toLowerCase() === savedAddress.city.toLowerCase() ||
+            city.nameAr === savedAddress.city
+        )
+      : undefined;
+
+    setFormData((current) => ({
+      ...current,
+      email: current.email || profile.email,
+      phone: current.phone || profile.phone,
+      firstName: current.firstName || profile.firstName,
+      lastName: current.lastName || profile.lastName,
+      city: matchedCity?.id || current.city,
+      district: current.district || savedAddress?.district || '',
+      street: current.street || savedAddress?.street || '',
+      building: current.building || savedAddress?.building || '',
+      postalCode: current.postalCode || savedAddress?.postalCode || '',
+    }));
+
+    accountPrefillApplied.current = true;
+  }, [addresses, profile]);
 
   // Errors state
   const [errors, setErrors] = useState<Record<string, string>>({});
