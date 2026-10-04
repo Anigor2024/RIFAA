@@ -21,10 +21,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     { href: '/kids', labelAr: 'الأطفال', labelEn: 'Kids', subAr: 'قطن عضوي، أطقم، مناسبات', subEn: 'Organic Sets, Occasions' },
     { href: '/new', labelAr: 'وصل حديثاً', labelEn: 'New In', subAr: 'أحدث القطع لهذا الأسبوع', subEn: 'Curated weekly arrivals' },
     { href: '/collections', labelAr: 'التشكيلات', labelEn: 'Collections', subAr: 'تحرير العيد، أساسيات رِفْعة', subEn: 'The Eid Edit, Essentials' },
-    { href: '/discover', labelAr: 'منسّق رِفْعة', labelEn: 'RIFAA Curator', subAr: 'اختيارات ذكية حسب المناسبة والخامة', subEn: 'Intelligent edits by moment and material' },
-    { href: '/atelier', labelAr: 'مشغل رِفْعة', labelEn: 'RIFAA Atelier', subAr: 'كوّن الإطلالة وقارن الخامات', subEn: 'Compose looks and compare materials' },
-    { href: '/compare', labelAr: 'استوديو المقارنة', labelEn: 'Compare Studio', subAr: 'قارن الخامات والتفصيل والسعر', subEn: 'Compare fabric, tailoring and price' },
-    { href: '/capsule', labelAr: 'استوديو الكابسولة', labelEn: 'Capsule Studio', subAr: 'خمس قطع بوظائف وألوان متناسقة', subEn: 'Five-role wardrobe capsules by moment and palette' },
+    { href: '/studio', labelAr: 'استوديو رِفْعة', labelEn: 'RIFAA Studio', subAr: 'المنسّق، المشغل، المقارنة، والكابسولة في مساحة واحدة', subEn: 'Curator, Atelier, Compare and Capsule in one workspace' },
     { href: '/editorial', labelAr: 'الإطلالات', labelEn: 'Editorial', subAr: 'بعد الغروب، إطلالات منسقة', subEn: 'City After Sunset Looks' },
     { href: '/sale', labelAr: 'التخفيضات', labelEn: 'Sale', subAr: 'قطع مختارة بعناية', subEn: 'Archival seasonal reductions' },
   ];

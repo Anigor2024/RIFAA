@@ -33,6 +33,8 @@ const requiredPaths = [
   'components/home/CompareStudioPreview.tsx',
   'app/capsule/page.tsx',
   'app/capsule/layout.tsx',
+  'app/studio/page.tsx',
+  'app/studio/layout.tsx',
   'components/home/CapsuleStudioPreview.tsx',
   'lib/capsule.ts',
   'components/home/AtelierPreview.tsx',

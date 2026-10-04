@@ -77,6 +77,11 @@ export function Footer() {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/studio" className="hover:text-white transition-colors">
+                    {language === 'ar' ? 'استوديو رِفْعة' : 'RIFAA Studio'}
+                  </Link>
+                </li>
+                <li>
                   <Link href="/discover" className="hover:text-white transition-colors">
                     {language === 'ar' ? 'منسّق رِفْعة' : 'RIFAA Curator'}
                   </Link>
