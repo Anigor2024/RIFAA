@@ -1,0 +1,7 @@
+import { notFound } from 'next/navigation';
+import Link from 'next/link';
+import { ArrowLeft, CheckCircle2, Clock3 } from 'lucide-react';
+import { briefs,getBrief } from '@/lib/atheeldar-content';
+import { Breadcrumbs } from '@/components/atheeldar/SiteShell';
+export function generateStaticParams(){return briefs.map(b=>({slug:b.slug}))}
+export default async function Page({params}:{params:Promise<{slug:string}>}){const {slug}=await params;const b=getBrief(slug);if(!b)notFound();return <article className="briefArticle"><header className="briefArticleHero"><div className="shell"><Breadcrumbs items={[{label:'الرئيسية',href:'/'},{label:'موجز أثيلدار',href:'/briefs'},{label:b.title}]}/><span>{b.category} · {b.date}</span><h1>{b.title}</h1><p>{b.deck}</p><small><Clock3/> {b.read} · محتوى تحريري تجريبي</small></div></header><div className="shell briefArticleImage"><img src={b.image} alt={b.title}/></div><section className="shell briefArticleBody"><aside><span>ATHEELDAR BRIEF</span><b>{b.category}</b><p>الهدف من هذا المحتوى تحسين جودة الأسئلة، وليس تقديم توصية قانونية أو مالية أو استثمارية.</p><Link href="/decision-center">مركز القرار <ArrowLeft/></Link></aside><div className="briefArticleContent">{b.points.map((p,i)=><section key={p.title}><span>0{i+1}</span><h2>{p.title}</h2><p>{p.copy}</p></section>)}<div className="briefTakeaway"><CheckCircle2/><span><small>الخلاصة</small><b>{b.takeaway}</b></span></div></div></section></article>}

@@ -1,0 +1,9 @@
+import { notFound } from 'next/navigation';
+import Link from 'next/link';
+import { ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { collections,getCollection } from '@/lib/atheeldar-content';
+import { properties } from '@/lib/atheeldar-data';
+import { Breadcrumbs } from '@/components/atheeldar/SiteShell';
+import { PropertyCard } from '@/components/atheeldar/PropertyCard';
+export function generateStaticParams(){return collections.map(c=>({slug:c.slug}))}
+export default async function Page({params}:{params:Promise<{slug:string}>}){const {slug}=await params;const c=getCollection(slug);if(!c)notFound();const ps=c.propertySlugs.map(s=>properties.find(p=>p.slug===s)).filter(Boolean) as typeof properties;return <><section className="collectionDetailHero"><img src={c.image} alt={c.title}/><div className="collectionDetailShade"/><div className="shell collectionDetailCopy"><Breadcrumbs items={[{label:'الرئيسية',href:'/'},{label:'المجموعات',href:'/collections'},{label:c.title}]}/><span>{c.eyebrow}</span><h1>{c.title}</h1><p>{c.description}</p><div className="collectionHighlights">{c.highlights.map(x=><b key={x}><CheckCircle2/>{x}</b>)}</div></div></section><section className="section shell"><div className="sectionHead"><div><p className="eyebrow">CURATED PROPERTIES</p><h2>أصول داخل هذه <em>العدسة</em></h2></div><Link href="/lifestyle" className="textLink">مكتشف أسلوب الحياة <ArrowLeft/></Link></div><div className="propertyGrid">{ps.map(p=><PropertyCard key={p.slug} p={p}/>)}</div></section><section className="collectionEditorial shell"><span>لماذا هذه المجموعة؟</span><h2>لأن الفلاتر لا تشرح دائمًا سبب ملاءمة العقار لك.</h2><p>هذه المجموعة تجريبية وتوضح كيف يمكن للمنصة أن تجمع أصولًا تحت فكرة واضحة، ثم تربطها بالبحث والحي والتمويل والمستشار بدل عرض قائمة صامتة.</p></section></>}

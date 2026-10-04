@@ -1,0 +1,24 @@
+import type { Property } from './atheeldar-data';
+
+export type Collection = {
+  slug:string; title:string; eyebrow:string; description:string; image:string; accent:string;
+  propertySlugs:string[]; highlights:string[];
+};
+export const collections:Collection[]=[
+  {slug:'signature-villas',title:'فلل الضيافة الراقية',eyebrow:'SIGNATURE VILLAS',description:'مختارات تركز على الخصوصية، المجالس، المساحات الخارجية وجودة الاستقبال ضمن تجربة سكنية فاخرة.',image:'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=90',accent:'فاخر · عائلي',propertySlugs:['villa-al-sidr-hittin','almarjan-villa-jeddah','dar-alnakheel-diriyah'],highlights:['خصوصية عائلية','مساحات ضيافة','هوية معمارية','أصول مميزة']},
+  {slug:'waterfront-living',title:'الحياة على الواجهة',eyebrow:'WATERFRONT LIVING',description:'وحدات ومناطق ذات طابع بحري تضع الإطلالة، الوصول والخدمات اليومية في مقدمة القرار.',image:'https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1800&q=90',accent:'بحري · أسلوب حياة',propertySlugs:['jeddah-waterfront-residence','almarjan-villa-jeddah','rawdah-rental-jeddah'],highlights:['إطلالات','واجهة بحرية','ضيافة','حركة يومية']},
+  {slug:'investment-watch',title:'أصول تحت المراقبة',eyebrow:'INVESTMENT WATCH',description:'مجموعة توضيحية تبرز الأصول التي تظهر فيها قابلية أعلى للتحليل من زاوية العائد والسيولة وجودة الموقع.',image:'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1800&q=90',accent:'استثمار · تحليل',propertySlugs:['kafd-business-loft','jeddah-waterfront-residence','alnarjis-investment-land'],highlights:['عائد نموذجي','طلب','سيولة','قابلية التخارج']},
+  {slug:'new-generation',title:'الجيل الجديد من السكن',eyebrow:'NEW GENERATION',description:'عقارات حديثة ومشاريع جديدة تركز على الذكاء المنزلي، التخطيط المعاصر والخدمات المشتركة.',image:'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1800&q=90',accent:'جديد · معاصر',propertySlugs:['dar-alnakheel-diriyah','sky-27-penthouse','khobar-townhouse'],highlights:['بناء حديث','تقنيات ذكية','تصميم معاصر','مجتمعات جديدة']}
+];
+
+export type Brief = {
+  slug:string; category:string; title:string; deck:string; read:string; image:string; date:string;
+  points:{title:string;copy:string}[]; takeaway:string;
+};
+export const briefs:Brief[]=[
+  {slug:'how-to-read-neighborhood',category:'دليل قرار',title:'كيف تقرأ الحي قبل أن تقرأ الإعلان؟',deck:'خمسة أسئلة تساعدك على التمييز بين جاذبية الصورة وجودة الموقع للاستخدام الفعلي.',read:'6 دقائق',date:'أكتوبر 2026',image:'https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1800&q=90',points:[{title:'الوصول اليومي',copy:'ابدأ بالطرق والخدمات والمسارات التي ستستخدمها كل يوم، لا بالانطباع الأول.'},{title:'نوع الطلب',copy:'اسأل من يسكن ويشتري ويستأجر في المنطقة، وما إذا كان الطلب متوازنًا أو موسميًا.'},{title:'التطوير القادم',copy:'المشاريع الجديدة قد تضيف قيمة، لكنها قد تغير الكثافة والحركة أيضًا.'},{title:'السعر للمتر',copy:'قارن النطاق وليس رقمًا منفردًا، وراعِ عمر الأصل والموقع الدقيق.'}],takeaway:'الحي الجيد ليس الأعلى سعرًا بالضرورة؛ هو الأكثر ملاءمة لهدفك وقدرتك على الاحتفاظ بالأصل.'},
+  {slug:'finance-before-property',category:'تمويل',title:'رتّب التمويل قبل أن تتعلق بالعقار',deck:'لماذا يجب أن تبدأ من القسط المريح والالتزامات والسيولة قبل قائمة الأمنيات؟',read:'5 دقائق',date:'أكتوبر 2026',image:'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1800&q=90',points:[{title:'القسط المريح',copy:'احسب ما يمكنك الاستمرار عليه براحة، لا الحد الأعلى النظري فقط.'},{title:'السيولة بعد الشراء',copy:'احتفظ بهامش للتأثيث والصيانة والطوارئ بدل استهلاك كل السيولة في الدفعة.'},{title:'التكلفة الكلية',copy:'الفائدة والرسوم ومدة التمويل قد تغير معنى السعر النهائي جذريًا.'},{title:'سيناريو أسوأ',copy:'اختبر ماذا يحدث لو تغير الدخل أو ظهرت التزامات إضافية.'}],takeaway:'أفضل عقار هو العقار الذي يمكنك امتلاكه براحة، لا العقار الذي يدفع ميزانيتك إلى الحافة.'},
+  {slug:'luxury-beyond-finishes',category:'سكن فاخر',title:'الفخامة ليست رخامًا أكثر',deck:'قراءة في الخصوصية، التوزيع، الإضاءة، الضيافة وسهولة التشغيل كعناصر أهم من التشطيبات الصاخبة.',read:'7 دقائق',date:'أكتوبر 2026',image:'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1800&q=90',points:[{title:'الخصوصية',copy:'افصل حركة الضيوف عن الحياة العائلية كلما أمكن.'},{title:'التوزيع',copy:'المساحات الكبيرة ليست مفيدة إذا أهدرتها الممرات أو قطعت المحاور البصرية.'},{title:'الإضاءة',copy:'الإضاءة الطبيعية والتهوية والواجهات غالبًا أكثر أثرًا من مادة التشطيب نفسها.'},{title:'التشغيل',copy:'الصيانة والتخزين والخدمات الخلفية تحدد جودة الحياة بعد انبهار الأسبوع الأول.'}],takeaway:'الفخامة الحقيقية تظهر عندما يخدم التصميم الحياة اليومية بدون مجهود.'}
+];
+export function getCollection(slug:string){return collections.find(x=>x.slug===slug)}
+export function getBrief(slug:string){return briefs.find(x=>x.slug===slug)}
