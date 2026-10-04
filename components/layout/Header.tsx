@@ -33,6 +33,7 @@ export function Header() {
     { href: '/kids', label: t.nav.kids },
     { href: '/new', label: t.nav.newIn },
     { href: '/collections', label: t.nav.collections },
+    { href: '/discover', label: language === 'ar' ? 'المنسّق' : 'Curator' },
     { href: '/editorial', label: t.nav.editorial },
     { href: '/sale', label: t.nav.sale },
   ];
@@ -191,7 +192,7 @@ export function Header() {
           </div>
 
           {/* Desktop Primary Navigation Bar */}
-          <nav className="hidden md:flex items-center justify-center gap-5 lg:gap-8 py-3 border-t border-[#242220]/05">
+          <nav className="hidden md:flex items-center justify-center gap-4 lg:gap-6 py-3 border-t border-[#242220]/05">
             {navLinks.map((link) => (
               <Link
                 key={link.href}

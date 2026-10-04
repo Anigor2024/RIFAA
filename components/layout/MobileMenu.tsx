@@ -21,6 +21,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     { href: '/kids', labelAr: 'الأطفال', labelEn: 'Kids', subAr: 'قطن عضوي، أطقم، مناسبات', subEn: 'Organic Sets, Occasions' },
     { href: '/new', labelAr: 'وصل حديثاً', labelEn: 'New In', subAr: 'أحدث القطع لهذا الأسبوع', subEn: 'Curated weekly arrivals' },
     { href: '/collections', labelAr: 'التشكيلات', labelEn: 'Collections', subAr: 'تحرير العيد، أساسيات رِفْعة', subEn: 'The Eid Edit, Essentials' },
+    { href: '/discover', labelAr: 'منسّق رِفْعة', labelEn: 'RIFAA Curator', subAr: 'اختيارات ذكية حسب المناسبة والخامة', subEn: 'Intelligent edits by moment and material' },
     { href: '/editorial', labelAr: 'الإطلالات', labelEn: 'Editorial', subAr: 'بعد الغروب، إطلالات منسقة', subEn: 'City After Sunset Looks' },
     { href: '/sale', labelAr: 'التخفيضات', labelEn: 'Sale', subAr: 'قطع مختارة بعناية', subEn: 'Archival seasonal reductions' },
   ];

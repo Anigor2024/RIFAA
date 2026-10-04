@@ -4,7 +4,7 @@ export const DICTIONARY = {
     brandName: 'رِفْعة',
     brandLatin: 'RIFAA',
     brandTagline: 'أزياء سعودية معاصرة',
-    brandSentiment: 'أناقةٌ سعودية، بصياغة معاصرة',
+    brandSentiment: 'أناقةٌ سعودية، بلمسة معاصرة',
     brandDescription: 'دار أزياء سعودية معاصرة للمرأة والرجل والطفل، مستوحاة من رصانة المملكة ومصممة لإيقاع الحياة الحديثة.',
     
     // Top Bar & Navigation
@@ -18,7 +18,7 @@ export const DICTIONARY = {
       sale: 'التخفيضات',
       journal: 'مجلة رِفْعة',
     },
-    topBanner: 'نموذج تجارة إلكترونية احترافي · إعدادات الشحن والدفع قابلة للربط التشغيلي',
+    topBanner: 'رِفْعة · تجربة رقمية سعودية معاصرة مصممة بتفاصيل دقيقة',
     
     // Actions & Common
     actions: {
@@ -120,7 +120,7 @@ export const DICTIONARY = {
     // Hero
     hero: {
       season: 'خريف / شتاء 2026',
-      headline: 'أناقةٌ سعودية، بصياغة معاصرة',
+      headline: 'أناقةٌ سعودية، بلمسة معاصرة',
       subtitle: 'تصاميم للمرأة والرجل والطفل، مستوحاة من إيقاع المملكة ومصممة للحياة المعاصرة.',
       primaryCta: 'اكتشف التشكيلة',
       secondaryCta: 'وصل حديثاً',
