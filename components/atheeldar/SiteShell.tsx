@@ -68,7 +68,7 @@ export function Footer(){
 export function SiteShell({children}:{children:React.ReactNode}){return <><Header/><main>{children}</main><Footer/></>}
 
 export function PageHero({eyebrow,title,copy,actions}:{eyebrow:string,title:string,copy:string,actions?:React.ReactNode}){
-  return <section className="pageHero"><div className="pageHeroGlow"/><div className="shell"><p className="eyebrow">{eyebrow}</p><h1>{title}</h1><p className="pageHeroCopy">{copy}</p>{actions&&<div className="heroActions">{actions}</div>}</div></section>
+  return <section className="pageHero"><div className="pageHeroGlow"/><div className="pageHeroLine"/><div className="shell pageHeroFrame"><div className="pageHeroMain"><p className="eyebrow">{eyebrow}</p><h1>{title}</h1><p className="pageHeroCopy">{copy}</p>{actions&&<div className="heroActions">{actions}</div>}</div><div className="pageHeroSignature" aria-hidden="true"><span>ATHEELDAR</span><b>REAL ESTATE PLATFORM</b><i/><small>بحث · تحليل · قرار</small></div></div></section>
 }
 
 export function Breadcrumbs({items}:{items:{label:string,href?:string}[]}){
