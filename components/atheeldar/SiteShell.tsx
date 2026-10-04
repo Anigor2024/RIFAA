@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
-import { Menu, X, Heart, UserRound, ChevronDown, Search, Command, ArrowLeft, Building2, MapPinned, Home, LayoutDashboard, ShieldCheck, Clock3, Scale, Route, FileText, Sparkles, Target } from 'lucide-react';
+import { Menu, X, Heart, UserRound, ChevronDown, Search, Command, ArrowLeft, Building2, MapPinned, Home, LayoutDashboard, ShieldCheck, Clock3, Scale, Route, FileText, Sparkles, Target, WalletCards } from 'lucide-react';
 import { neighborhoods, projects, properties, money } from '@/lib/atheeldar-data';
 
 const nav = [
