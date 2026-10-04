@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowLeft, BadgeCheck, Building2, ChartNoAxesCombined, Home, MapPinned, Search, ShieldCheck, Sparkles, TrendingUp, WalletCards, Zap, Target, Layers3, Compass, BellRing, BookOpenText, Route } from 'lucide-react';
+import { ArrowLeft, BadgeCheck, Building2, ChartNoAxesCombined, Home, MapPinned, Search, ShieldCheck, Sparkles, TrendingUp, WalletCards, Zap, Target, Layers3, Compass, BellRing, BookOpenText, Route, Scale, FileText } from 'lucide-react';
 import { properties, projects, neighborhoods, money } from '@/lib/atheeldar-data';
 import { PropertyCard } from '@/components/atheeldar/PropertyCard';
 import { HomeJourneyPlanner } from '@/components/atheeldar/ExperienceTools';
@@ -23,6 +23,14 @@ export default function HomePage(){
         <Link href="/portfolio-lab"><ChartNoAxesCombined/><span>01 · INVESTOR</span><b>مختبر المحفظة</b><small>رأس مال، عائد، تنويع وتركيز مخاطر.</small><strong>ابنِ السيناريو <ArrowLeft/></strong></Link>
         <Link href="/transaction-roadmap"><Route/><span>02 · TRANSACTION</span><b>مسار الصفقة</b><small>من الاهتمام والمعاينة حتى الإغلاق والاستلام.</small><strong>تابع المسار <ArrowLeft/></strong></Link>
         <Link href="/owner-studio"><Home/><span>03 · OWNER</span><b>استوديو المالك</b><small>مستندات، عرض بصري، صيانة، تسعير ومعاينات.</small><strong>قيّم الجاهزية <ArrowLeft/></strong></Link>
+      </div>
+    </section>
+    <section className="shell decisionEconomicsV15">
+      <div className="decisionEconomicsLeadV15"><span>PHASE 15 · DECISION ECONOMICS</span><h2>قرارات أصعب، <em>بأدوات أوضح.</em></h2><p>ثلاث طبقات جديدة تعالج أسئلة لا تحلها الفلاتر: هل أشتري أم أستأجر؟ أي حي يناسب حياتي؟ وكيف أحول احتياجي إلى Brief يفهمه المستشار فورًا؟</p></div>
+      <div className="decisionEconomicsGridV15">
+        <Link href="/buy-vs-rent"><WalletCards/><span>01 · ECONOMICS</span><b>شراء أم استئجار؟</b><small>قارن التكلفة وحقوق الملكية على أفق زمني.</small><strong>اختبر السيناريو <ArrowLeft/></strong></Link>
+        <Link href="/area-match"><MapPinned/><span>02 · AREA FIT</span><b>ملاءمة الأحياء</b><small>أوزان مختلفة للعائلة والحياة الحضرية والاستثمار والهدوء.</small><strong>قارن المكان <ArrowLeft/></strong></Link>
+        <Link href="/client-brief"><FileText/><span>03 · PRIVATE CLIENT</span><b>ملف العميل الخاص</b><small>هدف وميزانية وتوقيت وأولويات في Advisor Handoff واحد.</small><strong>ابنِ الـBrief <ArrowLeft/></strong></Link>
       </div>
     </section>
     <section className="signatureUtility shell"><Link href="/decision-board"><span>DECISION BOARD</span><b>اجمع ما أعجبك. غيّر الأوزان. شاهد كيف يتغير القرار.</b><small>مقارنة مرجّحة حسب الجودة، الحياة، الاستثمار والميزانية.</small><strong>افتح اللوحة <ArrowLeft/></strong></Link><Link href="/trust"><span>TRUST CENTER</span><b>الثقة ليست Badge؛ هي مسار تحقق واضح.</b><small>افصل بين اكتمال بيانات العرض والتحقق الرسمي من الأصل والصفقة.</small><strong>افتح مركز الثقة <ArrowLeft/></strong></Link></section>
