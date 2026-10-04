@@ -33,6 +33,14 @@ export default function HomePage(){
         <Link href="/client-brief"><FileText/><span>03 · PRIVATE CLIENT</span><b>ملف العميل الخاص</b><small>هدف وميزانية وتوقيت وأولويات في Advisor Handoff واحد.</small><strong>ابنِ الـBrief <ArrowLeft/></strong></Link>
       </div>
     </section>
+    <section className="shell phase16GatewayV16">
+      <div className="phase16LeadV16"><span>PHASE 16 · INSPECTION INTELLIGENCE</span><h2>بعد أن يعجبك العقار، <em>ابدأ الاختبار الحقيقي.</em></h2><p>القرار العالمي المستوى لا يتوقف عند الصور. أثيلدار الآن تربط المشهد البصري بما رأيته في المعاينة وبالسبب الذي جعلك تحتفظ بالأصل أو تستبعده.</p><div><span>01 · SEE</span><i/><span>02 · INSPECT</span><i/><span>03 · REMEMBER</span></div></div>
+      <div className="phase16CardsV16">
+        <Link href="/properties/villa-al-sidr-hittin"><span>01 · SIGNATURE WALKTHROUGH</span><b>قصة بصرية داخل العقار</b><small>ثلاثة فصول تحول الصور إلى مشهد استخدام وسياق قرار.</small><strong>شاهد التجربة <ArrowLeft/></strong></Link>
+        <Link href="/properties/villa-al-sidr-hittin/inspection"><span>02 · INSPECTION ROOM</span><b>تقرير معاينة شخصي</b><small>8 محاور، Red Flags، ملاحظات وInspection Score محفوظ.</small><strong>افتح غرفة المعاينة <ArrowLeft/></strong></Link>
+        <Link href="/decision-journal"><span>03 · DECISION JOURNAL</span><b>ذاكرة قرار لكل أصل</b><small>سجّل لماذا أعجبك أو أقلقك العقار بدل الاعتماد على الذاكرة.</small><strong>افتح سجل القرار <ArrowLeft/></strong></Link>
+      </div>
+    </section>
     <section className="signatureUtility shell"><Link href="/decision-board"><span>DECISION BOARD</span><b>اجمع ما أعجبك. غيّر الأوزان. شاهد كيف يتغير القرار.</b><small>مقارنة مرجّحة حسب الجودة، الحياة، الاستثمار والميزانية.</small><strong>افتح اللوحة <ArrowLeft/></strong></Link><Link href="/trust"><span>TRUST CENTER</span><b>الثقة ليست Badge؛ هي مسار تحقق واضح.</b><small>افصل بين اكتمال بيانات العرض والتحقق الرسمي من الأصل والصفقة.</small><strong>افتح مركز الثقة <ArrowLeft/></strong></Link></section>
     <section className="marketPulse"><div className="shell marketPulseInner"><div><p className="eyebrow light">ATHEELDAR MARKET PULSE</p><h2>اقرأ المشهد قبل أن تفتح الإعلان.</h2><p>مؤشرات نموذجية تساعد على شرح كيف يمكن للمنصة أن تحوّل البيانات إلى سياق مفهوم للمستخدم.</p></div><div className="pulseCards"><Link href="/neighborhoods/hittin"><TrendingUp/><span>طلب فاخر</span><b>حطين · 94/100</b><small>ملف حي غني بالسياق</small></Link><Link href="/projects"><Layers3/><span>مشاريع جديدة</span><b>{projects[0].progress}% تقدم</b><small>{projects[0].name}</small></Link><Link href="/investment"><Target/><span>فرص استثمار</span><b>{properties.filter(p=>p.investment).length} أصول</b><small>اختبر العائد والسيناريو</small></Link></div></div></section>
     <section className="shell intentStudioWrapV12"><HomeIntentStudio/></section>
