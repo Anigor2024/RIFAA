@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import {
   ArrowLeft,
   ArrowRight,
@@ -21,8 +22,25 @@ import {
   useStylePassport,
 } from '@/context/StylePassportContext';
 
+function validAudience(value: string | null): value is StylePassport['audience'] {
+  return value === 'women' || value === 'men' || value === 'girls' || value === 'boys';
+}
+
+function validMoment(value: string | null): value is StylePassport['moment'] {
+  return value === 'daily' || value === 'work' || value === 'evening' || value === 'eid' || value === 'travel';
+}
+
+function validPalette(value: string | null): value is StylePassport['palette'] {
+  return value === 'neutral' || value === 'warm' || value === 'deep';
+}
+
+function validPriority(value: string | null): value is StylePassport['priority'] {
+  return value === 'balanced' || value === 'breathable' || value === 'statement' || value === 'tailored';
+}
+
 export default function PassportPage() {
   const { language, isRtl } = useLanguage();
+  const searchParams = useSearchParams();
   const {
     passport,
     isConfigured,
@@ -33,7 +51,25 @@ export default function PassportPage() {
   } = useStylePassport();
   const [copied, setCopied] = useState(false);
 
-  const current = passport ?? DEFAULT_STYLE_PASSPORT;
+  const audienceParam = searchParams.get('audience');
+  const momentParam = searchParams.get('moment');
+  const paletteParam = searchParams.get('palette');
+  const priorityParam = searchParams.get('priority');
+
+  const hasSharedProfile =
+    validAudience(audienceParam) &&
+    validMoment(momentParam) &&
+    validPalette(paletteParam) &&
+    validPriority(priorityParam);
+
+  const sharedPassport: StylePassport = {
+    audience: validAudience(audienceParam) ? audienceParam : DEFAULT_STYLE_PASSPORT.audience,
+    moment: validMoment(momentParam) ? momentParam : DEFAULT_STYLE_PASSPORT.moment,
+    palette: validPalette(paletteParam) ? paletteParam : DEFAULT_STYLE_PASSPORT.palette,
+    priority: validPriority(priorityParam) ? priorityParam : DEFAULT_STYLE_PASSPORT.priority,
+  };
+
+  const current = passport ?? (hasSharedProfile ? sharedPassport : DEFAULT_STYLE_PASSPORT);
 
   const update = <K extends keyof StylePassport>(key: K, value: StylePassport[K]) => {
     savePassport({ ...current, [key]: value });
@@ -275,6 +311,17 @@ export default function PassportPage() {
                 ))}
               </div>
             </div>
+
+            {hasSharedProfile && !isConfigured && (
+              <button
+                type="button"
+                onClick={() => savePassport(sharedPassport)}
+                className="mt-5 inline-flex min-h-10 w-full items-center justify-center gap-2 border border-[#B59A73]/50 bg-[#B59A73]/10 px-4 text-[10px] font-bold uppercase tracking-[0.12em] text-[#F7F4EF] hover:bg-[#B59A73]/20"
+              >
+                <IdCard className="h-3.5 w-3.5" />
+                <span>{language === 'ar' ? 'احفظ هذا الملف على جهازي' : 'Save this profile on my device'}</span>
+              </button>
+            )}
 
             <div className="mt-5 space-y-2">
               <Link

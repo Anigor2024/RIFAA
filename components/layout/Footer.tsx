@@ -82,6 +82,11 @@ export function Footer() {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/passport" className="hover:text-white transition-colors">
+                    {language === 'ar' ? 'جواز الأسلوب' : 'Style Passport'}
+                  </Link>
+                </li>
+                <li>
                   <Link href="/discover" className="hover:text-white transition-colors">
                     {language === 'ar' ? 'منسّق رِفْعة' : 'RIFAA Curator'}
                   </Link>

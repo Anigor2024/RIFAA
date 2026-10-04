@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 import {
   ArrowLeft,
   ArrowRight,
@@ -18,6 +19,18 @@ import {
   DiscoveryPriority,
   getDiscoveryRecommendations,
 } from '@/lib/discovery';
+
+function isDepartment(value: string | null): value is DiscoveryDepartment {
+  return value === 'all' || value === 'women' || value === 'men' || value === 'kids';
+}
+
+function isMoment(value: string | null): value is DiscoveryMoment {
+  return value === 'daily' || value === 'work' || value === 'evening' || value === 'eid' || value === 'travel';
+}
+
+function isPriority(value: string | null): value is DiscoveryPriority {
+  return value === 'balanced' || value === 'breathable' || value === 'statement' || value === 'tailored';
+}
 
 interface SelectorOption<T extends string> {
   value: T;
@@ -79,9 +92,50 @@ function DiscoverySelector<T extends string>({
 
 export default function DiscoverPage() {
   const { language, isRtl } = useLanguage();
-  const [department, setDepartment] = useState<DiscoveryDepartment>('all');
-  const [moment, setMoment] = useState<DiscoveryMoment>('daily');
-  const [priority, setPriority] = useState<DiscoveryPriority>('balanced');
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const departmentParam = searchParams.get('department');
+  const momentParam = searchParams.get('moment');
+  const priorityParam = searchParams.get('priority');
+
+  const [department, setDepartment] = useState<DiscoveryDepartment>(
+    isDepartment(departmentParam) ? departmentParam : 'all'
+  );
+  const [moment, setMoment] = useState<DiscoveryMoment>(
+    isMoment(momentParam) ? momentParam : 'daily'
+  );
+  const [priority, setPriority] = useState<DiscoveryPriority>(
+    isPriority(priorityParam) ? priorityParam : 'balanced'
+  );
+
+  const updateUrl = (
+    nextDepartment: DiscoveryDepartment,
+    nextMoment: DiscoveryMoment,
+    nextPriority: DiscoveryPriority
+  ) => {
+    const params = new URLSearchParams({
+      department: nextDepartment,
+      moment: nextMoment,
+      priority: nextPriority,
+    });
+    router.replace('/discover?' + params.toString(), { scroll: false });
+  };
+
+  const changeDepartment = (value: DiscoveryDepartment) => {
+    setDepartment(value);
+    updateUrl(value, moment, priority);
+  };
+
+  const changeMoment = (value: DiscoveryMoment) => {
+    setMoment(value);
+    updateUrl(department, value, priority);
+  };
+
+  const changePriority = (value: DiscoveryPriority) => {
+    setPriority(value);
+    updateUrl(department, moment, value);
+  };
 
   const recommendations = useMemo(
     () => getDiscoveryRecommendations({ department, moment, priority }, 8),
@@ -161,7 +215,7 @@ export default function DiscoverPage() {
               titleEn="Who are you shopping for?"
               value={department}
               options={departmentOptions}
-              onChange={setDepartment}
+              onChange={changeDepartment}
               index="01"
               language={language}
             />
@@ -170,7 +224,7 @@ export default function DiscoverPage() {
               titleEn="What is the moment?"
               value={moment}
               options={momentOptions}
-              onChange={setMoment}
+              onChange={changeMoment}
               index="02"
               language={language}
             />
@@ -179,7 +233,7 @@ export default function DiscoverPage() {
               titleEn="What matters most?"
               value={priority}
               options={priorityOptions}
-              onChange={setPriority}
+              onChange={changePriority}
               index="03"
               language={language}
             />
@@ -190,6 +244,7 @@ export default function DiscoverPage() {
                 setDepartment('all');
                 setMoment('daily');
                 setPriority('balanced');
+                router.replace('/discover', { scroll: false });
               }}
               className="mt-2 inline-flex items-center gap-2 text-[11px] font-semibold text-[#242220]/55 transition-colors hover:text-[#511D24]"
             >
