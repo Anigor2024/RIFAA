@@ -8,6 +8,7 @@ import { SearchProvider } from '@/context/SearchContext';
 import { QuickViewProvider } from '@/context/QuickViewContext';
 import { AccountProvider } from '@/context/AccountContext';
 import { AuthProvider } from '@/context/AuthContext';
+import { CompareProvider } from '@/context/CompareContext';
 
 export function AppProviders({ children }: { children: React.ReactNode }) {
   return (
@@ -15,13 +16,15 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
       <AuthProvider>
         <AccountProvider>
           <WishlistProvider>
-            <BagProvider>
-              <SearchProvider>
-                <QuickViewProvider>
-                  {children}
-                </QuickViewProvider>
-              </SearchProvider>
-            </BagProvider>
+            <CompareProvider>
+              <BagProvider>
+                <SearchProvider>
+                  <QuickViewProvider>
+                    {children}
+                  </QuickViewProvider>
+                </SearchProvider>
+              </BagProvider>
+            </CompareProvider>
           </WishlistProvider>
         </AccountProvider>
       </AuthProvider>

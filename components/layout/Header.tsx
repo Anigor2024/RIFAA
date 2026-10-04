@@ -2,18 +2,20 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Search, Heart, ShoppingBag, Menu, Globe, UserRound } from 'lucide-react';
+import { Search, Heart, ShoppingBag, Menu, Globe, UserRound, Columns3 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useWishlist } from '@/context/WishlistContext';
 import { useBag } from '@/context/BagContext';
 import { useSearch } from '@/context/SearchContext';
 import { MobileMenu } from './MobileMenu';
+import { useCompare } from '@/context/CompareContext';
 
 export function Header() {
   const { language, isRtl, toggleLanguage, t } = useLanguage();
   const { wishlistCount } = useWishlist();
   const { bagCount, openBag } = useBag();
   const { openSearch } = useSearch();
+  const { compareCount } = useCompare();
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -176,6 +178,24 @@ export function Header() {
                 aria-label={t.actions.account}
               >
                 <UserRound className="w-5 h-5" />
+              </Link>
+
+              {/* Compare Studio */}
+              <Link
+                href="/compare"
+                className={`relative hidden sm:inline-flex p-2 transition-colors cursor-pointer ${
+                  isScrolled
+                    ? 'text-[#111111] hover:text-[#511D24]'
+                    : 'text-white hover:text-[#F7F4EF]'
+                }`}
+                aria-label={language === 'ar' ? 'استوديو المقارنة' : 'Compare Studio'}
+              >
+                <Columns3 className="w-5 h-5" />
+                {compareCount > 0 && (
+                  <span className="absolute top-1 end-1 w-4 h-4 rounded-full bg-[#B59A73] text-[#111111] text-[10px] font-bold flex items-center justify-center tabular-nums">
+                    {compareCount}
+                  </span>
+                )}
               </Link>
 
               {/* Wishlist Link */}

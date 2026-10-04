@@ -13,6 +13,7 @@ const staticRoutes = [
   '/collections',
   '/discover',
   '/atelier',
+  '/compare',
   '/sale',
   '/editorial',
   '/about',
