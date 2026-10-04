@@ -12,6 +12,48 @@ import {
   getDiscoveryRecommendations,
 } from '@/lib/discovery';
 
+interface SegmentOption<T extends string> {
+  value: T;
+  ar: string;
+  en: string;
+}
+
+function SegmentControl<T extends string>({
+  value,
+  options,
+  onChange,
+  label,
+  language,
+}: {
+  value: T;
+  options: SegmentOption<T>[];
+  onChange: (next: T) => void;
+  label: string;
+  language: 'ar' | 'en';
+}) {
+  return (
+    <div>
+      <span className="mb-2 block text-[10px] font-semibold uppercase tracking-[0.2em] text-[#242220]/45">{label}</span>
+      <div className="flex flex-wrap gap-1.5">
+        {options.map((option) => (
+          <button
+            key={option.value}
+            type="button"
+            onClick={() => onChange(option.value)}
+            className={
+              value === option.value
+                ? 'border border-[#111111] bg-[#111111] px-3 py-2 text-[11px] font-semibold text-white shadow-sm transition-all sm:px-4'
+                : 'border border-[#242220]/12 bg-[#FFFDFC] px-3 py-2 text-[11px] font-semibold text-[#242220]/65 transition-all hover:border-[#511D24]/40 hover:text-[#511D24] sm:px-4'
+            }
+          >
+            {language === 'ar' ? option.ar : option.en}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function StyleConcierge() {
   const { language, isRtl } = useLanguage();
   const [department, setDepartment] = useState<DiscoveryDepartment>('all');
@@ -23,14 +65,14 @@ export function StyleConcierge() {
     [department, moment, priority]
   );
 
-  const departmentOptions: { value: DiscoveryDepartment; ar: string; en: string }[] = [
+  const departmentOptions: SegmentOption<DiscoveryDepartment>[] = [
     { value: 'all', ar: 'الكل', en: 'All' },
     { value: 'women', ar: 'النساء', en: 'Women' },
     { value: 'men', ar: 'الرجال', en: 'Men' },
     { value: 'kids', ar: 'الأطفال', en: 'Kids' },
   ];
 
-  const momentOptions: { value: DiscoveryMoment; ar: string; en: string }[] = [
+  const momentOptions: SegmentOption<DiscoveryMoment>[] = [
     { value: 'daily', ar: 'يومي', en: 'Everyday' },
     { value: 'work', ar: 'عمل', en: 'Work' },
     { value: 'evening', ar: 'مساء', en: 'Evening' },
@@ -38,46 +80,12 @@ export function StyleConcierge() {
     { value: 'travel', ar: 'سفر', en: 'Travel' },
   ];
 
-  const priorityOptions: { value: DiscoveryPriority; ar: string; en: string }[] = [
+  const priorityOptions: SegmentOption<DiscoveryPriority>[] = [
     { value: 'balanced', ar: 'متوازن', en: 'Balanced' },
     { value: 'breathable', ar: 'خفيف ومريح', en: 'Breathable' },
     { value: 'statement', ar: 'لافت', en: 'Statement' },
     { value: 'tailored', ar: 'تفصيل دقيق', en: 'Tailored' },
   ];
-
-  function Segments<T extends string>({
-    value,
-    options,
-    onChange,
-    label,
-  }: {
-    value: T;
-    options: { value: T; ar: string; en: string }[];
-    onChange: (next: T) => void;
-    label: string;
-  }) {
-    return (
-      <div>
-        <span className="mb-2 block text-[10px] font-semibold uppercase tracking-[0.2em] text-[#242220]/45">{label}</span>
-        <div className="flex flex-wrap gap-1.5">
-          {options.map((option) => (
-            <button
-              key={option.value}
-              type="button"
-              onClick={() => onChange(option.value)}
-              className={
-                value === option.value
-                  ? 'border border-[#111111] bg-[#111111] px-3 py-2 text-[11px] font-semibold text-white shadow-sm transition-all sm:px-4'
-                  : 'border border-[#242220]/12 bg-[#FFFDFC] px-3 py-2 text-[11px] font-semibold text-[#242220]/65 transition-all hover:border-[#511D24]/40 hover:text-[#511D24] sm:px-4'
-              }
-            >
-              {language === 'ar' ? option.ar : option.en}
-            </button>
-          ))}
-        </div>
-      </div>
-    );
-  }
 
   return (
     <section className="bg-[#EEE8DE] py-18 md:py-24">
@@ -102,23 +110,26 @@ export function StyleConcierge() {
             </div>
 
             <div className="space-y-5">
-              <Segments
+              <SegmentControl
                 value={department}
                 options={departmentOptions}
                 onChange={setDepartment}
                 label={language === 'ar' ? 'القسم' : 'DEPARTMENT'}
+                language={language}
               />
-              <Segments
+              <SegmentControl
                 value={moment}
                 options={momentOptions}
                 onChange={setMoment}
                 label={language === 'ar' ? 'المناسبة' : 'MOMENT'}
+                language={language}
               />
-              <Segments
+              <SegmentControl
                 value={priority}
                 options={priorityOptions}
                 onChange={setPriority}
                 label={language === 'ar' ? 'الأولوية' : 'PRIORITY'}
+                language={language}
               />
             </div>
 

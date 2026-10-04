@@ -19,6 +19,64 @@ import {
   getDiscoveryRecommendations,
 } from '@/lib/discovery';
 
+interface SelectorOption<T extends string> {
+  value: T;
+  ar: string;
+  en: string;
+  noteAr: string;
+  noteEn: string;
+}
+
+function DiscoverySelector<T extends string>({
+  titleAr,
+  titleEn,
+  value,
+  options,
+  onChange,
+  index,
+  language,
+}: {
+  titleAr: string;
+  titleEn: string;
+  value: T;
+  options: SelectorOption<T>[];
+  onChange: (next: T) => void;
+  index: string;
+  language: 'ar' | 'en';
+}) {
+  return (
+    <section className="border-t border-[#242220]/10 py-7 first:border-t-0 first:pt-0">
+      <div className="mb-4 flex items-baseline gap-3">
+        <span className="font-editorial text-sm text-[#B59A73]">{index}</span>
+        <h2 className="text-sm font-bold text-[#111111]">{language === 'ar' ? titleAr : titleEn}</h2>
+      </div>
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3">
+        {options.map((option) => {
+          const active = value === option.value;
+          return (
+            <button
+              key={option.value}
+              type="button"
+              onClick={() => onChange(option.value)}
+              className={
+                active
+                  ? 'relative min-h-[82px] border border-[#111111] bg-[#111111] p-3 text-start text-white shadow-md transition-all'
+                  : 'relative min-h-[82px] border border-[#242220]/12 bg-[#FFFDFC] p-3 text-start text-[#111111] transition-all hover:border-[#511D24]/40'
+              }
+            >
+              {active && <Check className="absolute end-3 top-3 h-3.5 w-3.5 text-[#B59A73]" />}
+              <span className="block pe-5 text-xs font-bold">{language === 'ar' ? option.ar : option.en}</span>
+              <span className={active ? 'mt-1 block text-[10px] leading-4 text-white/55' : 'mt-1 block text-[10px] leading-4 text-[#242220]/45'}>
+                {language === 'ar' ? option.noteAr : option.noteEn}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
 export default function DiscoverPage() {
   const { language, isRtl } = useLanguage();
   const [department, setDepartment] = useState<DiscoveryDepartment>('all');
@@ -30,14 +88,14 @@ export default function DiscoverPage() {
     [department, moment, priority]
   );
 
-  const departmentOptions: { value: DiscoveryDepartment; ar: string; en: string; noteAr: string; noteEn: string }[] = [
+  const departmentOptions: SelectorOption<DiscoveryDepartment>[] = [
     { value: 'all', ar: 'كل الأقسام', en: 'All departments', noteAr: 'اختيار مفتوح', noteEn: 'Open edit' },
     { value: 'women', ar: 'النساء', en: 'Women', noteAr: 'عبايات وتفصيل', noteEn: 'Abayas & tailoring' },
     { value: 'men', ar: 'الرجال', en: 'Men', noteAr: 'ثياب وقطع معاصرة', noteEn: 'Thobes & modern layers' },
     { value: 'kids', ar: 'الأطفال', en: 'Kids', noteAr: 'راحة ومناسبات', noteEn: 'Comfort & occasions' },
   ];
 
-  const momentOptions: { value: DiscoveryMoment; ar: string; en: string; noteAr: string; noteEn: string }[] = [
+  const momentOptions: SelectorOption<DiscoveryMoment>[] = [
     { value: 'daily', ar: 'كل يوم', en: 'Everyday', noteAr: 'مرونة وعملية', noteEn: 'Versatile & practical' },
     { value: 'work', ar: 'العمل', en: 'Work', noteAr: 'بنية وحضور', noteEn: 'Structure & presence' },
     { value: 'evening', ar: 'المساء', en: 'Evening', noteAr: 'خامات أعمق', noteEn: 'Richer materials' },
@@ -45,60 +103,12 @@ export default function DiscoverPage() {
     { value: 'travel', ar: 'السفر', en: 'Travel', noteAr: 'خفة وتهوية', noteEn: 'Light & breathable' },
   ];
 
-  const priorityOptions: { value: DiscoveryPriority; ar: string; en: string; noteAr: string; noteEn: string }[] = [
+  const priorityOptions: SelectorOption<DiscoveryPriority>[] = [
     { value: 'balanced', ar: 'اختيار متوازن', en: 'Balanced', noteAr: 'الحضور + العملية', noteEn: 'Presence + utility' },
     { value: 'breathable', ar: 'التهوية والراحة', en: 'Breathable', noteAr: 'خامات أخف', noteEn: 'Lighter fabrics' },
     { value: 'statement', ar: 'تفصيل لافت', en: 'Statement', noteAr: 'أثر بصري محسوب', noteEn: 'Controlled visual impact' },
     { value: 'tailored', ar: 'دقة التفصيل', en: 'Tailored', noteAr: 'بنية وقصّة', noteEn: 'Structure & cut' },
   ];
-
-  function Selector<T extends string>({
-    titleAr,
-    titleEn,
-    value,
-    options,
-    onChange,
-    index,
-  }: {
-    titleAr: string;
-    titleEn: string;
-    value: T;
-    options: { value: T; ar: string; en: string; noteAr: string; noteEn: string }[];
-    onChange: (next: T) => void;
-    index: string;
-  }) {
-    return (
-      <section className="border-t border-[#242220]/10 py-7 first:border-t-0 first:pt-0">
-        <div className="mb-4 flex items-baseline gap-3">
-          <span className="font-editorial text-sm text-[#B59A73]">{index}</span>
-          <h2 className="text-sm font-bold text-[#111111]">{language === 'ar' ? titleAr : titleEn}</h2>
-        </div>
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3">
-          {options.map((option) => {
-            const active = value === option.value;
-            return (
-              <button
-                key={option.value}
-                type="button"
-                onClick={() => onChange(option.value)}
-                className={
-                  active
-                    ? 'relative min-h-[82px] border border-[#111111] bg-[#111111] p-3 text-start text-white shadow-md transition-all'
-                    : 'relative min-h-[82px] border border-[#242220]/12 bg-[#FFFDFC] p-3 text-start text-[#111111] transition-all hover:border-[#511D24]/40'
-                }
-              >
-                {active && <Check className="absolute end-3 top-3 h-3.5 w-3.5 text-[#B59A73]" />}
-                <span className="block pe-5 text-xs font-bold">{language === 'ar' ? option.ar : option.en}</span>
-                <span className={active ? 'mt-1 block text-[10px] leading-4 text-white/55' : 'mt-1 block text-[10px] leading-4 text-[#242220]/45'}>
-                  {language === 'ar' ? option.noteAr : option.noteEn}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </section>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-[#F7F4EF] pb-24 pt-28 sm:pt-32">
@@ -146,29 +156,32 @@ export default function DiscoverPage() {
               <Sparkles className="h-5 w-5 text-[#B59A73]" />
             </div>
 
-            <Selector
+            <DiscoverySelector
               titleAr="لمن تبحث؟"
               titleEn="Who are you shopping for?"
               value={department}
               options={departmentOptions}
               onChange={setDepartment}
               index="01"
+              language={language}
             />
-            <Selector
+            <DiscoverySelector
               titleAr="ما المناسبة؟"
               titleEn="What is the moment?"
               value={moment}
               options={momentOptions}
               onChange={setMoment}
               index="02"
+              language={language}
             />
-            <Selector
+            <DiscoverySelector
               titleAr="ما الأولوية؟"
               titleEn="What matters most?"
               value={priority}
               options={priorityOptions}
               onChange={setPriority}
               index="03"
+              language={language}
             />
 
             <button
