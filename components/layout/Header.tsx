@@ -59,6 +59,7 @@ export function Header() {
     { href: '/collections', label: t.nav.collections },
     { href: '/discover', label: language === 'ar' ? 'المنسّق' : 'Curator' },
     { href: '/atelier', label: language === 'ar' ? 'المشغل' : 'Atelier' },
+    { href: '/capsule', label: language === 'ar' ? 'الكابسولة' : 'Capsule' },
     { href: '/editorial', label: t.nav.editorial },
     { href: '/sale', label: t.nav.sale },
   ];
@@ -242,7 +243,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`${link.href === '/sale' ? 'hidden xl:inline-flex' : link.href === '/editorial' ? 'hidden lg:inline-flex' : 'inline-flex'} text-[13px] lg:text-sm font-semibold tracking-[0.1em] uppercase transition-colors relative py-1 after:absolute after:bottom-0 after:inset-x-0 after:h-[1px] after:bg-current after:transition-all after:duration-300 after:scale-x-0 hover:after:scale-x-100 ${
+                className={`${link.href === '/sale' ? 'hidden 2xl:inline-flex' : link.href === '/editorial' ? 'hidden xl:inline-flex' : link.href === '/capsule' ? 'hidden xl:inline-flex' : 'inline-flex'} text-[13px] lg:text-sm font-semibold tracking-[0.1em] uppercase transition-colors relative py-1 after:absolute after:bottom-0 after:inset-x-0 after:h-[1px] after:bg-current after:transition-all after:duration-300 after:scale-x-0 hover:after:scale-x-100 ${
                   isScrolled
                     ? 'text-[#242220] hover:text-[#511D24]'
                     : 'text-white/90 hover:text-white'

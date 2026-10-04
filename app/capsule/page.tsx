@@ -47,14 +47,18 @@ export default function CapsulePage() {
   const { addManyToBag } = useBag();
   const { addManyToWishlist, wishlistIds } = useWishlist();
 
+  const audienceParam = searchParams.get('audience');
+  const momentParam = searchParams.get('moment');
+  const paletteParam = searchParams.get('palette');
+
   const [audience, setAudience] = useState<CapsuleAudience>(
-    isAudience(searchParams.get('audience')) ? searchParams.get('audience') : 'women'
+    isAudience(audienceParam) ? audienceParam : 'women'
   );
   const [moment, setMoment] = useState<CapsuleMoment>(
-    isMoment(searchParams.get('moment')) ? searchParams.get('moment') : 'daily'
+    isMoment(momentParam) ? momentParam : 'daily'
   );
   const [palette, setPalette] = useState<CapsulePalette>(
-    isPalette(searchParams.get('palette')) ? searchParams.get('palette') : 'neutral'
+    isPalette(paletteParam) ? paletteParam : 'neutral'
   );
   const [copied, setCopied] = useState(false);
 

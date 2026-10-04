@@ -8,6 +8,7 @@ import { ShopTheLook } from '@/components/home/ShopTheLook';
 import { AtelierPreview } from '@/components/home/AtelierPreview';
 import { MaterialLibrary } from '@/components/home/MaterialLibrary';
 import { CompareStudioPreview } from '@/components/home/CompareStudioPreview';
+import { CapsuleStudioPreview } from '@/components/home/CapsuleStudioPreview';
 import { WardrobeBoard } from '@/components/home/WardrobeBoard';
 import { DepartmentFeatures } from '@/components/home/DepartmentFeatures';
 import { HouseSignature } from '@/components/home/HouseSignature';
@@ -47,6 +48,10 @@ export default function HomePage() {
 
       <div id="compare" className="scroll-mt-28">
         <CompareStudioPreview />
+      </div>
+
+      <div id="capsule" className="scroll-mt-28">
+        <CapsuleStudioPreview />
       </div>
 
       <div id="wardrobe" className="scroll-mt-28">
