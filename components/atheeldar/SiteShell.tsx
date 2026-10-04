@@ -41,18 +41,14 @@ export function Header(){
           {nav.map(n=><Link key={n.href} href={n.href} className={pathname.startsWith(n.href)?'active':''}>{n.label}</Link>)}
           <div className="discoverNav">
             <button className={['/about','/account','/dashboard','/market-studio','/decision-center','/decision-board','/trust','/lifestyle','/collections','/briefs','/alerts','/viewing-planner'].some(x=>pathname.startsWith(x))?'active':''}>اكتشف <ChevronDown size={13}/></button>
-            <div className="discoverPanel">
-              <div className="discoverIntro"><span>ATHEELDAR EXPERIENCE</span><b>كل ما تحتاجه لاتخاذ قرار عقاري أوضح.</b><small>تنقّل بين السوق، المكان، الأرقام والخبرة البشرية بدون أن تضيع رحلتك.</small></div>
-              <div className="discoverLinks">
-                <Link href="/lifestyle"><span>01</span><b>مكتشف أسلوب الحياة</b><small>ابدأ من يومك لا من الفلتر</small></Link>
-                <Link href="/market-studio"><span>02</span><b>استوديو السوق</b><small>عدسات، مدن ومصفوفة فرص</small></Link>
-                <Link href="/decision-center"><span>03</span><b>مركز القرار</b><small>اربط الأصل بالمكان والأرقام</small></Link>
-                <Link href="/collections"><span>04</span><b>المجموعات</b><small>مسارات تحريرية منتقاة</small></Link>
-                <Link href="/briefs"><span>05</span><b>موجز أثيلدار</b><small>محتوى معرفي قبل القرار</small></Link>
-                <Link href="/decision-board"><span>06</span><b>لوحة القرار</b><small>قارن ما حفظته بأوزانك</small></Link>
-                <Link href="/trust"><span>07</span><b>مركز الثقة</b><small>وضوح التحقق قبل الالتزام</small></Link>
+            <div className="discoverPanel megaExperience">
+              <div className="discoverIntro"><span>ATHEELDAR EXPERIENCE</span><b>منصة قرار، لا قائمة إعلانات.</b><small>اختر نقطة البداية الأقرب لك ثم انتقل بين السوق والمكان والأرقام والخبرة البشرية بدون فقدان سياقك.</small></div>
+              <div className="megaJourneyGrid">
+                <div className="megaJourneyGroup"><span>01 · اكتشف</span><Link href="/lifestyle"><b>أسلوب الحياة</b><small>ابدأ من يومك واحتياجاتك</small></Link><Link href="/market-studio"><b>استوديو السوق</b><small>مدن، عدسات وفرص</small></Link><Link href="/collections"><b>المجموعات</b><small>مختارات تحريرية</small></Link></div>
+                <div className="megaJourneyGroup"><span>02 · قرر</span><Link href="/decision-center"><b>مركز القرار</b><small>اربط العقار والحي والأرقام</small></Link><Link href="/decision-board"><b>لوحة القرار</b><small>رتب المحفوظات بأوزانك</small></Link><Link href="/viewing-planner"><b>مخطط المعاينات</b><small>حوّل المفضلة إلى يوم منظم</small></Link></div>
+                <div className="megaJourneyGroup"><span>03 · تحقق</span><Link href="/trust"><b>مركز الثقة</b><small>اعرف ما يحتاج تحققًا</small></Link><Link href="/briefs"><b>موجز أثيلدار</b><small>اقرأ قبل أن تقارن</small></Link><Link href="/alerts"><b>التنبيهات الذكية</b><small>احفظ شروط بحثك</small></Link></div>
               </div>
-              <Link href="/properties/villa-al-sidr-hittin" className="discoverFeature"><span>اختيار أثيلدار</span><b>فيلا السِدر · حطين</b><small>صفحة عقار كاملة مع قرار وتمويل ومعاينة</small><ArrowLeft/></Link>
+              <div className="megaExperienceBottom"><Link href="/properties/villa-al-sidr-hittin" className="discoverFeature"><span>اختيار أثيلدار</span><b>فيلا السِدر · حطين</b><small>تجربة عقار كاملة: قصة، ثقة، تمويل ومعاينة</small><ArrowLeft/></Link><div className="megaSignals"><span>بحث شامل ⌘K</span><span>مقارنة</span><span>تمويل</span><span>CRM</span></div></div>
             </div>
           </div>
         </nav>
@@ -95,8 +91,20 @@ export function SiteShell({children}:{children:React.ReactNode}){
     <Footer/></>
 }
 
-export function PageHero({eyebrow,title,copy,actions}:{eyebrow:string,title:string,copy:string,actions?:React.ReactNode}){
-  return <section className="pageHero"><div className="pageHeroGlow"/><div className="pageHeroLine"/><div className="shell pageHeroFrame"><div className="pageHeroMain"><p className="eyebrow">{eyebrow}</p><h1>{title}</h1><p className="pageHeroCopy">{copy}</p>{actions&&<div className="heroActions">{actions}</div>}</div><div className="pageHeroSignature" aria-hidden="true"><span>ATHEELDAR</span><b>REAL ESTATE PLATFORM</b><i/><small>بحث · تحليل · قرار</small></div></div></section>
+type HeroStat={label:string,value:string,note?:string};
+export function PageHero({eyebrow,title,copy,actions,variant='default',image,rail,panel,stats=[],highlights=[]}:{eyebrow:string,title:string,copy:string,actions?:React.ReactNode,variant?:string,image?:string,rail?:React.ReactNode,panel?:React.ReactNode,stats?:HeroStat[],highlights?:string[]}){
+  return <section className={`pageHero signaturePageHero signaturePageHero--${variant}`}>
+    {image&&<div className="signatureHeroMedia" aria-hidden="true"><img src={image} alt=""/></div>}
+    <div className="signatureHeroOverlay" aria-hidden="true"/>
+    <div className={`shell signatureHeroShell ${rail?'hasRail':''}`}>
+      {rail&&<aside className="signatureHeroRail">{rail}</aside>}
+      <div className="signatureHeroMain">
+        <div className="signatureHeroTop"><p className="eyebrow">{eyebrow}</p>{highlights.length>0&&<div className="signatureHeroHighlights">{highlights.map(x=><span key={x}>{x}</span>)}</div>}</div>
+        <div className={`signatureHeroEditorial ${panel?'hasPanel':''}`}><div className="signatureHeroCopy"><h1>{title}</h1><p className="pageHeroCopy">{copy}</p>{actions&&<div className="heroActions">{actions}</div>}</div>{panel&&<div className="signatureHeroPanel">{panel}</div>}</div>
+        {stats.length>0&&<div className="signatureHeroStats">{stats.map(x=><article key={x.label}><small>{x.label}</small><b>{x.value}</b>{x.note&&<span>{x.note}</span>}</article>)}</div>}
+      </div>
+    </div>
+  </section>
 }
 
 export function Breadcrumbs({items}:{items:{label:string,href?:string}[]}){
