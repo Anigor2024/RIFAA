@@ -23,7 +23,6 @@ export function Header(){
     read(); window.addEventListener('storage',read); window.addEventListener('atheeldar:favorites',read as EventListener);
     return()=>{window.removeEventListener('storage',read);window.removeEventListener('atheeldar:favorites',read as EventListener)};
   },[]);
-  useEffect(()=>setOpen(false),[pathname]);
   return <>
     <header className="siteHeader">
       <div className="shell navBar">
@@ -42,8 +41,8 @@ export function Header(){
         </div>
       </div>
       {open&&<div className="mobileNav shell">
-        {nav.map(n=><Link key={n.href} href={n.href}>{n.label}</Link>)}
-        <Link href="/about">عن أثيلدار</Link><Link href="/account">مساحة العميل</Link><Link href="/dashboard">بوابة المستشار</Link><Link href="/contact">تواصل معنا</Link>
+        {nav.map(n=><Link key={n.href} href={n.href} onClick={()=>setOpen(false)}>{n.label}</Link>)}
+        <Link href="/about" onClick={()=>setOpen(false)}>عن أثيلدار</Link><Link href="/account" onClick={()=>setOpen(false)}>مساحة العميل</Link><Link href="/dashboard" onClick={()=>setOpen(false)}>بوابة المستشار</Link><Link href="/contact" onClick={()=>setOpen(false)}>تواصل معنا</Link>
       </div>}
     </header>
   </>

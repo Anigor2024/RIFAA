@@ -9,7 +9,7 @@ function getSet(key:string){try{return new Set<string>(JSON.parse(localStorage.g
 
 export function PropertyCard({p,onCompare}:{p:Property,onCompare?:(slug:string)=>void}){
   const [fav,setFav]=useState(false);
-  useEffect(()=>setFav(getSet('atheeldar-favorites').has(p.slug)),[p.slug]);
+  useEffect(()=>{const read=()=>setFav(getSet('atheeldar-favorites').has(p.slug));const id=window.setTimeout(read,0);return()=>window.clearTimeout(id)},[p.slug]);
   const toggle=()=>{const s=getSet('atheeldar-favorites');fav?s.delete(p.slug):s.add(p.slug);localStorage.setItem('atheeldar-favorites',JSON.stringify([...s]));setFav(!fav);window.dispatchEvent(new Event('atheeldar:favorites'))};
   return <article className="propertyCard">
     <div className="propertyMedia">
