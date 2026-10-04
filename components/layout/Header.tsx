@@ -27,6 +27,28 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handleSearchShortcut = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null;
+      const isTyping =
+        target?.tagName === 'INPUT' ||
+        target?.tagName === 'TEXTAREA' ||
+        target?.tagName === 'SELECT' ||
+        target?.isContentEditable;
+
+      const commandSearch = (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k';
+      const slashSearch = event.key === '/' && !isTyping;
+
+      if (!commandSearch && !slashSearch) return;
+
+      event.preventDefault();
+      openSearch();
+    };
+
+    window.addEventListener('keydown', handleSearchShortcut);
+    return () => window.removeEventListener('keydown', handleSearchShortcut);
+  }, [openSearch]);
+
   const navLinks = [
     { href: '/women', label: t.nav.women },
     { href: '/men', label: t.nav.men },
@@ -34,6 +56,7 @@ export function Header() {
     { href: '/new', label: t.nav.newIn },
     { href: '/collections', label: t.nav.collections },
     { href: '/discover', label: language === 'ar' ? 'المنسّق' : 'Curator' },
+    { href: '/atelier', label: language === 'ar' ? 'المشغل' : 'Atelier' },
     { href: '/editorial', label: t.nav.editorial },
     { href: '/sale', label: t.nav.sale },
   ];
@@ -130,7 +153,8 @@ export function Header() {
               {/* Search Button */}
               <button
                 onClick={openSearch}
-                className={`p-2 transition-colors cursor-pointer ${
+                aria-keyshortcuts="Control+K Meta+K /"
+                className={`flex items-center gap-1.5 p-2 transition-colors cursor-pointer ${
                   isScrolled
                     ? 'text-[#111111] hover:text-[#511D24]'
                     : 'text-white hover:text-[#F7F4EF]'
@@ -138,6 +162,7 @@ export function Header() {
                 aria-label={t.actions.search}
               >
                 <Search className="w-5 h-5" />
+                <span className="hidden xl:inline text-[10px] font-semibold opacity-55">/</span>
               </button>
 
               {/* Account Link */}
@@ -192,12 +217,12 @@ export function Header() {
           </div>
 
           {/* Desktop Primary Navigation Bar */}
-          <nav className="hidden md:flex items-center justify-center gap-4 lg:gap-6 py-3 border-t border-[#242220]/05">
+          <nav className="hidden md:flex items-center justify-center gap-3 lg:gap-5 py-3 border-t border-[#242220]/05">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-[13px] lg:text-sm font-semibold tracking-[0.1em] uppercase transition-colors relative py-1 after:absolute after:bottom-0 after:inset-x-0 after:h-[1px] after:bg-current after:transition-all after:duration-300 after:scale-x-0 hover:after:scale-x-100 ${
+                className={`${link.href === '/sale' ? 'hidden xl:inline-flex' : link.href === '/editorial' ? 'hidden lg:inline-flex' : 'inline-flex'} text-[13px] lg:text-sm font-semibold tracking-[0.1em] uppercase transition-colors relative py-1 after:absolute after:bottom-0 after:inset-x-0 after:h-[1px] after:bg-current after:transition-all after:duration-300 after:scale-x-0 hover:after:scale-x-100 ${
                   isScrolled
                     ? 'text-[#242220] hover:text-[#511D24]'
                     : 'text-white/90 hover:text-white'

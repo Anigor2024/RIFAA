@@ -5,6 +5,7 @@ import { NewArrivals } from '@/components/home/NewArrivals';
 import { StyleConcierge } from '@/components/home/StyleConcierge';
 import { ShopTheEdit } from '@/components/home/ShopTheEdit';
 import { ShopTheLook } from '@/components/home/ShopTheLook';
+import { AtelierPreview } from '@/components/home/AtelierPreview';
 import { MaterialLibrary } from '@/components/home/MaterialLibrary';
 import { WardrobeBoard } from '@/components/home/WardrobeBoard';
 import { DepartmentFeatures } from '@/components/home/DepartmentFeatures';
@@ -34,6 +35,10 @@ export default function HomePage() {
 
       <ShopTheEdit />
       <ShopTheLook />
+
+      <div id="atelier" className="scroll-mt-28">
+        <AtelierPreview />
+      </div>
 
       <div id="materials" className="scroll-mt-28">
         <MaterialLibrary />
