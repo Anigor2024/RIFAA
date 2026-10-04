@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowLeft, CalendarDays, Check, CheckCircle2, Circle, ClipboardCheck, FileText, Home, KeyRound, MapPin, Printer, RotateCcw, Scale, Sparkles, Star, UsersRound, WalletCards, Wrench } from 'lucide-react';
 import { money, properties, type Property } from '@/lib/atheeldar-data';
 
@@ -56,7 +56,7 @@ function inspectionScore(s:InspectionState|null){if(!s)return 0;const vals=Objec
 
 export function InspectionCompare(){
   const [tick,setTick]=useState(0);
-  const inspected=useMemo(()=>properties.map(p=>({p,s:inspectionFor(p.slug)})).filter(x=>x.s),[tick]);
+  const inspected=properties.map(p=>({p,s:inspectionFor(p.slug)})).filter(x=>x.s);
   const [selected,setSelected]=useState<string[]>([]);
   useEffect(()=>{const id=window.setTimeout(()=>{const ids=properties.filter(p=>inspectionFor(p.slug)).slice(0,4).map(p=>p.slug);setSelected(ids)},0);return()=>window.clearTimeout(id)},[tick]);
   const seedDemo=()=>{const demos=[
