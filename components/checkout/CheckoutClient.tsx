@@ -76,20 +76,23 @@ export function CheckoutClient() {
         )
       : undefined;
 
-    setFormData((current) => ({
-      ...current,
-      email: current.email || profile.email,
-      phone: current.phone || profile.phone,
-      firstName: current.firstName || profile.firstName,
-      lastName: current.lastName || profile.lastName,
-      city: matchedCity?.id || current.city,
-      district: current.district || savedAddress?.district || '',
-      street: current.street || savedAddress?.street || '',
-      building: current.building || savedAddress?.building || '',
-      postalCode: current.postalCode || savedAddress?.postalCode || '',
-    }));
+    const prefillTimer = window.setTimeout(() => {
+      setFormData((current) => ({
+        ...current,
+        email: current.email || profile.email,
+        phone: current.phone || profile.phone,
+        firstName: current.firstName || profile.firstName,
+        lastName: current.lastName || profile.lastName,
+        city: matchedCity?.id || current.city,
+        district: current.district || savedAddress?.district || '',
+        street: current.street || savedAddress?.street || '',
+        building: current.building || savedAddress?.building || '',
+        postalCode: current.postalCode || savedAddress?.postalCode || '',
+      }));
+      accountPrefillApplied.current = true;
+    }, 0);
 
-    accountPrefillApplied.current = true;
+    return () => window.clearTimeout(prefillTimer);
   }, [addresses, profile]);
 
   // Errors state
