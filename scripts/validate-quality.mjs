@@ -9,6 +9,7 @@ const sourceDirs = ['app', 'components', 'context', 'data', 'lib', 'providers'];
 const errors = [];
 
 const forbiddenLiterals = [
+  ['next/font/google', 'network-dependent build-time Google font import'],
   ['concierge@rifaa.sa', 'stale fictional support email'],
   ['+966 11 234 5678', 'stale fictional support phone'],
   ["metadataBase: new URL('https://rifaa.sa')", 'stale fictional canonical domain'],
