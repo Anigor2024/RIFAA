@@ -41,6 +41,14 @@ export default function HomePage(){
         <Link href="/decision-journal"><span>03 · DECISION JOURNAL</span><b>ذاكرة قرار لكل أصل</b><small>سجّل لماذا أعجبك أو أقلقك العقار بدل الاعتماد على الذاكرة.</small><strong>افتح سجل القرار <ArrowLeft/></strong></Link>
       </div>
     </section>
+    <section className="shell phase17GatewayV17">
+      <div className="phase17HeaderV17"><div><span>PHASE 17 · HOUSEHOLD TO HANDOVER</span><h2>من قرار الأسرة <em>إلى أول 30 يومًا.</em></h2><p>ثلاث طبقات تغلق فجوات لا تعالجها منصات الإعلانات عادة: توافق الأسرة، مقارنة الواقع بعد المعاينات، وخطة الاستلام بعد إغلاق الصفقة.</p></div><div><span>CONSENSUS</span><i/><span>INSPECTION</span><i/><span>HANDOVER</span></div></div>
+      <div className="phase17JourneyV17">
+        <Link href="/household-room"><span>01</span><div><small>HOUSEHOLD CONSENSUS</small><b>غرفة قرار الأسرة</b><p>ثلاثة آراء مستقلة، متوسط قرار، ودرجة اتفاق تكشف نقاط الخلاف قبل الالتزام.</p></div><strong>اجمع الآراء <ArrowLeft/></strong></Link>
+        <Link href="/inspection-compare"><span>02</span><div><small>POST-VIEWING MATRIX</small><b>مقارنة المعاينات</b><p>قارن 8 محاور وRed Flags بعد الزيارة الفعلية، لا قبلها.</p></div><strong>قارن الواقع <ArrowLeft/></strong></Link>
+        <Link href="/move-in-planner"><span>03</span><div><small>MOVE-IN & HANDOVER</small><b>خطة الاستلام والانتقال</b><p>12 مهمة من المستندات والمفاتيح إلى الصيانة وأول مراجعة بعد 30 يومًا.</p></div><strong>ابدأ الخطة <ArrowLeft/></strong></Link>
+      </div>
+    </section>
     <section className="signatureUtility shell"><Link href="/decision-board"><span>DECISION BOARD</span><b>اجمع ما أعجبك. غيّر الأوزان. شاهد كيف يتغير القرار.</b><small>مقارنة مرجّحة حسب الجودة، الحياة، الاستثمار والميزانية.</small><strong>افتح اللوحة <ArrowLeft/></strong></Link><Link href="/trust"><span>TRUST CENTER</span><b>الثقة ليست Badge؛ هي مسار تحقق واضح.</b><small>افصل بين اكتمال بيانات العرض والتحقق الرسمي من الأصل والصفقة.</small><strong>افتح مركز الثقة <ArrowLeft/></strong></Link></section>
     <section className="marketPulse"><div className="shell marketPulseInner"><div><p className="eyebrow light">ATHEELDAR MARKET PULSE</p><h2>اقرأ المشهد قبل أن تفتح الإعلان.</h2><p>مؤشرات نموذجية تساعد على شرح كيف يمكن للمنصة أن تحوّل البيانات إلى سياق مفهوم للمستخدم.</p></div><div className="pulseCards"><Link href="/neighborhoods/hittin"><TrendingUp/><span>طلب فاخر</span><b>حطين · 94/100</b><small>ملف حي غني بالسياق</small></Link><Link href="/projects"><Layers3/><span>مشاريع جديدة</span><b>{projects[0].progress}% تقدم</b><small>{projects[0].name}</small></Link><Link href="/investment"><Target/><span>فرص استثمار</span><b>{properties.filter(p=>p.investment).length} أصول</b><small>اختبر العائد والسيناريو</small></Link></div></div></section>
     <section className="shell intentStudioWrapV12"><HomeIntentStudio/></section>
