@@ -11,6 +11,7 @@ import {
   Heart,
   Layers3,
   Sparkles,
+  IdCard,
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useCompare } from '@/context/CompareContext';
@@ -19,6 +20,7 @@ import { useAccount } from '@/context/AccountContext';
 import { useAuth } from '@/context/AuthContext';
 import { DEMO_PRODUCTS } from '@/data/products';
 import { ImageWithFallback } from '@/components/common/ImageWithFallback';
+import { useStylePassport } from '@/context/StylePassportContext';
 
 export default function StudioPage() {
   const { language, isRtl } = useLanguage();
@@ -26,10 +28,11 @@ export default function StudioPage() {
   const { wishlistCount } = useWishlist();
   const { recentlyViewedIds, cloudSyncState } = useAccount();
   const { user } = useAuth();
+  const { passport, isConfigured, curatorHref, capsuleHref } = useStylePassport();
 
   const tools = [
     {
-      href: '/discover',
+      href: curatorHref,
       icon: Sparkles,
       index: '01',
       ar: 'منسّق رِفْعة',
@@ -59,7 +62,7 @@ export default function StudioPage() {
       imageId: 'w-03',
     },
     {
-      href: '/capsule',
+      href: capsuleHref,
       icon: Grid2X2,
       index: '04',
       ar: 'استوديو الكابسولة',
@@ -90,8 +93,8 @@ export default function StudioPage() {
             </span>
             <h1 className="mt-4 max-w-4xl text-4xl font-bold leading-[1.03] tracking-tight text-[#111111] sm:text-5xl lg:text-7xl">
               {language === 'ar'
-                ? 'أربع أدوات. رحلة واحدة أكثر وضوحاً.'
-                : 'Four tools. One clearer fashion journey.'}
+                ? 'أربع أدوات، وجواز أسلوب يجعل البداية أقرب لك.'
+                : 'Four tools, plus a Style Passport that starts closer to you.'}
             </h1>
           </div>
           <p className="max-w-xl text-sm font-light leading-7 text-[#242220]/65 lg:justify-self-end">
@@ -100,6 +103,61 @@ export default function StudioPage() {
               : 'Instead of scattering discovery, styling and comparison tools across the store, RIFAA Studio brings them into one connected workspace.'}
           </p>
         </header>
+
+        <section className="mt-8 overflow-hidden border border-[#242220]/10 bg-[#171615] text-white">
+          <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-[1fr_auto] lg:items-center">
+            <div>
+              <div className="flex items-center gap-2 text-[#B59A73]">
+                <IdCard className="h-4 w-4" />
+                <span className="text-[10px] font-semibold uppercase tracking-[0.22em]">
+                  {language === 'ar' ? 'جواز أسلوب رِفْعة' : 'RIFAA STYLE PASSPORT'}
+                </span>
+              </div>
+              <h2 className="mt-3 text-2xl font-bold sm:text-3xl">
+                {isConfigured
+                  ? language === 'ar'
+                    ? 'تفضيلاتك جاهزة لتخصيص أدوات الاستوديو.'
+                    : 'Your preferences are ready to personalize the Studio.'
+                  : language === 'ar'
+                    ? 'ابدأ بتعريف أربع تفضيلات فقط.'
+                    : 'Start by defining just four preferences.'}
+              </h2>
+              <p className="mt-2 max-w-2xl text-xs font-light leading-6 text-white/55">
+                {language === 'ar'
+                  ? 'الجمهور، المناسبة، طابع الألوان، وأولوية الاختيار — محفوظة على هذا الجهاز فقط، بدون قياسات جسم أو بيانات حساسة.'
+                  : 'Audience, moment, palette and decision priority stay on this device only, with no body measurements or sensitive data.'}
+              </p>
+              {passport && (
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {[passport.audience, passport.moment, passport.palette, passport.priority].map((value) => (
+                    <span key={value} className="border border-white/15 bg-white/[0.04] px-2.5 py-1.5 text-[9px] uppercase tracking-[0.13em] text-white/60">
+                      {value}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="flex flex-wrap gap-2 lg:justify-end">
+              <Link
+                href="/passport"
+                className="inline-flex min-h-11 items-center gap-2 bg-white px-5 text-[10px] font-bold uppercase tracking-[0.13em] text-[#111111]"
+              >
+                <IdCard className="h-3.5 w-3.5" />
+                <span>{isConfigured ? (language === 'ar' ? 'عدّل الجواز' : 'Edit passport') : (language === 'ar' ? 'أنشئ الجواز' : 'Create passport')}</span>
+              </Link>
+              {isConfigured && (
+                <Link
+                  href={curatorHref}
+                  className="inline-flex min-h-11 items-center gap-2 border border-white/25 px-5 text-[10px] font-bold uppercase tracking-[0.13em] text-white"
+                >
+                  <Sparkles className="h-3.5 w-3.5 text-[#B59A73]" />
+                  <span>{language === 'ar' ? 'ابدأ من تفضيلاتي' : 'Start from my preferences'}</span>
+                </Link>
+              )}
+            </div>
+          </div>
+        </section>
 
         <section className="mt-8 grid gap-px border border-[#242220]/10 bg-[#242220]/10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="bg-[#FFFDFC] p-5">

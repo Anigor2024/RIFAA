@@ -9,11 +9,13 @@ import { QuickViewProvider } from '@/context/QuickViewContext';
 import { AccountProvider } from '@/context/AccountContext';
 import { AuthProvider } from '@/context/AuthContext';
 import { CompareProvider } from '@/context/CompareContext';
+import { StylePassportProvider } from '@/context/StylePassportContext';
 
 export function AppProviders({ children }: { children: React.ReactNode }) {
   return (
     <LanguageProvider>
       <AuthProvider>
+        <StylePassportProvider>
         <AccountProvider>
           <WishlistProvider>
             <CompareProvider>
@@ -27,6 +29,7 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
             </CompareProvider>
           </WishlistProvider>
         </AccountProvider>
+        </StylePassportProvider>
       </AuthProvider>
     </LanguageProvider>
   );
