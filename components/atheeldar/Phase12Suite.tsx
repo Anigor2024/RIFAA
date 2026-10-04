@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { useMemo, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { ArrowLeft, Building2, Compass, Heart, Home, Layers3, MapPinned, Route, Scale, Sparkles, Target, TrendingUp, WalletCards } from 'lucide-react';
 import { neighborhoods, projects, properties, money, type Property } from '@/lib/atheeldar-data';
 
@@ -22,8 +22,8 @@ function safeCount(key:string){if(typeof window==='undefined')return 0;try{retur
 export function HomeIntentStudio(){
   const [intent,setIntent]=useState<Intent>('سكن');
   const meta=intentMeta[intent];
-  const property=useMemo(()=>properties.find(meta.property)||properties[0],[intent]);
-  const neighborhood=useMemo(()=>neighborhoods.find(n=>n.slug===property.neighborhoodSlug)||neighborhoods[0],[property]);
+  const property=properties.find(meta.property)||properties[0];
+  const neighborhood=neighborhoods.find(n=>n.slug===property.neighborhoodSlug)||neighborhoods[0];
   const project=projects[0];
   const Icon=meta.icon;
   return <section className="intentStudioV12">
