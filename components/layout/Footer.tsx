@@ -87,6 +87,11 @@ export function Footer() {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/compare" className="hover:text-white transition-colors">
+                    {language === 'ar' ? 'استوديو المقارنة' : 'Compare Studio'}
+                  </Link>
+                </li>
+                <li>
                   <Link href="/collections" className="hover:text-[#B59A73] transition-colors">
                     {t.footer.links.eidEdit}
                   </Link>

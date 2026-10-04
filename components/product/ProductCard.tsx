@@ -2,12 +2,13 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Heart, Eye, ShoppingBag } from 'lucide-react';
+import { Heart, Eye, ShoppingBag, Columns3 } from 'lucide-react';
 import { Product } from '@/types';
 import { useLanguage } from '@/context/LanguageContext';
 import { useWishlist } from '@/context/WishlistContext';
 import { useBag } from '@/context/BagContext';
 import { useQuickView } from '@/context/QuickViewContext';
+import { useCompare } from '@/context/CompareContext';
 import { ImageWithFallback } from '@/components/common/ImageWithFallback';
 import { formatPrice } from '@/lib/commerce';
 
@@ -21,10 +22,12 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
   const { isWishlisted, toggleWishlist } = useWishlist();
   const { addToBag } = useBag();
   const { openQuickView } = useQuickView();
+  const { isCompared, toggleCompare, isFull } = useCompare();
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [isHovered, setIsHovered] = useState(false);
 
   const isFavorite = isWishlisted(product.id);
+  const isInCompare = isCompared(product.id);
   const name = language === 'ar' ? product.nameAr : product.nameEn;
   const category = language === 'ar' ? product.categoryAr : product.categoryEn;
 
@@ -45,6 +48,12 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
     e.preventDefault();
     e.stopPropagation();
     openQuickView(product);
+  };
+
+  const handleCompare = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleCompare(product.id);
   };
 
   return (
@@ -113,6 +122,34 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
           />
         </button>
 
+        <button
+          onClick={handleCompare}
+          disabled={isFull && !isInCompare}
+          aria-label={
+            isInCompare
+              ? language === 'ar'
+                ? 'إزالة من المقارنة'
+                : 'Remove from comparison'
+              : language === 'ar'
+                ? 'أضف للمقارنة'
+                : 'Add to comparison'
+          }
+          title={
+            isFull && !isInCompare
+              ? language === 'ar'
+                ? 'المقارنة ممتلئة'
+                : 'Comparison is full'
+              : undefined
+          }
+          className={
+            isInCompare
+              ? 'absolute end-3 top-14 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-[#111111] text-white shadow-sm transition-all'
+              : 'absolute end-3 top-14 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-[#FFFDFC]/85 text-[#111111] shadow-sm transition-all hover:bg-white hover:text-[#511D24] disabled:cursor-not-allowed disabled:opacity-35'
+          }
+        >
+          <Columns3 className="h-4 w-4" />
+        </button>
+
         {/* Quick Action Overlay (Desktop Hover) */}
         <div className="hidden md:flex absolute inset-x-3 bottom-3 z-10 gap-2 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
           <button
@@ -168,7 +205,8 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
         </Link>
 
         {/* Price */}
-        <div className="flex items-baseline gap-2 pt-0.5">
+        <div className="flex items-center justify-between gap-3 pt-0.5">
+          <div className="flex items-baseline gap-2">
           <span className="text-sm font-semibold tracking-tight text-[#111111] tabular-nums">
             {formatPrice(product.price, language)}
           </span>
@@ -177,6 +215,20 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
               {formatPrice(product.oldPrice, language)}
             </span>
           )}
+          </div>
+          <button
+            type="button"
+            onClick={handleCompare}
+            disabled={isFull && !isInCompare}
+            className={
+              isInCompare
+                ? 'inline-flex items-center gap-1 text-[9px] font-semibold uppercase tracking-[0.12em] text-[#511D24]'
+                : 'inline-flex items-center gap-1 text-[9px] font-semibold uppercase tracking-[0.12em] text-[#242220]/40 transition-colors hover:text-[#511D24] disabled:cursor-not-allowed disabled:opacity-30'
+            }
+          >
+            <Columns3 className="h-3 w-3" />
+            <span>{language === 'ar' ? 'قارن' : 'Compare'}</span>
+          </button>
         </div>
       </div>
     </div>
