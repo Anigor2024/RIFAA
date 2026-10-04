@@ -21,22 +21,36 @@ export function Header(){
   const [searchOpen,setSearchOpen]=useState(false);
   const [query,setQuery]=useState('');
   const [favCount,setFavCount]=useState(0);
+  const [scrollProgress,setScrollProgress]=useState(0);
   useEffect(()=>{
     const read=()=>{try{setFavCount(JSON.parse(localStorage.getItem('atheeldar-favorites')||'[]').length)}catch{setFavCount(0)}};
     read(); window.addEventListener('storage',read); window.addEventListener('atheeldar:favorites',read as EventListener);
     return()=>{window.removeEventListener('storage',read);window.removeEventListener('atheeldar:favorites',read as EventListener)};
   },[]);
   useEffect(()=>{const key=(e:KeyboardEvent)=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();setSearchOpen(v=>!v)}if(e.key==='Escape')setSearchOpen(false)};window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key)},[]);
+  useEffect(()=>{const read=()=>{const max=document.documentElement.scrollHeight-window.innerHeight;setScrollProgress(max>0?Math.min(100,(window.scrollY/max)*100):0)};read();window.addEventListener('scroll',read,{passive:true});window.addEventListener('resize',read);return()=>{window.removeEventListener('scroll',read);window.removeEventListener('resize',read)}},[]);
   const results=useMemo(()=>{const q=query.trim().toLowerCase();if(!q)return [] as {type:string,title:string,meta:string,href:string}[];const ps=properties.filter(p=>`${p.title} ${p.city} ${p.district} ${p.type}`.toLowerCase().includes(q)).slice(0,4).map(p=>({type:'عقار',title:p.title,meta:`${p.city} · ${money(p.price)} ر.س`,href:`/properties/${p.slug}`}));const pr=projects.filter(p=>`${p.name} ${p.city} ${p.type}`.toLowerCase().includes(q)).slice(0,3).map(p=>({type:'مشروع',title:p.name,meta:`${p.city} · ${p.type}`,href:`/projects/${p.slug}`}));const ns=neighborhoods.filter(n=>`${n.name} ${n.city} ${n.label}`.toLowerCase().includes(q)).slice(0,3).map(n=>({type:'حي',title:n.name,meta:`${n.city} · ${n.score}/100`,href:`/neighborhoods/${n.slug}`}));return [...ps,...pr,...ns].slice(0,8)},[query]);
   return <>
     <header className="siteHeader">
+      <div className="scrollProgress" aria-hidden="true"><i style={{width:`${scrollProgress}%`}}/></div>
       <div className="shell navBar">
         <Link href="/" className="brand" aria-label="أثيلدار الرئيسية">
           <span className="brandMark">أ</span><span className="brandWords"><b>أثيلدار</b><small>ATHEELDAR REAL ESTATE</small></span>
         </Link>
         <nav className="desktopNav">
           {nav.map(n=><Link key={n.href} href={n.href} className={pathname.startsWith(n.href)?'active':''}>{n.label}</Link>)}
-          <Link href="/about" className={pathname==='/about'?'active':''}>عن أثيلدار</Link>
+          <div className="discoverNav">
+            <button className={pathname==='/about'||pathname==='/account'||pathname==='/dashboard'?'active':''}>اكتشف <ChevronDown size={13}/></button>
+            <div className="discoverPanel">
+              <div className="discoverIntro"><span>ATHEELDAR EXPERIENCE</span><b>كل ما تحتاجه لاتخاذ قرار عقاري أوضح.</b><small>تنقّل بين السوق، المكان، الأرقام والخبرة البشرية بدون أن تضيع رحلتك.</small></div>
+              <div className="discoverLinks">
+                <Link href="/about"><span>01</span><b>عن أثيلدار</b><small>فلسفة المنصة وتجربة القرار</small></Link>
+                <Link href="/account"><span>02</span><b>مساحة العميل</b><small>المفضلة، البحوث والمواعيد</small></Link>
+                <Link href="/dashboard"><span>03</span><b>بوابة المستشار</b><small>CRM ومسار العملاء</small></Link>
+              </div>
+              <Link href="/properties/villa-al-sidr-hittin" className="discoverFeature"><span>اختيار أثيلدار</span><b>فيلا السِدر · حطين</b><small>صفحة عقار كاملة مع قرار وتمويل ومعاينة</small><ArrowLeft/></Link>
+            </div>
+          </div>
         </nav>
         <div className="navActions">
           <button className="navIcon commandButton" onClick={()=>setSearchOpen(true)} aria-label="البحث الشامل"><Search size={19}/><small>⌘K</small></button>
@@ -65,7 +79,16 @@ export function Footer(){
   </div><div className="shell footerBottom"><span>© 2026 أثيلدار العقارية — نموذج أعمال تجريبي؛ البيانات المعروضة لأغراض المعاينة.</span><span>واجهة عربية · تجربة متعددة الصفحات</span></div></footer>
 }
 
-export function SiteShell({children}:{children:React.ReactNode}){return <><Header/><main>{children}</main><Footer/></>}
+export function SiteShell({children}:{children:React.ReactNode}){
+  const pathname=usePathname();
+  const [concierge,setConcierge]=useState(false);
+  return <><Header/><main><div key={pathname} className="routeStage">{children}</div></main>
+    <div className={`conciergeDock ${concierge?'open':''}`}>
+      {concierge&&<div className="conciergePanel"><div className="conciergeHead"><span>ATHEELDAR CONCIERGE</span><button onClick={()=>setConcierge(false)} aria-label="إغلاق"><X/></button></div><h3>ما الخطوة التالية؟</h3><p>اختصر الطريق إلى أهم المسارات حسب قرارك الحالي.</p><div className="conciergeLinks"><Link href="/properties" onClick={()=>setConcierge(false)}><Search/><span><b>ابحث عن عقار</b><small>بحث ذكي وفلاتر ومقارنة</small></span><ArrowLeft/></Link><Link href="/advisors" onClick={()=>setConcierge(false)}><UserRound/><span><b>طابق مستشارًا</b><small>حسب المدينة ونوع القرار</small></span><ArrowLeft/></Link><Link href="/finance" onClick={()=>setConcierge(false)}><Building2/><span><b>اختبر ميزانيتك</b><small>تمويل وقدرة شرائية</small></span><ArrowLeft/></Link></div></div>}
+      <button className="conciergeTrigger" onClick={()=>setConcierge(v=>!v)} aria-label="كونسيرج أثيلدار"><span>أ</span><b>اسأل أثيلدار</b></button>
+    </div>
+    <Footer/></>
+}
 
 export function PageHero({eyebrow,title,copy,actions}:{eyebrow:string,title:string,copy:string,actions?:React.ReactNode}){
   return <section className="pageHero"><div className="pageHeroGlow"/><div className="pageHeroLine"/><div className="shell pageHeroFrame"><div className="pageHeroMain"><p className="eyebrow">{eyebrow}</p><h1>{title}</h1><p className="pageHeroCopy">{copy}</p>{actions&&<div className="heroActions">{actions}</div>}</div><div className="pageHeroSignature" aria-hidden="true"><span>ATHEELDAR</span><b>REAL ESTATE PLATFORM</b><i/><small>بحث · تحليل · قرار</small></div></div></section>

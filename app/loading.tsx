@@ -1,0 +1,1 @@
+export default function Loading(){return <div className="luxuryLoading"><div className="loadingMark">أ</div><span>ATHEELDAR</span><i/><small>نجهّز تجربتك العقارية</small></div>}
