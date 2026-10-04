@@ -1,9 +1,13 @@
 import { Hero } from '@/components/home/Hero';
+import { ExperienceIndex } from '@/components/home/ExperienceIndex';
 import { CategoryEditorial } from '@/components/home/CategoryEditorial';
 import { NewArrivals } from '@/components/home/NewArrivals';
+import { StyleConcierge } from '@/components/home/StyleConcierge';
 import { ShopTheEdit } from '@/components/home/ShopTheEdit';
 import { ShopTheLook } from '@/components/home/ShopTheLook';
+import { MaterialLibrary } from '@/components/home/MaterialLibrary';
 import { DepartmentFeatures } from '@/components/home/DepartmentFeatures';
+import { HouseSignature } from '@/components/home/HouseSignature';
 import { SeasonalDrop } from '@/components/home/SeasonalDrop';
 import { JournalSection } from '@/components/home/JournalSection';
 import { TrustStrip } from '@/components/home/TrustStrip';
@@ -12,34 +16,37 @@ import { Newsletter } from '@/components/home/Newsletter';
 export default function HomePage() {
   return (
     <main className="w-full overflow-x-hidden">
-      {/* 1. Cinematic Full-Viewport Hero */}
       <Hero />
+      <ExperienceIndex />
 
-      {/* 2. Asymmetric Category Editorial (Women / Men / Kids) */}
-      <CategoryEditorial />
+      <div id="collections" className="scroll-mt-28">
+        <CategoryEditorial />
+      </div>
 
-      {/* 3. Filterable New Arrivals Discovery */}
-      <NewArrivals />
+      <div id="new-arrivals" className="scroll-mt-28">
+        <NewArrivals />
+      </div>
 
-      {/* 4. The RIFAA Edit: "City After Sunset" */}
+      <div id="curator" className="scroll-mt-28">
+        <StyleConcierge />
+      </div>
+
       <ShopTheEdit />
-
-      {/* 5. Shop The Look: Curated Ensemble with Coordinates */}
       <ShopTheLook />
 
-      {/* 6. In-Depth Department Features (Women / Men / Kids) */}
-      <DepartmentFeatures />
+      <div id="materials" className="scroll-mt-28">
+        <MaterialLibrary />
+      </div>
 
-      {/* 7. High-Contrast Seasonal Drop: The Eid Edit 2026 */}
+      <DepartmentFeatures />
+      <HouseSignature />
       <SeasonalDrop />
 
-      {/* 8. RIFAA Journal Magazine Stories */}
-      <JournalSection />
+      <div id="journal" className="scroll-mt-28">
+        <JournalSection />
+      </div>
 
-      {/* 9. Standards & Trust Strip */}
       <TrustStrip />
-
-      {/* 10. Newsletter Invitation */}
       <Newsletter />
     </main>
   );
