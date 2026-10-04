@@ -18,6 +18,7 @@ import {
   ArrowLeft,
   Sparkles,
   ShieldCheck,
+  IdCard,
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useWishlist } from '@/context/WishlistContext';
@@ -577,6 +578,33 @@ export default function AccountPage() {
 
         {activeTab === 'preferences' && (
           <section className="mx-auto max-w-3xl space-y-6">
+            <div className="border border-[#511D24]/15 bg-[#511D24]/[0.03] p-6 sm:p-7">
+              <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-center">
+                <div>
+                  <div className="flex items-center gap-2 text-[#511D24]">
+                    <IdCard className="h-4 w-4" />
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.18em]">
+                      {language === 'ar' ? 'طبقة تخصيص إضافية' : 'PERSONALIZATION LAYER'}
+                    </span>
+                  </div>
+                  <h2 className="mt-2 text-lg font-bold text-[#111111]">
+                    {language === 'ar' ? 'جواز أسلوب رِفْعة' : 'RIFAA Style Passport'}
+                  </h2>
+                  <p className="mt-1 max-w-xl text-xs leading-6 text-[#242220]/55">
+                    {language === 'ar'
+                      ? 'احفظ تفضيلات الذوق غير الحساسة محلياً لتفتح أدوات المنسّق والكابسولة على نقطة بداية أقرب لك.'
+                      : 'Save non-sensitive taste preferences locally so Curator and Capsule start closer to you.'}
+                  </p>
+                </div>
+                <Link
+                  href="/passport"
+                  className="inline-flex min-h-11 shrink-0 items-center justify-center bg-[#111111] px-5 text-[10px] font-bold uppercase tracking-[0.12em] text-white hover:bg-[#511D24]"
+                >
+                  {language === 'ar' ? 'افتح جواز الأسلوب' : 'Open Style Passport'}
+                </Link>
+              </div>
+            </div>
+
             <div className="border border-[#242220]/10 bg-[#FFFDFC] p-6 sm:p-8">
               <h2 className="text-xl font-bold text-[#111111]">
                 {user ? (language === 'ar' ? 'تفضيلات الحساب' : 'Account Preferences') : (language === 'ar' ? 'تفضيلات التجربة' : 'Experience Preferences')}
