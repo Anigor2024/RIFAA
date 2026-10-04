@@ -1,35 +1,9 @@
 import type { Metadata } from 'next';
-import { BadgeCheck, Clock3, MapPin, Sparkles, Star } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowLeft, BadgeCheck, Clock3, MapPin, Sparkles, Star, UsersRound } from 'lucide-react';
 import { PageHero } from '@/components/atheeldar/SiteShell';
 import { AdvisorBooking } from '@/components/atheeldar/InteractiveTools';
 import { AdvisorMatcher } from '@/components/atheeldar/ExperienceTools';
 import { advisors } from '@/lib/atheeldar-data';
-
 export const metadata:Metadata={title:'المستشارون'};
-
-export default function AdvisorsPage(){
-  return <>
-    <PageHero eyebrow="خبرة بشرية داخل تجربة رقمية" title="المستشارون" copy="تخصصات واضحة، مطابقة ذكية أولية، وحجز جلسة يدخل مباشرة إلى مساحة العميل داخل نموذج المنصة."/>
-    <section className="advisorMatchSection shell"><AdvisorMatcher/></section>
-    <section className="section softSection advisorDirectory"><div className="shell">
-      <div className="sectionHead"><div><p className="eyebrow">شبكة خبرات أثيلدار</p><h2>اختصاص واضح لكل <em>نوع قرار</em></h2></div><p className="sectionAsideCopy">بدل صور مخزنة ضخمة لا تضيف قيمة، صممنا بطاقات استشارية تركّز على التخصص، الموقع ومسار الحجز. ملفات الفريق هنا تجريبية لأغراض العرض.</p></div>
-      <div className="advisorGrid">{advisors.map((a,i)=>{
-        const initials=a.name.split(' ').map(x=>x[0]).join('').slice(0,2);
-        return <article key={a.name} className="advisorCard advisorCardEditorial">
-          <div className="advisorIdentity">
-            <div className="advisorMonogram">{initials}</div>
-            <div className="advisorIdentityMeta"><span className="advisorIndex">0{i+1}</span><span className="availabilityText"><Clock3/> {i===0?'متاح اليوم':i===1?'موعد غدًا':'هذا الأسبوع'}</span></div>
-          </div>
-          <div className="advisorBody">
-            <div className="advisorTopline"><span className="advisorRating"><Star size={14} fill="currentColor"/>{a.rating} <small>تجريبي</small></span><span><Sparkles size={13}/> ملف استشاري</span></div>
-            <h2>{a.name} <BadgeCheck size={18}/></h2>
-            <b>{a.role}</b>
-            <p><MapPin size={15}/>{a.city}</p>
-            <div className="advisorFocus">{a.focus.split('·').map(x=><span key={x.trim()}>{x.trim()}</span>)}</div>
-            <AdvisorBooking advisor={a.name}/>
-          </div>
-        </article>
-      })}</div>
-    </div></section>
-  </>
-}
+export default function AdvisorsPage(){const featured=advisors[0];const avg=(advisors.reduce((s,a)=>s+Number(a.rating),0)/advisors.length).toFixed(1);return <><PageHero variant="advisors" image={featured.image} eyebrow="HUMAN EXPERTISE · خبرة بشرية داخل تجربة رقمية" title="المستشارون" copy="تخصصات أوضح، مطابقة أسرع، وحجز جلسة يدخل مباشرة إلى مساحة العميل — بحيث تصبح الخبرة البشرية امتدادًا طبيعيًا للمنصة لا صفحة تعريفية منفصلة." highlights={['سكن فاخر','استثمار وتطوير','واجهة بحرية','حجز مباشر']} stats={[{label:'المستشارون',value:String(advisors.length),note:'ضمن النموذج'},{label:'متوسط التقييم',value:avg,note:'من 5'},{label:'مدن الخدمة',value:'2',note:'الرياض · جدة'},{label:'مسارات القرار',value:'سكن + استثمار',note:'مطابقة أولية'}]} rail={<><span>ADVISOR MATCHING</span><b>ابدأ من احتياجك.</b><p>سكن فاخر، فرصة استثمارية، أو قرار يحتاج خبرة بشرية.</p><div className="signatureHeroLinks"><a href="#advisor-match">المطابقة الذكية</a><a href="#advisor-directory">شبكة المستشارين</a><Link href="/investment">مسار الاستثمار</Link><Link href="/contact">استشارة خاصة</Link></div></>} panel={<div className="signatureHeroSpotlight"><small>FEATURED ADVISOR</small><h3>{featured.name}</h3><p>{featured.role}</p><div><span><Star/> {featured.rating} تقييم تجريبي</span><span><MapPin/> {featured.city}</span><span><UsersRound/> {featured.focus}</span></div><a href="#advisor-directory">حجز جلسة <ArrowLeft/></a></div>} actions={<a href="#advisor-match" className="lightOutline">طابق مستشارك <ArrowLeft/></a>}/><section id="advisor-match" className="advisorMatchSection shell"><AdvisorMatcher/></section><section id="advisor-directory" className="section softSection advisorDirectory"><div className="shell"><div className="sectionHead"><div><p className="eyebrow">شبكة خبرات أثيلدار</p><h2>اختصاص واضح لكل <em>نوع قرار</em></h2></div><p className="sectionAsideCopy">بطاقات استشارية تركّز على التخصص، المدينة، وقت التوفر ومسار الحجز. الملفات هنا تجريبية لأغراض العرض.</p></div><div className="advisorGrid">{advisors.map((a,i)=>{const initials=a.name.split(' ').map(x=>x[0]).join('').slice(0,2);return <article key={a.name} className="advisorCard advisorCardEditorial"><div className="advisorIdentity"><div className="advisorMonogram">{initials}</div><div className="advisorIdentityMeta"><span className="advisorIndex">0{i+1}</span><span className="availabilityText"><Clock3/> {i===0?'متاح اليوم':i===1?'موعد غدًا':'هذا الأسبوع'}</span></div></div><div className="advisorBody"><div className="advisorTopline"><span className="advisorRating"><Star size={14} fill="currentColor"/>{a.rating} <small>تجريبي</small></span><span><Sparkles size={13}/> ملف استشاري</span></div><h2>{a.name} <BadgeCheck size={18}/></h2><b>{a.role}</b><p><MapPin size={15}/>{a.city}</p><div className="advisorFocus">{a.focus.split('·').map(x=><span key={x.trim()}>{x.trim()}</span>)}</div><AdvisorBooking advisor={a.name}/></div></article>})}</div></div></section></>}
