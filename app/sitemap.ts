@@ -11,6 +11,7 @@ const staticRoutes = [
   '/kids',
   '/new',
   '/collections',
+  '/discover',
   '/sale',
   '/editorial',
   '/about',
