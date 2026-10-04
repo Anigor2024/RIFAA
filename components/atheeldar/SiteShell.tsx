@@ -44,9 +44,10 @@ export function Header(){
             <div className="discoverPanel">
               <div className="discoverIntro"><span>ATHEELDAR EXPERIENCE</span><b>كل ما تحتاجه لاتخاذ قرار عقاري أوضح.</b><small>تنقّل بين السوق، المكان، الأرقام والخبرة البشرية بدون أن تضيع رحلتك.</small></div>
               <div className="discoverLinks">
-                <Link href="/about"><span>01</span><b>عن أثيلدار</b><small>فلسفة المنصة وتجربة القرار</small></Link>
-                <Link href="/account"><span>02</span><b>مساحة العميل</b><small>المفضلة، البحوث والمواعيد</small></Link>
-                <Link href="/dashboard"><span>03</span><b>بوابة المستشار</b><small>CRM ومسار العملاء</small></Link>
+                <Link href="/market-studio"><span>01</span><b>استوديو السوق</b><small>عدسات، مدن ومصفوفة فرص</small></Link>
+                <Link href="/decision-center"><span>02</span><b>مركز القرار</b><small>اربط الأصل بالمكان والأرقام</small></Link>
+                <Link href="/account"><span>03</span><b>مساحة العميل</b><small>المفضلة، البحوث والمواعيد</small></Link>
+                <Link href="/about"><span>04</span><b>عن أثيلدار</b><small>فلسفة المنصة وتجربة القرار</small></Link>
               </div>
               <Link href="/properties/villa-al-sidr-hittin" className="discoverFeature"><span>اختيار أثيلدار</span><b>فيلا السِدر · حطين</b><small>صفحة عقار كاملة مع قرار وتمويل ومعاينة</small><ArrowLeft/></Link>
             </div>
@@ -63,7 +64,7 @@ export function Header(){
       {open&&<div className="mobileNav shell">
         <button className="mobileSearchTrigger" onClick={()=>{setOpen(false);setSearchOpen(true)}}><Search size={17}/> بحث شامل في أثيلدار</button>
         {nav.map(n=><Link key={n.href} href={n.href} onClick={()=>setOpen(false)}>{n.label}</Link>)}
-        <Link href="/about" onClick={()=>setOpen(false)}>عن أثيلدار</Link><Link href="/account" onClick={()=>setOpen(false)}>مساحة العميل</Link><Link href="/dashboard" onClick={()=>setOpen(false)}>بوابة المستشار</Link><Link href="/contact" onClick={()=>setOpen(false)}>تواصل معنا</Link>
+        <Link href="/market-studio" onClick={()=>setOpen(false)}>استوديو السوق</Link><Link href="/decision-center" onClick={()=>setOpen(false)}>مركز القرار</Link><Link href="/about" onClick={()=>setOpen(false)}>عن أثيلدار</Link><Link href="/account" onClick={()=>setOpen(false)}>مساحة العميل</Link><Link href="/dashboard" onClick={()=>setOpen(false)}>بوابة المستشار</Link><Link href="/contact" onClick={()=>setOpen(false)}>تواصل معنا</Link>
       </div>}
     </header>
     {searchOpen&&<div className="commandOverlay" role="dialog" aria-modal="true"><button className="commandBackdrop" onClick={()=>setSearchOpen(false)} aria-label="إغلاق"/><section className="commandPalette"><div className="commandTop"><Search/><input autoFocus value={query} onChange={e=>setQuery(e.target.value)} placeholder="ابحث عن عقار، مشروع، حي أو مدينة..."/><span><Command size={13}/> K</span><button onClick={()=>setSearchOpen(false)}><X/></button></div><div className="commandHint">بحث موحد في كامل المنصة · جرّب «حطين» أو «فيلا» أو «جدة»</div><div className="commandResults">{query&&!results.length&&<div className="commandEmpty">لا توجد نتيجة مباشرة. <Link href={`/properties?q=${encodeURIComponent(query)}`} onClick={()=>setSearchOpen(false)}>جرّب البحث الذكي <ArrowLeft/></Link></div>}{results.map(r=><Link key={`${r.type}-${r.href}`} href={r.href} onClick={()=>setSearchOpen(false)}><span className="commandType">{r.type==='عقار'?<Home/>:r.type==='مشروع'?<Building2/>:<MapPinned/>}</span><div><b>{r.title}</b><small>{r.meta}</small></div><ArrowLeft/></Link>)}</div>{!query&&<div className="commandShortcuts"><Link href="/properties" onClick={()=>setSearchOpen(false)}><Home/> كل العقارات</Link><Link href="/projects" onClick={()=>setSearchOpen(false)}><Building2/> المشاريع الجديدة</Link><Link href="/neighborhoods" onClick={()=>setSearchOpen(false)}><MapPinned/> دليل الأحياء</Link></div>}</section></div>}
@@ -74,7 +75,7 @@ export function Footer(){
   return <footer className="siteFooter"><div className="shell footerGrid">
     <div><Link href="/" className="brand footerBrand"><span className="brandMark">أ</span><span className="brandWords"><b>أثيلدار</b><small>ATHEELDAR REAL ESTATE</small></span></Link><p>منصة عقارية سعودية تجريبية متقدمة لعرض نموذج منتج متكامل للبحث والاستثمار وإدارة رحلة العميل.</p><div className="footerSignal"><span>بحث شامل</span><span>مقارنة</span><span>مختبرات قرار</span><span>CRM</span></div></div>
     <div><b>العقارات</b><Link href="/properties">كل العقارات</Link><Link href="/projects">المشاريع الجديدة</Link><Link href="/neighborhoods">دليل الأحياء</Link></div>
-    <div><b>الأدوات</b><Link href="/investment">مختبر المستثمر</Link><Link href="/finance">التمويل العقاري</Link><Link href="/account">مساحة العميل</Link><Link href="/dashboard">بوابة المستشار</Link></div>
+    <div><b>الأدوات</b><Link href="/market-studio">استوديو السوق</Link><Link href="/decision-center">مركز القرار</Link><Link href="/investment">مختبر المستثمر</Link><Link href="/finance">التمويل العقاري</Link><Link href="/account">مساحة العميل</Link></div>
     <div><b>الشركة</b><Link href="/about">عن أثيلدار</Link><Link href="/advisors">المستشارون</Link><Link href="/contact">تواصل معنا</Link><span>الرياض · المملكة العربية السعودية</span></div>
   </div><div className="shell footerBottom"><span>© 2026 أثيلدار العقارية — نموذج أعمال تجريبي؛ البيانات المعروضة لأغراض المعاينة.</span><span>واجهة عربية · تجربة متعددة الصفحات</span></div></footer>
 }
