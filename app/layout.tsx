@@ -1,76 +1,18 @@
 import type { Metadata } from 'next';
-import { IBM_Plex_Sans_Arabic, Plus_Jakarta_Sans, Cormorant_Garamond } from 'next/font/google';
+import { IBM_Plex_Sans_Arabic, Cormorant_Garamond } from 'next/font/google';
 import './globals.css';
-import { AppProviders } from '@/providers/AppProviders';
-import { Header } from '@/components/layout/Header';
-import { Footer } from '@/components/layout/Footer';
-import { ProductQuickView } from '@/components/product/ProductQuickView';
-import { BagDrawer } from '@/components/bag/BagDrawer';
-import { SearchModal } from '@/components/search/SearchModal';
+import { SiteShell } from '@/components/atheeldar/SiteShell';
 
-const ibmPlexArabic = IBM_Plex_Sans_Arabic({
-  subsets: ['arabic', 'latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-arabic',
-  display: 'swap',
-});
+const arabic=IBM_Plex_Sans_Arabic({subsets:['arabic','latin'],weight:['300','400','500','600','700'],variable:'--font-arabic',display:'swap'});
+const serif=Cormorant_Garamond({subsets:['latin'],weight:['500','600','700'],variable:'--font-serif',display:'swap'});
 
-const plusJakartaSans = Plus_Jakarta_Sans({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-sans',
-  display: 'swap',
-});
-
-const cormorantGaramond = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-serif',
-  display: 'swap',
-});
-
-export const metadata: Metadata = {
-  metadataBase: new URL('https://rifaa.sa'),
-  title: 'رِفْعة | RIFAA — Contemporary Saudi Fashion',
-  description: 'دار رِفْعة للأزياء المعاصرة — تصاميم راقية للمرأة والرجل والطفل في المملكة العربية السعودية. Contemporary Saudi Fashion House.',
-  keywords: ['أزياء سعودية', 'رِفْعة', 'RIFAA', 'Saudi Fashion', 'Contemporary Modest', 'عبايات فاخرة', 'أزياء رجالية', 'أزياء أطفال', 'Riyadh Fashion'],
-  openGraph: {
-    title: 'رِفْعة | RIFAA — Contemporary Saudi Fashion',
-    description: 'دار رِفْعة للأزياء المعاصرة — تصاميم راقية للمرأة والرجل والطفل في المملكة العربية السعودية.',
-    type: 'website',
-    locale: 'ar_SA',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'رِفْعة | RIFAA — Contemporary Saudi Fashion',
-    description: 'دار رِفْعة للأزياء المعاصرة — تصاميم راقية للمرأة والرجل والطفل في المملكة العربية السعودية.',
-  },
+export const metadata: Metadata={
+  metadataBase:new URL('https://atheeldar.vercel.app'),
+  title:{default:'أثيلدار العقارية | ATHEELDAR',template:'%s | أثيلدار'},
+  description:'منصة عقارية سعودية متقدمة متعددة الصفحات للبحث عن العقارات والمشاريع والأحياء والاستثمار والتمويل وإدارة رحلة العميل.',
+  keywords:['عقارات السعودية','عقارات الرياض','عقارات جدة','فلل','شقق','استثمار عقاري','أثيلدار','ATHEELDAR'],
+  openGraph:{title:'أثيلدار العقارية | ATHEELDAR',description:'اكتشف عقارك عبر تجربة سعودية ذكية متعددة الصفحات.',type:'website',locale:'ar_SA'},
+  twitter:{card:'summary_large_image',title:'أثيلدار العقارية | ATHEELDAR',description:'منصة عقارية سعودية متقدمة متعددة الصفحات.'}
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <html
-      lang="ar"
-      dir="rtl"
-      className={`${ibmPlexArabic.variable} ${plusJakartaSans.variable} ${cormorantGaramond.variable}`}
-      suppressHydrationWarning
-    >
-      <body className="bg-[#F7F4EF] text-[#111111] antialiased overflow-x-hidden selection:bg-[#511D24] selection:text-white min-h-screen flex flex-col justify-between" suppressHydrationWarning>
-        <AppProviders>
-          <Header />
-          <div className="flex-1 w-full">
-            {children}
-          </div>
-          <ProductQuickView />
-          <BagDrawer />
-          <SearchModal />
-          <Footer />
-        </AppProviders>
-      </body>
-    </html>
-  );
-}
+export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="ar" dir="rtl" className={`${arabic.variable} ${serif.variable}`}><body><SiteShell>{children}</SiteShell></body></html>}

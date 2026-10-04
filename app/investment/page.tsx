@@ -1,0 +1,7 @@
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { ArrowLeft, BarChart3, Building2, Calculator, ShieldCheck, TrendingUp } from 'lucide-react';
+import { PageHero } from '@/components/atheeldar/SiteShell';
+import { InvestmentLab } from '@/components/atheeldar/InteractiveTools';
+export const metadata:Metadata={title:'الاستثمار العقاري'};
+export default function InvestmentPage(){return <><PageHero eyebrow="قرارات بالأرقام" title="الاستثمار العقاري" copy="صفحة متخصصة لفهم العائد والدخل والنمو المتوقع، مع أدوات محاكاة وتجربة مستخدم مصممة للمستثمر." actions={<Link href="/properties" className="lightOutline">تصفح فرص الاستثمار <ArrowLeft/></Link>}/><section className="section shell"><InvestmentLab/></section><section className="section softSection"><div className="shell"><div className="sectionHead"><div><p className="eyebrow">منهجية القرار</p><h2>لا تنظر إلى <em>العائد وحده</em></h2></div></div><div className="knowledgeGrid"><article><TrendingUp/><h3>العائد</h3><p>افصل بين العائد الإجمالي والعائد الصافي بعد الإشغال والمصاريف.</p></article><article><Building2/><h3>جودة الأصل</h3><p>الموقع، عمر المبنى، الإدارة والمرافق تؤثر في الاستدامة وليس السعر فقط.</p></article><article><BarChart3/><h3>قابلية التخارج</h3><p>قيّم سهولة إعادة البيع والسيولة النسبية في الشريحة المستهدفة.</p></article><article><ShieldCheck/><h3>التحقق</h3><p>أي صفقة فعلية تحتاج فحصًا قانونيًا وماليًا وفنيًا قبل الالتزام.</p></article></div></div></section></>}
