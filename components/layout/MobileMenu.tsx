@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { X, ArrowRight, ArrowLeft, Globe, UserRound } from 'lucide-react';
+import { X, ArrowRight, ArrowLeft, Globe, UserRound, Compass } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
 interface MobileMenuProps {
@@ -85,7 +85,18 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           })}
         </div>
 
-        <div className="px-6 pb-2">
+        <div className="px-6 pb-2 space-y-2">
+          <Link
+            href="/concierge"
+            onClick={onClose}
+            className="flex items-center justify-between border border-[#511D24]/15 bg-[#511D24]/[0.035] px-4 py-3.5 text-sm font-semibold text-[#111111]"
+          >
+            <span className="flex items-center gap-2">
+              <Compass className="h-4 w-4 text-[#511D24]" />
+              <span>{language === 'ar' ? 'كونسيرج رِفْعة' : 'RIFAA Concierge'}</span>
+            </span>
+            {isRtl ? <ArrowLeft className="h-4 w-4 text-[#242220]/40" /> : <ArrowRight className="h-4 w-4 text-[#242220]/40" />}
+          </Link>
           <Link
             href="/account"
             onClick={onClose}

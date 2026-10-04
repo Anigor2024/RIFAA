@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { Search as SearchIcon, X, Sparkles, Layers3, Columns3, Grid2X2, ArrowLeft, ArrowRight, IdCard } from 'lucide-react';
+import { Search as SearchIcon, X, Sparkles, Layers3, Columns3, Grid2X2, ArrowLeft, ArrowRight, IdCard, Compass } from 'lucide-react';
 import { useSearch } from '@/context/SearchContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { useQuickView } from '@/context/QuickViewContext';
@@ -139,8 +139,16 @@ export function SearchModal() {
                 </span>
               </div>
 
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
                 {[
+                  {
+                    href: '/concierge',
+                    icon: Compass,
+                    ar: 'كونسيرج رِفْعة',
+                    en: 'Concierge',
+                    subAr: 'استأنف رحلتك من الخطوة الأنسب',
+                    subEn: 'Resume from the clearest next step',
+                  },
                   {
                     href: '/passport',
                     icon: IdCard,
