@@ -12,6 +12,7 @@ import {
   Layers3,
   Sparkles,
   IdCard,
+  Compass,
 } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useCompare } from '@/context/CompareContext';
@@ -21,6 +22,8 @@ import { useAuth } from '@/context/AuthContext';
 import { DEMO_PRODUCTS } from '@/data/products';
 import { ImageWithFallback } from '@/components/common/ImageWithFallback';
 import { useStylePassport } from '@/context/StylePassportContext';
+import { useBag } from '@/context/BagContext';
+import { getJourneyPlan } from '@/lib/journey';
 
 export default function StudioPage() {
   const { language, isRtl } = useLanguage();
@@ -29,6 +32,15 @@ export default function StudioPage() {
   const { recentlyViewedIds, cloudSyncState } = useAccount();
   const { user } = useAuth();
   const { passport, isConfigured, curatorHref, capsuleHref } = useStylePassport();
+  const { bagCount } = useBag();
+  const journey = getJourneyPlan({
+    passportConfigured: isConfigured,
+    viewedCount: recentlyViewedIds.length,
+    wishlistCount,
+    compareCount,
+    bagCount,
+    orderCount: 0,
+  });
 
   const tools = [
     {
@@ -104,7 +116,42 @@ export default function StudioPage() {
           </p>
         </header>
 
-        <section className="mt-8 overflow-hidden border border-[#242220]/10 bg-[#171615] text-white">
+        <section className="mt-8 overflow-hidden border border-[#511D24]/15 bg-[#511D24]/[0.035]">
+          <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-[1fr_auto] lg:items-center">
+            <div>
+              <div className="flex items-center gap-2 text-[#511D24]">
+                <Compass className="h-4 w-4" />
+                <span className="text-[10px] font-semibold uppercase tracking-[0.22em]">
+                  {language === 'ar' ? 'كونسيرج رِفْعة · الخطوة التالية' : 'RIFAA CONCIERGE · NEXT BEST ACTION'}
+                </span>
+              </div>
+              <h2 className="mt-3 text-2xl font-bold text-[#111111] sm:text-3xl">
+                {language === 'ar' ? journey.nextAction.titleAr : journey.nextAction.titleEn}
+              </h2>
+              <p className="mt-2 max-w-2xl text-xs font-light leading-6 text-[#242220]/55">
+                {language === 'ar' ? journey.nextAction.bodyAr : journey.nextAction.bodyEn}
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2 lg:justify-end">
+              <Link
+                href="/concierge"
+                className="inline-flex min-h-11 items-center gap-2 bg-[#111111] px-5 text-[10px] font-bold uppercase tracking-[0.13em] text-white hover:bg-[#511D24]"
+              >
+                <Compass className="h-3.5 w-3.5" />
+                <span>{language === 'ar' ? 'افتح الكونسيرج' : 'Open Concierge'}</span>
+              </Link>
+              <Link
+                href={journey.nextAction.href === '/discover' ? curatorHref : journey.nextAction.href}
+                className="inline-flex min-h-11 items-center gap-2 border border-[#242220]/15 bg-[#FFFDFC] px-5 text-[10px] font-bold uppercase tracking-[0.13em] text-[#111111]"
+              >
+                <Sparkles className="h-3.5 w-3.5 text-[#511D24]" />
+                <span>{language === 'ar' ? journey.nextAction.labelAr : journey.nextAction.labelEn}</span>
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        <section className="mt-6 overflow-hidden border border-[#242220]/10 bg-[#171615] text-white">
           <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
               <div className="flex items-center gap-2 text-[#B59A73]">
