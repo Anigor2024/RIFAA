@@ -26,6 +26,8 @@ const requiredPaths = [
   'app/discover/layout.tsx',
   'components/home/StyleConcierge.tsx',
   'components/home/MaterialLibrary.tsx',
+  'components/home/WardrobeBoard.tsx',
+  'components/layout/ScrollProgress.tsx',
   'lib/discovery.ts',
   'docs/PRODUCTION-HANDOFF.md',
   'context/AuthContext.tsx',

@@ -45,7 +45,39 @@ export const MEDIA_MANIFEST: Record<string, MediaAsset> = {
     focalPosition: 'center',
   },
 
-  // The RIFAA Edit: Riyadh After Dark
+  // Editorial Stories
+  editorialModernWardrobe: {
+    id: 'editorial-modern-wardrobe-01',
+    src: '/images/editorial/modern-wardrobe-guide.jpg',
+    department: 'editorial',
+    role: 'campaign',
+    subject: 'Modern Saudi wardrobe editorial study',
+    altAr: 'تحرير رِفْعة — دليل خزانة سعودية معاصرة',
+    altEn: 'RIFAA Editorial — A Modern Saudi Wardrobe Study',
+    focalPosition: 'center',
+  },
+  editorialLayering: {
+    id: 'editorial-layering-01',
+    src: '/images/editorial/art-of-layering-saudi-climate.jpg',
+    department: 'editorial',
+    role: 'campaign',
+    subject: 'Layering and textile editorial for the Saudi climate',
+    altAr: 'تحرير رِفْعة — فن الطبقات والخامات في مناخ المملكة',
+    altEn: 'RIFAA Editorial — Layering and Textile Intelligence for the Saudi Climate',
+    focalPosition: 'center',
+  },
+  editorialEidReflections: {
+    id: 'editorial-eid-reflections-01',
+    src: '/images/editorial/eid-edit-reflections.jpg',
+    department: 'editorial',
+    role: 'campaign',
+    subject: 'Refined Eid occasionwear editorial',
+    altAr: 'تحرير رِفْعة — انعكاسات العيد وتفاصيل المناسبات',
+    altEn: 'RIFAA Editorial — Eid Reflections and Occasion Details',
+    focalPosition: 'center',
+  },
+
+  // Legacy edit asset retained outside the homepage experience
   editRiyadhEvening: {
     id: 'edit-riyadh-dark-01',
     src: '/images/edit_riyadh_evening.jpg',

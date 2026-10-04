@@ -6,6 +6,7 @@ import { StyleConcierge } from '@/components/home/StyleConcierge';
 import { ShopTheEdit } from '@/components/home/ShopTheEdit';
 import { ShopTheLook } from '@/components/home/ShopTheLook';
 import { MaterialLibrary } from '@/components/home/MaterialLibrary';
+import { WardrobeBoard } from '@/components/home/WardrobeBoard';
 import { DepartmentFeatures } from '@/components/home/DepartmentFeatures';
 import { HouseSignature } from '@/components/home/HouseSignature';
 import { SeasonalDrop } from '@/components/home/SeasonalDrop';
@@ -36,6 +37,10 @@ export default function HomePage() {
 
       <div id="materials" className="scroll-mt-28">
         <MaterialLibrary />
+      </div>
+
+      <div id="wardrobe" className="scroll-mt-28">
+        <WardrobeBoard />
       </div>
 
       <DepartmentFeatures />

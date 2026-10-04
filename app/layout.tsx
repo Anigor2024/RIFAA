@@ -7,6 +7,7 @@ import { Footer } from '@/components/layout/Footer';
 import { ProductQuickView } from '@/components/product/ProductQuickView';
 import { BagDrawer } from '@/components/bag/BagDrawer';
 import { SearchModal } from '@/components/search/SearchModal';
+import { ScrollProgress } from '@/components/layout/ScrollProgress';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://rifaa-ashy.vercel.app';
 
@@ -72,6 +73,7 @@ export default function RootLayout({
       <body className="bg-[#F7F4EF] text-[#111111] antialiased overflow-x-hidden selection:bg-[#511D24] selection:text-white min-h-screen flex flex-col justify-between" suppressHydrationWarning>
         <a href="#main-content" className="skip-link">تجاوز إلى المحتوى / Skip to content</a>
         <AppProviders>
+          <ScrollProgress />
           <Header />
           <div id="main-content" className="flex-1 w-full" tabIndex={-1}>
             {children}
