@@ -77,6 +77,11 @@ export function Footer() {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/discover" className="hover:text-white transition-colors">
+                    {language === 'ar' ? 'منسّق رِفْعة' : 'RIFAA Curator'}
+                  </Link>
+                </li>
+                <li>
                   <Link href="/collections" className="hover:text-[#B59A73] transition-colors">
                     {t.footer.links.eidEdit}
                   </Link>

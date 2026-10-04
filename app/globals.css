@@ -10,6 +10,9 @@
     --color-muted-taupe: #A79C90;
     --color-warm-sand: #D9D0C4;
     --color-accent-metal: #B59A73;
+    --font-arabic: "Tahoma", "Geeza Pro", "Segoe UI", Arial, sans-serif;
+    --font-sans: "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --font-serif: "Baskerville", "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
   }
 
   html {
@@ -22,11 +25,11 @@
 
   /* Natural Arabic & English font handling */
   [dir="rtl"] {
-    font-family: var(--font-arabic, 'IBM Plex Sans Arabic', 'Cairo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+    font-family: var(--font-arabic);
   }
 
   [dir="ltr"] {
-    font-family: var(--font-sans, 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+    font-family: var(--font-sans);
   }
 
   /* Tabular numbers for price baselines */
@@ -36,7 +39,7 @@
 
   /* Editorial Serif for English display accents */
   .font-editorial {
-    font-family: var(--font-serif, 'Cormorant Garamond', 'Didot', 'Bodoni MT', Georgia, serif);
+    font-family: var(--font-serif);
   }
 }
 

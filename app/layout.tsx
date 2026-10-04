@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from 'next';
-import { IBM_Plex_Sans_Arabic, Plus_Jakarta_Sans, Cormorant_Garamond } from 'next/font/google';
 import './globals.css';
 import { AppProviders } from '@/providers/AppProviders';
 import { Header } from '@/components/layout/Header';
@@ -7,29 +6,9 @@ import { Footer } from '@/components/layout/Footer';
 import { ProductQuickView } from '@/components/product/ProductQuickView';
 import { BagDrawer } from '@/components/bag/BagDrawer';
 import { SearchModal } from '@/components/search/SearchModal';
+import { ScrollProgress } from '@/components/layout/ScrollProgress';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://rifaa-ashy.vercel.app';
-
-const ibmPlexArabic = IBM_Plex_Sans_Arabic({
-  subsets: ['arabic', 'latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-arabic',
-  display: 'swap',
-});
-
-const plusJakartaSans = Plus_Jakarta_Sans({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-sans',
-  display: 'swap',
-});
-
-const cormorantGaramond = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-serif',
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -63,15 +42,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="ar"
-      dir="rtl"
-      className={`${ibmPlexArabic.variable} ${plusJakartaSans.variable} ${cormorantGaramond.variable}`}
-      suppressHydrationWarning
-    >
+    <html lang="ar" dir="rtl" suppressHydrationWarning>
       <body className="bg-[#F7F4EF] text-[#111111] antialiased overflow-x-hidden selection:bg-[#511D24] selection:text-white min-h-screen flex flex-col justify-between" suppressHydrationWarning>
         <a href="#main-content" className="skip-link">تجاوز إلى المحتوى / Skip to content</a>
         <AppProviders>
+          <ScrollProgress />
           <Header />
           <div id="main-content" className="flex-1 w-full" tabIndex={-1}>
             {children}
