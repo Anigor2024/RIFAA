@@ -22,6 +22,8 @@ import {
 import { useLanguage } from '@/context/LanguageContext';
 import { useWishlist } from '@/context/WishlistContext';
 import { useAccount } from '@/context/AccountContext';
+import { useAuth } from '@/context/AuthContext';
+import { AccountAuthCard } from '@/components/account/AccountAuthCard';
 import { DEMO_PRODUCTS } from '@/data/products';
 import { ProductCard } from '@/components/product/ProductCard';
 import { formatPrice } from '@/lib/commerce';
@@ -31,6 +33,7 @@ type AccountTab = 'overview' | 'profile' | 'orders' | 'addresses' | 'preferences
 export default function AccountPage() {
   const { language, isRtl } = useLanguage();
   const { wishlistCount } = useWishlist();
+  const { user } = useAuth();
   const {
     profile,
     addresses,
@@ -38,6 +41,7 @@ export default function AccountPage() {
     recentlyViewedIds,
     preferences,
     isHydrated,
+    cloudSyncState,
     saveProfile,
     addAddress,
     removeAddress,
@@ -143,7 +147,13 @@ export default function AccountPage() {
 
         <header className="mb-8 border-b border-[#242220]/10 pb-8">
           <span className="block text-xs font-semibold uppercase tracking-[0.24em] text-[#511D24]">
-            {language === 'ar' ? 'حساب تجريبي محفوظ على هذا الجهاز' : 'LOCAL DEMO CLIENT ACCOUNT'}
+            {user
+              ? language === 'ar'
+                ? 'حساب عميل سحابي'
+                : 'CLOUD CLIENT ACCOUNT'
+              : language === 'ar'
+                ? 'وضع الضيف المحلي'
+                : 'LOCAL GUEST MODE'}
           </span>
           <div className="mt-2 flex flex-col justify-between gap-5 md:flex-row md:items-end">
             <div>
@@ -151,21 +161,35 @@ export default function AccountPage() {
                 {language === 'ar' ? `مرحباً، ${displayName}` : `Welcome, ${displayName}`}
               </h1>
               <p className="mt-2 max-w-2xl text-sm font-light leading-relaxed text-[#242220]/70">
-                {language === 'ar'
-                  ? 'تجربة حساب عميل متكاملة لمحفظة رِفْعة: الطلبات التجريبية، القطع المحفوظة، العناوين، والتفضيلات تبقى محلياً داخل متصفحك.'
-                  : 'A complete portfolio client-account experience: demo orders, saved pieces, addresses, and preferences remain locally in your browser.'}
+                {user
+                  ? language === 'ar'
+                    ? 'بيانات الملف والعناوين والمفضلة وسجل الطلبات التجريبية تتم مزامنتها مع حساب Supabase المحمي بسياسات RLS.'
+                    : 'Profile, addresses, wishlist and demo-order history sync with a Supabase account protected by Row Level Security.'
+                  : language === 'ar'
+                    ? 'يمكنك الاستمرار كضيف محلي أو تسجيل الدخول لنقل بياناتك إلى المزامنة السحابية الآمنة.'
+                    : 'Continue as a local guest or sign in to move your client data into secure cloud sync.'}
               </p>
             </div>
             <div className="inline-flex items-center gap-2 border border-[#B59A73]/35 bg-[#FFFDFC] px-4 py-2 text-[11px] text-[#242220]/70">
               <ShieldCheck className="h-4 w-4 text-[#511D24]" />
               <span>
-                {language === 'ar'
-                  ? 'لا توجد مصادقة أو بيانات حساب حقيقية'
-                  : 'No real authentication or cloud account data'}
+                {user
+                  ? cloudSyncState === 'synced'
+                    ? language === 'ar'
+                      ? 'مصادقة فعلية · المزامنة مكتملة'
+                      : 'Live authentication · Cloud synced'
+                    : language === 'ar'
+                      ? 'مصادقة فعلية · المزامنة جارية'
+                      : 'Live authentication · Syncing'
+                  : language === 'ar'
+                    ? 'بيانات الضيف تبقى على هذا الجهاز'
+                    : 'Guest data stays on this device'}
               </span>
             </div>
           </div>
         </header>
+
+        <AccountAuthCard />
 
         <div className="mb-8 overflow-x-auto border-y border-[#242220]/10 bg-[#FFFDFC]/70">
           <div className="flex min-w-max">
@@ -195,7 +219,7 @@ export default function AccountPage() {
             <section className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-5">
               {[
                 { icon: Heart, value: wishlistCount, ar: 'قطع محفوظة', en: 'Saved Pieces' },
-                { icon: Package, value: orders.length, ar: 'طلبات تجريبية', en: 'Demo Orders' },
+                { icon: Package, value: orders.length, ar: user ? 'طلبات محفوظة' : 'طلبات تجريبية', en: user ? 'Saved Orders' : 'Demo Orders' },
                 { icon: MapPin, value: addresses.length, ar: 'عناوين محفوظة', en: 'Saved Addresses' },
                 { icon: Eye, value: recentProducts.length, ar: 'شوهدت مؤخراً', en: 'Recently Viewed' },
               ].map((item) => {
@@ -222,7 +246,7 @@ export default function AccountPage() {
                       {language === 'ar' ? 'آخر نشاط' : 'LATEST ACTIVITY'}
                     </span>
                     <h2 className="mt-1 text-xl font-bold text-[#111111]">
-                      {language === 'ar' ? 'آخر طلب تجريبي' : 'Latest Demo Order'}
+                      {user ? (language === 'ar' ? 'آخر طلب محفوظ' : 'Latest Saved Order') : (language === 'ar' ? 'آخر طلب تجريبي' : 'Latest Demo Order')}
                     </h2>
                   </div>
                   <button
@@ -305,12 +329,16 @@ export default function AccountPage() {
           <section className="mx-auto max-w-3xl border border-[#242220]/10 bg-[#FFFDFC] p-6 sm:p-8">
             <div className="mb-6 border-b border-[#242220]/10 pb-5">
               <h2 className="text-xl font-bold text-[#111111]">
-                {language === 'ar' ? 'بيانات العميل التجريبية' : 'Demo Client Profile'}
+                {user ? (language === 'ar' ? 'ملف العميل السحابي' : 'Cloud Client Profile') : (language === 'ar' ? 'بيانات العميل المحلية' : 'Local Client Profile')}
               </h2>
               <p className="mt-1 text-xs leading-relaxed text-[#242220]/60">
-                {language === 'ar'
-                  ? 'تُحفظ هذه البيانات محلياً على هذا المتصفح فقط.'
-                  : 'These details are stored only in this browser.'}
+                {user
+                  ? language === 'ar'
+                    ? 'الاسم والجوال والتفضيلات تُزامن مع حسابك. البريد مرتبط بهوية تسجيل الدخول.'
+                    : 'Name, mobile number and preferences sync to your account. Email belongs to your login identity.'
+                  : language === 'ar'
+                    ? 'تُحفظ هذه البيانات محلياً حتى تختار تسجيل الدخول.'
+                    : 'These details remain local until you choose to sign in.'}
               </p>
             </div>
 
@@ -327,7 +355,8 @@ export default function AccountPage() {
                     type={field.type}
                     value={profile[field.key]}
                     onChange={(event) => handleProfileField(field.key, event.target.value)}
-                    className="w-full border border-[#242220]/20 bg-white px-3.5 py-3 text-sm font-normal text-[#111111] outline-none transition-colors focus:border-[#111111]"
+                    disabled={Boolean(user) && field.key === 'email'}
+                    className="w-full border border-[#242220]/20 bg-white px-3.5 py-3 text-sm font-normal text-[#111111] outline-none transition-colors focus:border-[#111111] disabled:cursor-not-allowed disabled:bg-[#F3EFE8] disabled:text-[#242220]/55"
                   />
                 </label>
               ))}
@@ -344,8 +373,12 @@ export default function AccountPage() {
               <span>
                 {profileSaved
                   ? language === 'ar'
-                    ? 'تم الحفظ محلياً'
-                    : 'Saved locally'
+                    ? user
+                      ? 'تم الحفظ والمزامنة'
+                      : 'تم الحفظ محلياً'
+                    : user
+                      ? 'Saved & synced'
+                      : 'Saved locally'
                   : language === 'ar'
                     ? 'حفظ الملف'
                     : 'Save Profile'}
@@ -458,12 +491,16 @@ export default function AccountPage() {
           <div className="grid gap-6 lg:grid-cols-2">
             <form onSubmit={handleAddAddress} className="border border-[#242220]/10 bg-[#FFFDFC] p-6 sm:p-8">
               <h2 className="text-xl font-bold text-[#111111]">
-                {language === 'ar' ? 'إضافة عنوان تجريبي' : 'Add Demo Address'}
+                {user ? (language === 'ar' ? 'إضافة عنوان توصيل' : 'Add Delivery Address') : (language === 'ar' ? 'إضافة عنوان محلي' : 'Add Local Address')}
               </h2>
               <p className="mt-1 text-xs text-[#242220]/60">
-                {language === 'ar'
-                  ? 'لا تستخدم عنواناً شخصياً حساساً في هذا النموذج الاستعراضي.'
-                  : 'Avoid entering sensitive real-world address details in this portfolio demo.'}
+                {user
+                  ? language === 'ar'
+                    ? 'سيُحفظ العنوان داخل حسابك السحابي ولا يراه سوى المستخدم المصادق عليه.'
+                    : 'This address is stored in your cloud account and is protected by user-level access policies.'
+                  : language === 'ar'
+                    ? 'العنوان يبقى محلياً على هذا الجهاز حتى تسجيل الدخول.'
+                    : 'The address remains local to this device until you sign in.'}
               </p>
 
               <div className="mt-6 grid gap-4 sm:grid-cols-2">
@@ -491,7 +528,7 @@ export default function AccountPage() {
 
               <button className="mt-6 inline-flex items-center gap-2 bg-[#111111] px-6 py-3 text-xs font-semibold uppercase tracking-wider text-white hover:bg-[#511D24]">
                 <Plus className="h-4 w-4" />
-                <span>{language === 'ar' ? 'حفظ العنوان محلياً' : 'Save Address Locally'}</span>
+                <span>{user ? (language === 'ar' ? 'حفظ العنوان' : 'Save Address') : (language === 'ar' ? 'حفظ محلياً' : 'Save Locally')}</span>
               </button>
             </form>
 
@@ -542,7 +579,7 @@ export default function AccountPage() {
           <section className="mx-auto max-w-3xl space-y-6">
             <div className="border border-[#242220]/10 bg-[#FFFDFC] p-6 sm:p-8">
               <h2 className="text-xl font-bold text-[#111111]">
-                {language === 'ar' ? 'تفضيلات التجربة' : 'Experience Preferences'}
+                {user ? (language === 'ar' ? 'تفضيلات الحساب' : 'Account Preferences') : (language === 'ar' ? 'تفضيلات التجربة' : 'Experience Preferences')}
               </h2>
 
               <div className="mt-6 space-y-6">
@@ -588,9 +625,10 @@ export default function AccountPage() {
               </div>
             </div>
 
+            {!user && (
             <div className="border border-[#511D24]/15 bg-[#511D24]/[0.03] p-6">
               <h3 className="text-sm font-bold text-[#111111]">
-                {language === 'ar' ? 'إعادة ضبط الحساب التجريبي' : 'Reset Demo Account'}
+                {language === 'ar' ? 'إعادة ضبط بيانات الضيف' : 'Reset Guest Data'}
               </h3>
               <p className="mt-1 text-xs leading-relaxed text-[#242220]/60">
                 {language === 'ar'
@@ -615,6 +653,7 @@ export default function AccountPage() {
                 {language === 'ar' ? 'مسح بيانات الحساب' : 'Clear Account Data'}
               </button>
             </div>
+            )}
           </section>
         )}
       </div>
