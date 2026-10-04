@@ -11,6 +11,7 @@ export function ExperienceIndex() {
     { href: '#collections', ar: 'التشكيلات', en: 'Collections' },
     { href: '#new-arrivals', ar: 'وصل حديثاً', en: 'New In' },
     { href: '#curator', ar: 'منسّق الإطلالة', en: 'Style Curator' },
+    { href: '#atelier', ar: 'المشغل', en: 'Atelier' },
     { href: '#materials', ar: 'مكتبة الخامات', en: 'Material Library' },
     { href: '#wardrobe', ar: 'خزانتي', en: 'Wardrobe' },
     { href: '#journal', ar: 'المجلة', en: 'Journal' },

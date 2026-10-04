@@ -16,6 +16,7 @@ interface WishlistContextType {
   wishlistIds: string[];
   wishlistItems: Product[];
   toggleWishlist: (productId: string) => void;
+  addManyToWishlist: (productIds: string[]) => void;
   isWishlisted: (productId: string) => boolean;
   wishlistCount: number;
 }
@@ -149,6 +150,21 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const addManyToWishlist = (productIds: string[]) => {
+    const next = Array.from(new Set([...wishlistIds, ...productIds]));
+    persistWishlist(next);
+
+    if (user && productIds.length > 0) {
+      void supabase.from('wishlist_items').upsert(
+        productIds.map((productId) => ({
+          user_id: user.id,
+          product_id: productId,
+        })),
+        { onConflict: 'user_id,product_id' }
+      );
+    }
+  };
+
   const isWishlisted = (productId: string) => wishlistIds.includes(productId);
   const wishlistItems = DEMO_PRODUCTS.filter((product) =>
     wishlistIds.includes(product.id)
@@ -160,6 +176,7 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
         wishlistIds,
         wishlistItems,
         toggleWishlist,
+        addManyToWishlist,
         isWishlisted,
         wishlistCount: wishlistIds.length,
       }}

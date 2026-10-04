@@ -6,6 +6,14 @@ import { Product, ProductColor, CartItem } from '@/types';
 interface BagContextType {
   items: CartItem[];
   addToBag: (product: Product, color: ProductColor, size: string, quantity?: number) => void;
+  addManyToBag: (
+    selections: {
+      product: Product;
+      color: ProductColor;
+      size: string;
+      quantity?: number;
+    }[]
+  ) => void;
   removeFromBag: (itemId: string) => void;
   updateQuantity: (itemId: string, quantity: number) => void;
   clearBag: () => void;
@@ -109,6 +117,47 @@ export function BagProvider({ children }: { children: React.ReactNode }) {
     setIsOpen(true);
   };
 
+  const addManyToBag = (
+    selections: {
+      product: Product;
+      color: ProductColor;
+      size: string;
+      quantity?: number;
+    }[]
+  ) => {
+    if (selections.length === 0) return;
+
+    const nextItems = [...items];
+
+    for (const selection of selections) {
+      const quantity = selection.quantity ?? 1;
+      const existingIndex = nextItems.findIndex(
+        (item) =>
+          item.product.id === selection.product.id &&
+          item.selectedColor.nameEn === selection.color.nameEn &&
+          item.selectedSize === selection.size
+      );
+
+      if (existingIndex > -1) {
+        nextItems[existingIndex] = {
+          ...nextItems[existingIndex],
+          quantity: nextItems[existingIndex].quantity + quantity,
+        };
+      } else {
+        nextItems.push({
+          id: `${selection.product.id}-${selection.color.nameEn}-${selection.size}-${Date.now()}-${nextItems.length}`,
+          product: selection.product,
+          selectedColor: selection.color,
+          selectedSize: selection.size,
+          quantity,
+        });
+      }
+    }
+
+    saveItems(nextItems);
+    setIsOpen(true);
+  };
+
   const removeFromBag = (itemId: string) => {
     saveItems(items.filter((item) => item.id !== itemId));
   };
@@ -137,6 +186,7 @@ export function BagProvider({ children }: { children: React.ReactNode }) {
       value={{
         items,
         addToBag,
+        addManyToBag,
         removeFromBag,
         updateQuantity,
         clearBag,
