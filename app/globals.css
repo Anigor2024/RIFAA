@@ -31,3 +31,78 @@ h1 em,h2 em{font-family:var(--font-arabic),Arial,sans-serif;font-style:normal;fo
 @media(max-width:1100px){.marketPulseInner,.journeyPlanner,.advisorMatcher{grid-template-columns:1fr}.journeyPlanner{gap:1px}.journeyResult{grid-column:auto}.platformMap{grid-template-columns:repeat(3,1fr)}.decisionCockpit{grid-template-columns:1fr 1fr}.paymentPlanner{grid-template-columns:1fr}.paymentStages,.paymentPlanner>.modelNote{grid-column:auto}.projectOverview{grid-template-columns:1fr 1fr}.crmPulse{grid-template-columns:1fr}.advisorMatchCard{max-width:520px}}
 @media(max-width:760px){.heroInner h1{font-size:clamp(43px,13vw,58px);line-height:1.16;letter-spacing:-1px;gap:.06em}.heroKicker span:last-child{display:none}.heroMetrics{grid-template-columns:1fr 1fr}.heroMetrics>div:nth-child(2){border-left:0}.marketPulseInner{gap:22px}.pulseCards{grid-template-columns:1fr}.journeyIntro,.journeyControls,.journeyResult{padding:23px}.journeyIntro h2{font-size:31px}.journeyActions{flex-direction:column}.toolbarRight{align-items:stretch;width:100%;flex-direction:column}.sortControl{width:100%}.sortControl select{width:100%}.decisionCockpit{grid-template-columns:1fr 1fr}.decisionCockpit>div:nth-child(2){border-left:0}.buyerChecklist>div{grid-template-columns:1fr}.compareChooser{grid-template-columns:1fr;padding:22px}.compareChooser h2{font-size:31px}.compareSelects{grid-template-columns:1fr}.compareSelects span{text-align:center}.compareMatrix{padding:0 14px;overflow:auto}.compareRow{grid-template-columns:110px 160px 160px;min-width:430px}.compareRow.head{margin:0 -14px;padding:0 14px}.compareFoot{padding:15px;justify-content:space-between}.paymentPlanner{padding:23px}.paymentStages{grid-template-columns:1fr 1fr}.projectTimeline{grid-template-columns:1fr}.projectOverview{margin-top:0;width:100%;grid-template-columns:1fr 1fr}.advisorMatcher{padding:22px}.advisorMatcher h2{font-size:28px}.accountKpis{grid-template-columns:1fr 1fr}.platformMap{grid-template-columns:1fr 1fr}.commandOverlay{padding-top:5vh}.commandShortcuts{grid-template-columns:1fr}.mobileSearchTrigger{grid-column:auto}.scenarioTabs{overflow:auto}.scenarioTabs>*{white-space:nowrap}}
 @media(max-width:420px){.heroInner h1{font-size:42px;line-height:1.18;letter-spacing:0}.homeHero{min-height:640px}.heroMetrics{grid-template-columns:1fr 1fr}.heroMetrics>div{padding:12px 8px}.heroMetrics b{font-size:22px}.decisionCockpit{grid-template-columns:1fr}.decisionCockpit>div{border-left:0;border-bottom:1px solid #2d302c}.paymentStages,.projectOverview,.accountKpis,.platformMap{grid-template-columns:1fr}.advisorMatchCard{grid-template-columns:64px 1fr}.advisorMatchCard>svg{display:none}.commandTop>span{display:none}}
+
+
+/* ===== ATHEELDAR Phase 03.1 · Screenshot-led visual correction ===== */
+.commandButton small{display:none}
+.pageHero{padding:0;min-height:330px;display:flex;align-items:center;background:
+  radial-gradient(circle at 12% 10%,rgba(179,153,101,.10),transparent 24%),
+  linear-gradient(135deg,#111411 0%,#0e100e 62%,#171913 100%);border-bottom:1px solid rgba(255,255,255,.06)}
+.pageHeroFrame{min-height:330px;display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:80px;align-items:center;position:relative;z-index:2;padding-block:48px}
+.pageHeroMain{max-width:790px}
+.pageHero .eyebrow{margin-bottom:12px;color:#b99b62}
+.pageHero h1{font-size:clamp(48px,5vw,72px);line-height:1.02;letter-spacing:-2px;margin:0 0 15px}
+.pageHeroCopy{font-size:14px;line-height:1.9;color:#bfc2bd;max-width:680px;margin:0}
+.pageHeroSignature{justify-self:end;width:220px;display:grid;gap:7px;text-align:left;direction:ltr;color:#747a72}
+.pageHeroSignature span{font:600 9px/1 var(--font-sans),sans-serif;letter-spacing:3.5px;color:#c1a66f}
+.pageHeroSignature b{font:600 15px/1.2 var(--font-sans),sans-serif;letter-spacing:1.4px;color:#d9ddd6}
+.pageHeroSignature i{display:block;width:100%;height:1px;background:linear-gradient(90deg,#b39965,transparent);margin:7px 0}
+.pageHeroSignature small{font-size:9px;letter-spacing:1px}
+.pageHeroLine{position:absolute;top:0;bottom:0;right:calc((100vw - min(1240px,calc(100vw - 44px)))/2 + 68%);width:1px;background:linear-gradient(transparent,rgba(255,255,255,.08),transparent)}
+.pageHeroGlow{width:360px;height:360px;left:-120px;top:-160px}
+.heroActions{margin-top:18px}
+.explorerSection{padding-top:0;padding-bottom:76px}
+.explorerLift{position:relative;z-index:5;margin-top:-42px}
+.explorerLift .smartSearchPanel{box-shadow:0 24px 55px rgba(0,0,0,.16);border:1px solid rgba(255,255,255,.08);margin-bottom:26px}
+.advisorMatchSection{position:relative;z-index:4;margin-top:-34px;padding-bottom:72px}
+.advisorMatchSection .advisorMatcher{box-shadow:0 28px 70px rgba(28,24,16,.13);border:1px solid rgba(255,255,255,.08)}
+.advisorDirectory{padding-top:74px}
+.sectionAsideCopy{max-width:460px;font-size:12px;line-height:1.9;color:#777;margin:0}
+.advisorGrid{gap:16px}
+.advisorCardEditorial{background:#fbf9f4;border:1px solid rgba(17,19,16,.08);box-shadow:none;transition:.25s;overflow:hidden}
+.advisorCardEditorial:hover{transform:translateY(-4px);box-shadow:0 22px 55px rgba(31,27,20,.10)}
+.advisorIdentity{height:150px;background:
+  radial-gradient(circle at 20% 20%,rgba(217,198,156,.18),transparent 32%),
+  linear-gradient(135deg,#171a17,#24271f);display:flex;align-items:center;justify-content:space-between;padding:23px;color:#fff;position:relative;overflow:hidden}
+.advisorIdentity:after{content:"ATHEELDAR";position:absolute;left:20px;bottom:-8px;font:700 34px/1 var(--font-sans),sans-serif;letter-spacing:4px;color:rgba(255,255,255,.035)}
+.advisorMonogram{width:82px;height:82px;border:1px solid rgba(217,198,156,.6);border-radius:50%;display:grid;place-items:center;font-size:28px;font-weight:700;color:var(--gold2);background:rgba(255,255,255,.025)}
+.advisorIdentityMeta{display:grid;justify-items:end;gap:34px;position:relative;z-index:2}
+.advisorIndex{font:600 23px/1 var(--font-serif),serif;color:rgba(255,255,255,.38)}
+.availabilityText{display:flex;align-items:center;gap:5px;font-size:9px;color:#d6d9d3}.availabilityText svg{width:13px}
+.advisorBody{padding:24px!important}
+.advisorTopline{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#8b7141;font-size:9px}
+.advisorTopline>span{display:flex;align-items:center;gap:5px}.advisorTopline small{font-size:7px;color:#999}
+.advisorCardEditorial h2{font-size:25px;margin:13px 0 5px}
+.advisorCardEditorial>div>b,.advisorCardEditorial .advisorBody>b{font-size:11px;color:#565b54}
+.advisorCardEditorial p{margin:10px 0 13px}
+.advisorFocus{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:17px}
+.advisorFocus span{background:#eee8dc;border:1px solid #e1d8c8;padding:6px 8px;font-size:8px;color:#64675f}
+.advisorMedia{display:none}
+.advisorMatchCard{grid-template-columns:74px 1fr auto}
+.advisorMatchMonogram{width:74px;height:78px;display:grid;place-items:center;background:#171a17;color:var(--gold2);font-size:20px;font-weight:700;border:1px solid #c7b486}
+.advisorMatchCard img{display:none}
+@media(max-width:1100px){
+  .pageHeroFrame{grid-template-columns:1fr 200px;gap:40px}
+  .pageHeroSignature{width:190px}
+  .pageHeroLine{display:none}
+}
+@media(max-width:760px){
+  .pageHero{min-height:auto}
+  .pageHeroFrame{min-height:0;grid-template-columns:1fr;gap:20px;padding-block:42px}
+  .pageHeroSignature{display:none}
+  .pageHero h1{font-size:46px;letter-spacing:-1px}
+  .pageHeroCopy{font-size:13px}
+  .explorerLift,.advisorMatchSection{margin-top:0}
+  .explorerSection{padding-top:20px;padding-bottom:58px}
+  .advisorMatchSection{padding:28px 0 58px}
+  .advisorDirectory{padding-top:58px}
+  .sectionAsideCopy{max-width:none}
+  .advisorIdentity{height:132px}
+  .advisorMonogram{width:70px;height:70px;font-size:24px}
+}
+@media(max-width:420px){
+  .pageHeroFrame{padding-block:34px}
+  .pageHero h1{font-size:40px}
+  .advisorIdentity{height:122px;padding:18px}
+  .advisorBody{padding:19px!important}
+}
