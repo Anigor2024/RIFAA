@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { AlertTriangle, ArrowLeft, BookmarkCheck, Check, CheckCircle2, Circle, ClipboardCheck, FileText, Gauge, Home, LayoutGrid, MapPin, Maximize2, PenLine, Printer, RotateCcw, ShieldCheck, Sparkles, Star, Sun, Volume2, Wrench, Zap } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, BookmarkCheck, Check, CheckCircle2, Circle, ClipboardCheck, FileText, Gauge, Home, LayoutGrid, MapPin, Maximize2, PenLine, Printer, RotateCcw, ShieldCheck, Sparkles, Star, Sun, Volume2, Wrench, Zap, UsersRound } from 'lucide-react';
 import { money, properties, type Property } from '@/lib/atheeldar-data';
 
 type JournalStatus='مرشح قوي'|'أحتاج مراجعة'|'احتياط'|'مستبعد';
@@ -66,7 +66,7 @@ export function InspectionRoom({property}:{property:Property}){
       <div className="inspectionGridV16">{inspectionItems.map(item=>{const I=item.icon;const value=scores[item.id]||0;return <article key={item.id}><I/><div><b>{item.label}</b><p>{item.copy}</p></div><div className="inspectionStarsV16">{[1,2,3,4,5].map(v=><button key={v} className={v<=value?'active':''} onClick={()=>setScore(item.id,v)} aria-label={v+' من 5'}><Star/></button>)}</div><strong>{value?value+'/5':'—'}</strong></article>})}</div>
       <div className="inspectionFlagsV16"><div><AlertTriangle/><span><small>RED FLAGS</small><b>علّم أي نقطة تحتاج تحققًا أعمق</b></span></div><div>{flagsList.map(x=><button key={x} className={flags.includes(x)?'active':''} onClick={()=>toggleFlag(x)}>{flags.includes(x)?<Check/>:<Circle/>}{x}</button>)}</div></div>
       <label className="inspectionNoteV16"><small>ملاحظة المعاينة</small><textarea value={note} onChange={e=>setNote(e.target.value)} placeholder="دوّن ما لن يظهر في الصور: إحساس المكان، صوت الشارع، رائحة، جودة الإضاءة، أسئلة للمالك..."/></label>
-      <div className="inspectionActionsV16"><button onClick={save}><ClipboardCheck/>{saved?'تم حفظ التقرير':'حفظ تقرير المعاينة'}</button><button onClick={reset}><RotateCcw/>إعادة التقييم</button><Link href="/decision-journal">أضفه لسجل القرار <ArrowLeft/></Link></div>
+      <div className="inspectionActionsV16"><button onClick={save}><ClipboardCheck/>{saved?'تم حفظ التقرير':'حفظ تقرير المعاينة'}</button><button onClick={reset}><RotateCcw/>إعادة التقييم</button><Link href="/decision-journal">أضفه لسجل القرار <ArrowLeft/></Link><Link href="/inspection-compare">قارن المعاينات <ArrowLeft/></Link></div>
     </section>
   </div>
 }
@@ -80,7 +80,7 @@ export function DecisionJournal(){
   const inspected=entries.filter(e=>typeof e.inspection==='number').length;
   const remove=(slug:string)=>{writeJournal(entries.filter(e=>e.slug!==slug));setEntries(readJournal())};
   return <div className="decisionJournalV16">
-    <aside className="journalSummaryV16"><span>ATHEELDAR DECISION JOURNAL</span><h2>ذاكرة قرار <em>لا تضيع مع كثرة الخيارات.</em></h2><p>الروابط المحفوظة تخبرك ماذا رأيت. السجل يخبرك لماذا أبقيته أو استبعدته.</p><div className="journalStatsV16"><article><b>{entries.length}</b><small>أصل في السجل</small></article><article><b>{strong}</b><small>مرشح قوي</small></article><article><b>{inspected}</b><small>بتقييم معاينة</small></article></div><button onClick={()=>window.print()}><Printer/> طباعة سجل القرار</button></aside>
+    <aside className="journalSummaryV16"><span>ATHEELDAR DECISION JOURNAL</span><h2>ذاكرة قرار <em>لا تضيع مع كثرة الخيارات.</em></h2><p>الروابط المحفوظة تخبرك ماذا رأيت. السجل يخبرك لماذا أبقيته أو استبعدته.</p><Link className="journalHouseholdLinkV17" href="/household-room"><UsersRound/> افتح غرفة قرار الأسرة <ArrowLeft/></Link><div className="journalStatsV16"><article><b>{entries.length}</b><small>أصل في السجل</small></article><article><b>{strong}</b><small>مرشح قوي</small></article><article><b>{inspected}</b><small>بتقييم معاينة</small></article></div><button onClick={()=>window.print()}><Printer/> طباعة سجل القرار</button></aside>
     <section className="journalBoardV16"><div className="journalToolbarV16"><div><small>FILTER BY DECISION</small><b>{visible.length} نتيجة</b></div><div>{(['الكل','مرشح قوي','أحتاج مراجعة','احتياط','مستبعد'] as const).map(x=><button key={x} className={filter===x?'active':''} onClick={()=>setFilter(x)}>{x}</button>)}</div></div>
       {visible.length?<div className="journalCardsV16">{visible.map(e=>{const p=properties.find(x=>x.slug===e.slug);if(!p)return null;return <article key={e.slug} className={e.status==='مرشح قوي'?'strong':''}><img src={p.image} alt={p.title}/><div className="journalCardTopV16"><span>{e.status}</span>{typeof e.inspection==='number'&&<b>Inspection {e.inspection}/100</b>}</div><small>{p.city} · {p.district}</small><h3>{p.title}</h3><strong>{money(p.price)} ر.س</strong>{e.reasons.length>0&&<div className="journalReasonsV16">{e.reasons.map(r=><span key={r}>{r}</span>)}</div>}{e.note&&<p>“{e.note}”</p>}<div className="journalCardActionsV16"><Link href={'/properties/'+p.slug}>العقار <ArrowLeft/></Link><Link href={'/properties/'+p.slug+'/inspection'}>المعاينة <ArrowLeft/></Link><button onClick={()=>remove(e.slug)}>إزالة</button></div></article>})}</div>:<div className="journalEmptyV16"><FileText/><h3>سجل القرار فارغ حتى الآن.</h3><p>افتح أي عقار واستخدم “Decision Memory” أو تقرير المعاينة لبدء السجل.</p><Link href="/properties">استكشف العقارات <ArrowLeft/></Link></div>}
     </section>
