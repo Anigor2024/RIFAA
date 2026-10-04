@@ -14,6 +14,7 @@ export function ExperienceIndex() {
     { href: '#atelier', ar: 'المشغل', en: 'Atelier' },
     { href: '#materials', ar: 'مكتبة الخامات', en: 'Material Library' },
     { href: '#compare', ar: 'المقارنة', en: 'Compare' },
+    { href: '#capsule', ar: 'الكابسولة', en: 'Capsule' },
     { href: '#wardrobe', ar: 'خزانتي', en: 'Wardrobe' },
     { href: '#journal', ar: 'المجلة', en: 'Journal' },
   ];

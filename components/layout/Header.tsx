@@ -57,8 +57,7 @@ export function Header() {
     { href: '/kids', label: t.nav.kids },
     { href: '/new', label: t.nav.newIn },
     { href: '/collections', label: t.nav.collections },
-    { href: '/discover', label: language === 'ar' ? 'المنسّق' : 'Curator' },
-    { href: '/atelier', label: language === 'ar' ? 'المشغل' : 'Atelier' },
+    { href: '/studio', label: language === 'ar' ? 'الاستوديو' : 'Studio' },
     { href: '/editorial', label: t.nav.editorial },
     { href: '/sale', label: t.nav.sale },
   ];

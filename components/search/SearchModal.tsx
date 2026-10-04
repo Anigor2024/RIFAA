@@ -2,17 +2,18 @@
 
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { Search as SearchIcon, X } from 'lucide-react';
+import { Search as SearchIcon, X, Sparkles, Layers3, Columns3, Grid2X2, ArrowLeft, ArrowRight } from 'lucide-react';
 import { useSearch } from '@/context/SearchContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { useQuickView } from '@/context/QuickViewContext';
 import { DEMO_PRODUCTS } from '@/data/products';
 import { ImageWithFallback } from '@/components/common/ImageWithFallback';
 import { Product } from '@/types';
+import { formatPrice } from '@/lib/commerce';
 
 export function SearchModal() {
   const { isSearchOpen, closeSearch } = useSearch();
-  const { language, t } = useLanguage();
+  const { language, isRtl, t } = useLanguage();
   const { openQuickView } = useQuickView();
 
   const [query, setQuery] = useState('');
@@ -123,8 +124,92 @@ export function SearchModal() {
         {/* Results Area */}
         <div className="max-w-5xl mx-auto w-full flex-1 overflow-y-auto px-6 py-6">
           {query.trim() === '' ? (
-            <div className="py-12 text-center text-[#242220]/60">
-              <p className="text-sm">{t.brandDescription}</p>
+            <div className="py-8">
+              <div className="mb-7 flex flex-col justify-between gap-3 border-b border-[#242220]/10 pb-6 sm:flex-row sm:items-end">
+                <div>
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#511D24]">
+                    {language === 'ar' ? 'استكشف أدوات رِفْعة' : 'RIFAA DISCOVERY TOOLS'}
+                  </span>
+                  <h3 className="mt-1 text-xl font-bold text-[#111111]">
+                    {language === 'ar' ? 'ابحث أو ابدأ من أداة قرار.' : 'Search, or start with a decision tool.'}
+                  </h3>
+                </div>
+                <span className="text-[10px] uppercase tracking-[0.14em] text-[#242220]/40">
+                  / · Ctrl K · ⌘ K
+                </span>
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+                {[
+                  {
+                    href: '/studio',
+                    icon: Sparkles,
+                    ar: 'استوديو رِفْعة',
+                    en: 'RIFAA Studio',
+                    subAr: 'كل أدوات القرار في مساحة واحدة',
+                    subEn: 'All decision tools in one workspace',
+                  },
+                  {
+                    href: '/discover',
+                    icon: Sparkles,
+                    ar: 'منسّق رِفْعة',
+                    en: 'Curator',
+                    subAr: 'ترشيح حسب المناسبة والخامة',
+                    subEn: 'Recommendations by moment and material',
+                  },
+                  {
+                    href: '/atelier',
+                    icon: Layers3,
+                    ar: 'المشغل',
+                    en: 'Atelier',
+                    subAr: 'كوّن إطلالة كاملة',
+                    subEn: 'Compose a complete edit',
+                  },
+                  {
+                    href: '/compare',
+                    icon: Columns3,
+                    ar: 'المقارنة',
+                    en: 'Compare',
+                    subAr: 'قارن ثلاث قطع جنباً إلى جنب',
+                    subEn: 'Compare up to three pieces',
+                  },
+                  {
+                    href: '/capsule',
+                    icon: Grid2X2,
+                    ar: 'الكابسولة',
+                    en: 'Capsule',
+                    subAr: 'خمس قطع بوظائف مختلفة',
+                    subEn: 'Build a five-role wardrobe',
+                  },
+                ].map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={handleClose}
+                      className="group border border-[#242220]/10 bg-[#FFFDFC] p-4 transition-colors hover:border-[#511D24]/35"
+                    >
+                      <div className="flex items-center justify-between">
+                        <Icon className="h-4 w-4 text-[#511D24]" />
+                        {isRtl ? (
+                          <ArrowLeft className="h-3.5 w-3.5 text-[#242220]/30 transition-transform group-hover:-translate-x-1" />
+                        ) : (
+                          <ArrowRight className="h-3.5 w-3.5 text-[#242220]/30 transition-transform group-hover:translate-x-1" />
+                        )}
+                      </div>
+                      <span className="mt-4 block text-sm font-bold text-[#111111]">
+                        {language === 'ar' ? item.ar : item.en}
+                      </span>
+                      <span className="mt-1 block text-[10px] leading-5 text-[#242220]/48">
+                        {language === 'ar' ? item.subAr : item.subEn}
+                      </span>
+                    </Link>
+                  );
+                })}
+              </div>
+
+              <p className="mt-7 text-center text-xs text-[#242220]/45">{t.brandDescription}</p>
             </div>
           ) : results.length === 0 ? (
             <div className="py-16 text-center space-y-2">
@@ -165,7 +250,7 @@ export function SearchModal() {
                           {name}
                         </h4>
                         <span className="font-semibold text-[#111111] tabular-nums block">
-                          {product.price.toLocaleString(language === 'ar' ? 'ar-SA' : 'en-US')} {t.actions.sar}
+                          {formatPrice(product.price, language)}
                         </span>
                       </div>
                     </Link>
