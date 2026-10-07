@@ -21,7 +21,7 @@ export function MegaMenu({
     : undefined;
 
   return (
-    <div className="mx-auto max-w-7xl px-4 pb-4 sm:px-6 lg:px-8">
+    <div data-mega-menu={config.key} className="mx-auto max-w-7xl px-4 pb-4 sm:px-6 lg:px-8">
       <div className="grid overflow-hidden border border-[#242220]/10 bg-[#F7F4EF] shadow-[0_24px_70px_rgba(17,17,17,0.18)] lg:grid-cols-[0.9fr_1.35fr_0.75fr]">
         <div className="flex flex-col justify-between border-b border-[#242220]/10 p-6 lg:border-b-0 lg:border-e lg:p-7">
           <div>

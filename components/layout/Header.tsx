@@ -324,6 +324,17 @@ export function Header() {
                   <Link
                     href={item.href}
                     onFocus={() => openMenu(item.key)}
+                    onKeyDown={(event) => {
+                      if (event.key !== 'ArrowDown') return;
+                      event.preventDefault();
+                      openMenu(item.key);
+                      window.setTimeout(() => {
+                        const firstLink = document.querySelector<HTMLAnchorElement>(
+                          '[data-mega-menu="' + item.key + '"] a'
+                        );
+                        firstLink?.focus();
+                      }, 0);
+                    }}
                     aria-haspopup="true"
                     aria-expanded={expanded}
                     className={

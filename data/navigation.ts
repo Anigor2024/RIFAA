@@ -266,7 +266,7 @@ export const MEGA_NAVIGATION: MegaNavConfig[] = [
         titleEn: 'From story to piece',
         items: [
           { href: '/collections', ar: 'التشكيلات', en: 'Collections' },
-          { href: '/materials', ar: 'تفاصيل الخامات', en: 'Material Intelligence' },
+          { href: '/#materials', ar: 'تفاصيل الخامات', en: 'Material Intelligence' },
         ],
       },
     ],

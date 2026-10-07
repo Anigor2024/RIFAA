@@ -22,6 +22,8 @@ interface CatalogPageContentProps {
   subtitleEn: string;
   heroImage?: string;
   products: Product[];
+  initialCategoryKey?: string;
+  initialCollectionKey?: string;
 }
 
 type SortOption = 'featured' | 'newest' | 'priceAsc' | 'priceDesc';
@@ -34,12 +36,14 @@ export function CatalogPageContent({
   subtitleEn,
   heroImage,
   products,
+  initialCategoryKey = 'all',
+  initialCollectionKey = 'all',
 }: CatalogPageContentProps) {
   const { language, isRtl, t } = useLanguage();
 
   // Filters State
-  const [selectedCategoryKey, setSelectedCategoryKey] = useState<string>('all');
-  const [selectedCollectionKey, setSelectedCollectionKey] = useState<string>('all');
+  const [selectedCategoryKey, setSelectedCategoryKey] = useState<string>(initialCategoryKey);
+  const [selectedCollectionKey, setSelectedCollectionKey] = useState<string>(initialCollectionKey);
   const [selectedPriceBand, setSelectedPriceBand] = useState<string>('all');
   const [selectedSize, setSelectedSize] = useState<string>('all');
   const [selectedColorHex, setSelectedColorHex] = useState<string>('all');
