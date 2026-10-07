@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { Search as SearchIcon, X, Sparkles, Layers3, Columns3, Grid2X2, ArrowLeft, ArrowRight, IdCard, Compass } from 'lucide-react';
+import { Search as SearchIcon, X, Sparkles, Layers3, Columns3, Grid2X2, ArrowLeft, ArrowRight, IdCard, Compass, WandSparkles } from 'lucide-react';
 import { useSearch } from '@/context/SearchContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { useQuickView } from '@/context/QuickViewContext';
@@ -139,7 +139,7 @@ export function SearchModal() {
                 </span>
               </div>
 
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8">
                 {[
                   {
                     href: '/concierge',
@@ -180,6 +180,14 @@ export function SearchModal() {
                     en: 'Atelier',
                     subAr: 'كوّن إطلالة كاملة',
                     subEn: 'Compose a complete edit',
+                  },
+                  {
+                    href: '/pairing',
+                    icon: WandSparkles,
+                    ar: 'التنسيق',
+                    en: 'Pairing',
+                    subAr: 'ابدأ من أي قطعة وابنِ حولها',
+                    subEn: 'Build around any anchor piece',
                   },
                   {
                     href: '/compare',

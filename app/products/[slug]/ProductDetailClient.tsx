@@ -26,15 +26,20 @@ import { SizeGuideModal } from '@/components/product/SizeGuideModal';
 import { SaudiMotif } from '@/components/common/SaudiMotif';
 import { ProductImageZoom } from '@/components/product/ProductImageZoom';
 import { formatPrice } from '@/lib/commerce';
+import { PairingRecommendation } from '@/lib/pairing';
+import { GarmentPassport } from '@/components/product/GarmentPassport';
+import { CompleteTheLook } from '@/components/product/CompleteTheLook';
 
 interface ProductDetailClientProps {
   product: Product;
   relatedProducts: Product[];
+  pairingRecommendations: PairingRecommendation[];
 }
 
 export function ProductDetailClient({
   product,
   relatedProducts,
+  pairingRecommendations,
 }: ProductDetailClientProps) {
   const { language, isRtl, t } = useLanguage();
   const { addToBag } = useBag();
@@ -367,6 +372,12 @@ export function ProductDetailClient({
             </div>
           </div>
         </div>
+
+        <GarmentPassport product={product} />
+
+        {pairingRecommendations.length > 0 && (
+          <CompleteTheLook anchor={product} recommendations={pairingRecommendations} />
+        )}
 
         {/* Subtle Saudi Divider */}
         <div className="my-16 md:my-24">
