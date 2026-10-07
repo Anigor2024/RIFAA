@@ -133,7 +133,7 @@ export function Header() {
         )}
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-[72px] items-center justify-between md:h-[86px]">
+          <div className="flex h-[72px] items-center justify-between md:h-[80px]">
             <div className="flex min-w-[120px] items-center gap-3 lg:min-w-[220px]">
               <button
                 type="button"
@@ -294,7 +294,7 @@ export function Header() {
 
           <nav
             className={
-              'hidden items-center justify-center gap-1 border-t py-1.5 md:flex ' +
+              'hidden items-center justify-center gap-1 border-t py-0.5 md:flex ' +
               (overlayMode ? 'border-white/12' : 'border-[#242220]/[0.07]')
             }
             aria-label={language === 'ar' ? 'التنقل الرئيسي' : 'Primary navigation'}
@@ -335,7 +335,7 @@ export function Header() {
                     aria-haspopup="true"
                     aria-expanded={expanded}
                     className={
-                      'group relative inline-flex min-h-[42px] items-center gap-1.5 px-3 text-[14px] font-bold tracking-[0.055em] transition-colors lg:px-4 lg:text-[15px] xl:text-[15.5px] ' +
+                      'group relative inline-flex min-h-[44px] items-center gap-1.5 px-3 text-[14px] font-bold tracking-[0.055em] transition-colors lg:px-4 lg:text-[15px] xl:text-[15.5px] ' +
                       (overlayMode
                         ? active || expanded
                           ? 'text-white'

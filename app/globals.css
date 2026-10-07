@@ -19,6 +19,7 @@
     background-color: #F7F4EF;
     color: #111111;
     scroll-behavior: smooth;
+    scroll-padding-top: 9rem;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }

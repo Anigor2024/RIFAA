@@ -198,7 +198,7 @@ export function CatalogPageContent({
   const subtitle = language === 'ar' ? subtitleAr : subtitleEn;
 
   return (
-    <div className="pt-24 sm:pt-28 pb-20 bg-[#F7F4EF] min-h-screen">
+    <div className="pt-24 sm:pt-28 md:pt-36 pb-20 bg-[#F7F4EF] min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
         <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-[#242220]/50 mb-6">
