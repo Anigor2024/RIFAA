@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowLeft, BadgeCheck, Building2, ChartNoAxesCombined, Home, MapPinned, Search, ShieldCheck, Sparkles, TrendingUp, WalletCards, Zap, Target, Layers3, Compass, BellRing, BookOpenText, Route, Scale, FileText } from 'lucide-react';
+import { ArrowLeft, BadgeCheck, Building2, ChartNoAxesCombined, Home, MapPinned, Search, ShieldCheck, Sparkles, TrendingUp, WalletCards, Zap, Target, Layers3, Compass, BellRing, BookOpenText, Route, Scale, FileText, MonitorPlay, Share2 } from 'lucide-react';
 import { properties, projects, neighborhoods, money } from '@/lib/atheeldar-data';
 import { PropertyCard } from '@/components/atheeldar/PropertyCard';
 import { HomeJourneyPlanner } from '@/components/atheeldar/ExperienceTools';
@@ -47,6 +47,23 @@ export default function HomePage(){
         <Link href="/household-room"><span>01</span><div><small>HOUSEHOLD CONSENSUS</small><b>غرفة قرار الأسرة</b><p>ثلاثة آراء مستقلة، متوسط قرار، ودرجة اتفاق تكشف نقاط الخلاف قبل الالتزام.</p></div><strong>اجمع الآراء <ArrowLeft/></strong></Link>
         <Link href="/inspection-compare"><span>02</span><div><small>POST-VIEWING MATRIX</small><b>مقارنة المعاينات</b><p>قارن 8 محاور وRed Flags بعد الزيارة الفعلية، لا قبلها.</p></div><strong>قارن الواقع <ArrowLeft/></strong></Link>
         <Link href="/move-in-planner"><span>03</span><div><small>MOVE-IN & HANDOVER</small><b>خطة الاستلام والانتقال</b><p>12 مهمة من المستندات والمفاتيح إلى الصيانة وأول مراجعة بعد 30 يومًا.</p></div><strong>ابدأ الخطة <ArrowLeft/></strong></Link>
+      </div>
+    </section>
+    <section className="shell phase18ShowcaseV18">
+      <div className="phase18ShowcaseMediaV18">
+        <img src={properties[0].image} alt="Presentation Studio"/>
+        <div className="phase18ShowcaseOverlayV18"/>
+        <div className="phase18ShowcaseBadgeV18"><MonitorPlay/><span><small>EXECUTIVE CLIENT MODE</small><b>Presentation Studio</b></span></div>
+        <div className="phase18ShowcaseFramesV18">
+          {properties.filter(p=>p.featured).slice(0,3).map((p,i)=><span key={p.slug}><em>0{i+1}</em><img src={p.image} alt={p.title}/></span>)}
+        </div>
+      </div>
+      <div className="phase18ShowcaseCopyV18">
+        <span>PHASE 18 · CLIENT PRESENTATION</span>
+        <h2>لا ترسل قائمة روابط. <em>قدّم قرارًا.</em></h2>
+        <p>حوّل الـShortlist إلى عرض Full-screen باسم العميل، بزاوية عائلية أو استثمارية أو فاخرة، مع Executive View وSlides مستقلة ورابط قابل للمشاركة والطباعة.</p>
+        <div className="phase18ShowcaseSignalsV18"><span><Share2/> رابط قابل للمشاركة</span><span><MonitorPlay/> Full-screen Deck</span><span><FileText/> Print / PDF</span></div>
+        <Link href="/presentation-builder">افتح Presentation Studio <ArrowLeft/></Link>
       </div>
     </section>
     <section className="signatureUtility shell"><Link href="/decision-board"><span>DECISION BOARD</span><b>اجمع ما أعجبك. غيّر الأوزان. شاهد كيف يتغير القرار.</b><small>مقارنة مرجّحة حسب الجودة، الحياة، الاستثمار والميزانية.</small><strong>افتح اللوحة <ArrowLeft/></strong></Link><Link href="/trust"><span>TRUST CENTER</span><b>الثقة ليست Badge؛ هي مسار تحقق واضح.</b><small>افصل بين اكتمال بيانات العرض والتحقق الرسمي من الأصل والصفقة.</small><strong>افتح مركز الثقة <ArrowLeft/></strong></Link></section>
