@@ -1,0 +1,27 @@
+name: SaharaLink Client Screenshots
+on:
+  push:
+    branches:
+      - tmp-saharalink-client-package-20261007
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download current SaharaLink screenshots
+        run: |
+          set -euo pipefail
+          mkdir screenshots
+          base="https://sb-565akjapr5n4.vercel.run"
+          for f in 01-home-hero.jpg 02-quote-calculator.jpg 03-transfer-flow.jpg 04-tracking.jpg 05-operations.jpg 06-mobile-menu.jpg; do
+            curl --fail --location --retry 4 --retry-delay 2 "$base/$f" -o "screenshots/$f"
+            test -s "screenshots/$f"
+          done
+          sha256sum screenshots/*
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: saharalink-client-screenshots
+          path: screenshots/
+          if-no-files-found: error
+          retention-days: 1
