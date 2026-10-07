@@ -80,10 +80,6 @@ export function Header() {
     return () => window.removeEventListener('keydown', handleEscape);
   }, []);
 
-  useEffect(() => {
-    setActiveMenu(null);
-  }, [pathname]);
-
   const cancelClose = () => {
     if (closeTimerRef.current) {
       clearTimeout(closeTimerRef.current);
@@ -323,6 +319,7 @@ export function Header() {
                 >
                   <Link
                     href={item.href}
+                    onClick={closeMenu}
                     onFocus={() => openMenu(item.key)}
                     onKeyDown={(event) => {
                       if (event.key !== 'ArrowDown') return;
