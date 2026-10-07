@@ -22,6 +22,8 @@ interface CatalogPageContentProps {
   subtitleEn: string;
   heroImage?: string;
   products: Product[];
+  initialCategoryKey?: string;
+  initialCollectionKey?: string;
 }
 
 type SortOption = 'featured' | 'newest' | 'priceAsc' | 'priceDesc';
@@ -34,12 +36,14 @@ export function CatalogPageContent({
   subtitleEn,
   heroImage,
   products,
+  initialCategoryKey = 'all',
+  initialCollectionKey = 'all',
 }: CatalogPageContentProps) {
   const { language, isRtl, t } = useLanguage();
 
   // Filters State
-  const [selectedCategoryKey, setSelectedCategoryKey] = useState<string>('all');
-  const [selectedCollectionKey, setSelectedCollectionKey] = useState<string>('all');
+  const [selectedCategoryKey, setSelectedCategoryKey] = useState<string>(initialCategoryKey);
+  const [selectedCollectionKey, setSelectedCollectionKey] = useState<string>(initialCollectionKey);
   const [selectedPriceBand, setSelectedPriceBand] = useState<string>('all');
   const [selectedSize, setSelectedSize] = useState<string>('all');
   const [selectedColorHex, setSelectedColorHex] = useState<string>('all');
@@ -194,7 +198,7 @@ export function CatalogPageContent({
   const subtitle = language === 'ar' ? subtitleAr : subtitleEn;
 
   return (
-    <div className="pt-24 sm:pt-28 pb-20 bg-[#F7F4EF] min-h-screen">
+    <div className="pt-24 sm:pt-28 md:pt-36 pb-20 bg-[#F7F4EF] min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
         <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-[#242220]/50 mb-6">
