@@ -9,6 +9,7 @@ import {
   Eye,
   Grid2X2,
   Heart,
+  WandSparkles,
   Layers3,
   Sparkles,
   IdCard,
@@ -64,9 +65,19 @@ export default function StudioPage() {
       imageId: 'm-05',
     },
     {
+      href: '/pairing',
+      icon: WandSparkles,
+      index: '03',
+      ar: 'استوديو التنسيق',
+      en: 'Pairing Studio',
+      descAr: 'ابدأ من أي قطعة وابنِ حولها اختيارات مكملة ديناميكياً.',
+      descEn: 'Start from any piece and dynamically build complementary selections around it.',
+      imageId: 'w-01',
+    },
+    {
       href: '/compare',
       icon: Columns3,
-      index: '03',
+      index: '04',
       ar: 'استوديو المقارنة',
       en: 'Compare Studio',
       descAr: 'قارن حتى ثلاث قطع في الخامة والتفصيل والعناية والسعر والمقاسات.',
@@ -76,7 +87,7 @@ export default function StudioPage() {
     {
       href: capsuleHref,
       icon: Grid2X2,
-      index: '04',
+      index: '05',
       ar: 'استوديو الكابسولة',
       en: 'Capsule Studio',
       descAr: 'ابنِ خمس قطع بوظائف مختلفة حسب المناسبة وطابع الألوان.',
@@ -307,8 +318,8 @@ export default function StudioPage() {
               </span>
               <h2 className="mt-2 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
                 {language === 'ar'
-                  ? 'اكتشف → نسّق → قارن → ابنِ الكابسولة.'
-                  : 'Discover → Compose → Compare → Build the capsule.'}
+                  ? 'اكتشف → نسّق القطعة → كوّن الإطلالة → قارن → ابنِ الكابسولة.'
+                  : 'Discover → Pair → Compose → Compare → Build the capsule.'}
               </h2>
             </div>
             <p className="max-w-xl text-xs font-light leading-6 text-white/55 lg:justify-self-end">

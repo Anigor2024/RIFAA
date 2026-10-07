@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { DEMO_PRODUCTS } from '@/data/products';
 import { ProductDetailClient } from './ProductDetailClient';
+import { getPairingRecommendations } from '@/lib/pairing';
 
 interface ProductPageProps {
   params: Promise<{
@@ -65,10 +66,13 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
     return (bCat + bCol) - (aCat + aCol);
   }).slice(0, 4);
 
+  const pairingRecommendations = getPairingRecommendations(product, 3);
+
   return (
     <ProductDetailClient
       product={product}
       relatedProducts={relatedProducts}
+      pairingRecommendations={pairingRecommendations}
     />
   );
 }

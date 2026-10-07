@@ -8,6 +8,7 @@ import { ShopTheLook } from '@/components/home/ShopTheLook';
 import { AtelierPreview } from '@/components/home/AtelierPreview';
 import { MaterialLibrary } from '@/components/home/MaterialLibrary';
 import { CompareStudioPreview } from '@/components/home/CompareStudioPreview';
+import { PairingPreview } from '@/components/home/PairingPreview';
 import { CapsuleStudioPreview } from '@/components/home/CapsuleStudioPreview';
 import { WardrobeBoard } from '@/components/home/WardrobeBoard';
 import { StylePassportPreview } from '@/components/home/StylePassportPreview';
@@ -46,6 +47,10 @@ export default function HomePage() {
 
       <div id="materials" className="scroll-mt-28">
         <MaterialLibrary />
+      </div>
+
+      <div id="pairing" className="scroll-mt-28">
+        <PairingPreview />
       </div>
 
       <div id="compare" className="scroll-mt-28">

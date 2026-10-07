@@ -14,6 +14,7 @@ const staticRoutes = [
   '/studio',
   '/discover',
   '/atelier',
+  '/pairing',
   '/compare',
   '/capsule',
   '/sale',

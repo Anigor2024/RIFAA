@@ -13,6 +13,7 @@ export function ExperienceIndex() {
     { href: '#curator', ar: 'منسّق الإطلالة', en: 'Style Curator' },
     { href: '#atelier', ar: 'المشغل', en: 'Atelier' },
     { href: '#materials', ar: 'مكتبة الخامات', en: 'Material Library' },
+    { href: '#pairing', ar: 'التنسيق', en: 'Pairing' },
     { href: '#passport', ar: 'جواز الأسلوب', en: 'Style Passport' },
     { href: '/studio', ar: 'الاستوديو', en: 'Studio' },
     { href: '#journal', ar: 'المجلة', en: 'Journal' },
