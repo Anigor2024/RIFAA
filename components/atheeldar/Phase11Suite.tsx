@@ -21,6 +21,7 @@ export function ShortlistRoom(){
       <span>CLIENT SHORTLIST</span><h2>كل ما حفظته، <em>في غرفة واحدة.</em></h2><p>اختر حتى 5 أصول لتجهيز Decision Pack قابل للطباعة والمراجعة مع العميل أو الأسرة.</p>
       <div className="shortlistCounts"><article><Heart/><span><small>المفضلة</small><b>{favorites.length}</b></span></article><article><Scale/><span><small>المقارنة</small><b>{compare.length}</b></span></article><article><Route/><span><small>المعاينات</small><b>{plan.length}</b></span></article></div>
       <button className="printDecisionPack" onClick={printPack}><Printer/> اطبع Decision Pack</button>
+      <Link className="presentationLaunchV18" href="/presentation-builder"><Sparkles/> حوّلها إلى Presentation <ArrowLeft/></Link>
       <small className="modelNote">الطباعة تستخدم Print/PDF في المتصفح؛ لا يتم رفع بياناتك لأي خادم.</small>
     </aside>
     <section className="shortlistWorkspace">
