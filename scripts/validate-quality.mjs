@@ -57,6 +57,8 @@ const requiredPaths = [
   'components/home/MaterialLibrary.tsx',
   'components/home/WardrobeBoard.tsx',
   'components/layout/ScrollProgress.tsx',
+  'components/layout/MegaMenu.tsx',
+  'data/navigation.ts',
   'lib/discovery.ts',
   'docs/PRODUCTION-HANDOFF.md',
   'context/AuthContext.tsx',

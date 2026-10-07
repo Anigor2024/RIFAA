@@ -117,6 +117,12 @@ export function Header() {
         }
         onMouseLeave={scheduleClose}
         onMouseEnter={cancelClose}
+        onBlur={(event) => {
+          if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+            scheduleClose();
+          }
+        }}
+        onFocus={cancelClose}
       >
         {overlayMode && (
           <div className="hidden w-full border-b border-white/10 px-6 py-2 text-center lg:block">
@@ -292,12 +298,6 @@ export function Header() {
               (overlayMode ? 'border-white/12' : 'border-[#242220]/[0.07]')
             }
             aria-label={language === 'ar' ? 'التنقل الرئيسي' : 'Primary navigation'}
-            onFocus={cancelClose}
-            onBlur={(event) => {
-              if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
-                scheduleClose();
-              }
-            }}
           >
             {MEGA_NAVIGATION.map((item) => {
               const active =
