@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import {
   SlidersHorizontal,
@@ -49,6 +49,28 @@ export function CatalogPageContent({
   const [selectedColorHex, setSelectedColorHex] = useState<string>('all');
   const [selectedSort, setSelectedSort] = useState<SortOption>('featured');
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+  const filterTriggerRef = useRef<HTMLButtonElement>(null);
+  const filterCloseRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!mobileFilterOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    filterCloseRef.current?.focus();
+
+    const onEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMobileFilterOpen(false);
+        filterTriggerRef.current?.focus();
+      }
+    };
+
+    window.addEventListener('keydown', onEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', onEscape);
+    };
+  }, [mobileFilterOpen]);
 
   // Extract available categories within this product set
   const availableCategories = useMemo(() => {
@@ -178,6 +200,48 @@ export function CatalogPageContent({
     selectedSize !== 'all' ||
     selectedColorHex !== 'all';
 
+  const activeFilterCount = [
+    selectedCategoryKey,
+    selectedCollectionKey,
+    selectedPriceBand,
+    selectedSize,
+    selectedColorHex,
+  ].filter((value) => value !== 'all').length;
+
+  const activeFilterChips = [
+    ...(selectedCategoryKey !== 'all'
+      ? [{
+          id: 'category',
+          label: availableCategories.find((item) => item.key === selectedCategoryKey)?.[language === 'ar' ? 'labelAr' : 'labelEn'] || selectedCategoryKey,
+          remove: () => setSelectedCategoryKey('all'),
+        }]
+      : []),
+    ...(selectedCollectionKey !== 'all'
+      ? [{
+          id: 'collection',
+          label: availableCollections.find((item) => item.key === selectedCollectionKey)?.[language === 'ar' ? 'labelAr' : 'labelEn'] || selectedCollectionKey,
+          remove: () => setSelectedCollectionKey('all'),
+        }]
+      : []),
+    ...(selectedPriceBand !== 'all'
+      ? [{
+          id: 'price',
+          label: t.priceBands[selectedPriceBand as keyof typeof t.priceBands],
+          remove: () => setSelectedPriceBand('all'),
+        }]
+      : []),
+    ...(selectedSize !== 'all'
+      ? [{ id: 'size', label: selectedSize, remove: () => setSelectedSize('all') }]
+      : []),
+    ...(selectedColorHex !== 'all'
+      ? [{
+          id: 'color',
+          label: availableColors.find((item) => item.hex.toLowerCase() === selectedColorHex.toLowerCase())?.[language === 'ar' ? 'nameAr' : 'nameEn'] || selectedColorHex,
+          remove: () => setSelectedColorHex('all'),
+        }]
+      : []),
+  ];
+
   const resetAllFilters = () => {
     setSelectedCategoryKey('all');
     setSelectedCollectionKey('all');
@@ -284,13 +348,19 @@ export function CatalogPageContent({
           {/* Left: Filter Toggle & Active Tag Count */}
           <div className="flex items-center gap-3">
             <button
+              ref={filterTriggerRef}
+              type="button"
               onClick={() => setMobileFilterOpen(true)}
-              className="py-2 px-3.5 bg-[#FFFDFC] border border-[#242220]/15 hover:border-[#111111] text-[#111111] flex items-center gap-2 font-medium cursor-pointer transition-colors shadow-2xs"
+              aria-haspopup="dialog"
+              aria-expanded={mobileFilterOpen}
+              className="min-h-11 py-2 px-3.5 bg-[#FFFDFC] border border-[#242220]/15 hover:border-[#111111] text-[#111111] flex items-center gap-2 font-medium cursor-pointer transition-colors shadow-2xs"
             >
               <SlidersHorizontal className="w-3.5 h-3.5 text-[#511D24]" />
               <span>{t.actions.filters}</span>
               {hasActiveFilters && (
-                <span className="w-2 h-2 rounded-full bg-[#511D24]" />
+                <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[#511D24] px-1 text-[10px] font-bold text-white" aria-label={String(activeFilterCount)}>
+                  {activeFilterCount}
+                </span>
               )}
             </button>
 
@@ -304,8 +374,8 @@ export function CatalogPageContent({
               </button>
             )}
 
-            <span className="text-[#242220]/60 hidden sm:inline-block">
-              {filteredProducts.length} {language === 'ar' ? 'قطعة مطابقة' : 'silhouettes found'}
+            <span className="text-[#242220]/70 text-[11px] sm:text-xs" aria-live="polite">
+              {filteredProducts.length} {language === 'ar' ? 'قطعة مطابقة' : 'pieces found'}
             </span>
           </div>
 
@@ -314,6 +384,7 @@ export function CatalogPageContent({
             <span className="text-[#242220]/60 hidden sm:inline">{t.actions.sortBy}:</span>
             <div className="relative">
               <select
+                aria-label={language === 'ar' ? 'ترتيب المنتجات' : 'Sort products'}
                 value={selectedSort}
                 onChange={handleSortChange}
                 className="bg-[#FFFDFC] border border-[#242220]/15 py-2 px-3 pe-8 text-[#111111] font-medium appearance-none focus:outline-hidden cursor-pointer"
@@ -327,6 +398,27 @@ export function CatalogPageContent({
             </div>
           </div>
         </div>
+
+        {/* Removable active filter chips keep complex searches understandable. */}
+        {activeFilterChips.length > 0 && (
+          <div className="mb-6 flex flex-wrap items-center gap-2" aria-label={language === 'ar' ? 'الفلاتر النشطة' : 'Active filters'}>
+            <span className="me-1 text-[11px] font-semibold text-[#242220]/50">
+              {language === 'ar' ? 'تبحث الآن عن:' : 'Refined by:'}
+            </span>
+            {activeFilterChips.map((chip) => (
+              <button
+                key={chip.id}
+                type="button"
+                onClick={chip.remove}
+                aria-label={(language === 'ar' ? 'إزالة فلتر ' : 'Remove filter ') + chip.label}
+                className="inline-flex min-h-9 items-center gap-2 border border-[#511D24]/20 bg-[#FFFDFC] px-3 text-[11px] font-semibold text-[#511D24] transition-colors hover:bg-[#EEE8DE]"
+              >
+                <span>{chip.label}</span>
+                <X className="h-3 w-3" />
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Product Grid / Empty State */}
         {filteredProducts.length === 0 ? (
@@ -364,6 +456,9 @@ export function CatalogPageContent({
           />
 
           <div
+            role="dialog"
+            aria-modal="true"
+            aria-label={language === 'ar' ? 'فلترة المنتجات' : 'Filter products'}
             className={`fixed inset-y-0 ${
               isRtl ? 'right-0' : 'left-0'
             } w-full max-w-md bg-[#F7F4EF] shadow-2xl flex flex-col justify-between`}
@@ -377,7 +472,13 @@ export function CatalogPageContent({
                 </h3>
               </div>
               <button
-                onClick={() => setMobileFilterOpen(false)}
+                ref={filterCloseRef}
+                type="button"
+                onClick={() => {
+                  setMobileFilterOpen(false);
+                  filterTriggerRef.current?.focus();
+                }}
+                aria-label={language === 'ar' ? 'إغلاق الفلاتر' : 'Close filters'}
                 className="p-1.5 text-[#242220]/60 hover:text-[#111111] cursor-pointer"
               >
                 <X className="w-5 h-5" />
@@ -481,6 +582,8 @@ export function CatalogPageContent({
                               : 'hover:scale-105 opacity-80 hover:opacity-100'
                           }`}
                           style={{ backgroundColor: color.hex }}
+                          aria-label={(language === 'ar' ? 'اختيار اللون ' : 'Select color ') + (language === 'ar' ? color.nameAr : color.nameEn)}
+                          aria-pressed={isSelected}
                           title={language === 'ar' ? color.nameAr : color.nameEn}
                         >
                           {isSelected && (

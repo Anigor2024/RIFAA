@@ -13,6 +13,7 @@ import { CapsuleStudioPreview } from '@/components/home/CapsuleStudioPreview';
 import { WardrobeBoard } from '@/components/home/WardrobeBoard';
 import { StylePassportPreview } from '@/components/home/StylePassportPreview';
 import { ConciergePreview } from '@/components/home/ConciergePreview';
+import { GiftAtelierPreview } from '@/components/home/GiftAtelierPreview';
 import { DepartmentFeatures } from '@/components/home/DepartmentFeatures';
 import { HouseSignature } from '@/components/home/HouseSignature';
 import { SeasonalDrop } from '@/components/home/SeasonalDrop';
@@ -71,6 +72,10 @@ export default function HomePage() {
 
       <div id="wardrobe" className="scroll-mt-28">
         <WardrobeBoard />
+      </div>
+
+      <div id="gifts" className="scroll-mt-28">
+        <GiftAtelierPreview />
       </div>
 
       <DepartmentFeatures />

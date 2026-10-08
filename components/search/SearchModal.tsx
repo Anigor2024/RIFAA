@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { Search as SearchIcon, X, Sparkles, Layers3, Columns3, Grid2X2, ArrowLeft, ArrowRight, IdCard, Compass, WandSparkles } from 'lucide-react';
+import { Search as SearchIcon, X, Sparkles, Layers3, Columns3, Grid2X2, ArrowLeft, ArrowRight, IdCard, Compass, WandSparkles, Gift } from 'lucide-react';
 import { useSearch } from '@/context/SearchContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { useQuickView } from '@/context/QuickViewContext';
@@ -139,7 +139,7 @@ export function SearchModal() {
                 </span>
               </div>
 
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8">
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {[
                   {
                     href: '/concierge',
@@ -204,6 +204,14 @@ export function SearchModal() {
                     en: 'Capsule',
                     subAr: 'خمس قطع بوظائف مختلفة',
                     subEn: 'Build a five-role wardrobe',
+                  },
+                  {
+                    href: '/gifts',
+                    icon: Gift,
+                    ar: 'الهدايا',
+                    en: 'Gifting',
+                    subAr: 'ترشيحات حسب المناسبة والميزانية',
+                    subEn: 'Gift edits by occasion and budget',
                   },
                 ].map((item) => {
                   const Icon = item.icon;

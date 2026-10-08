@@ -82,6 +82,11 @@ export function Footer() {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/gifts" className="hover:text-white transition-colors">
+                    {language === 'ar' ? 'مشغل الهدايا' : 'Gift Atelier'}
+                  </Link>
+                </li>
+                <li>
                   <Link href="/concierge" className="hover:text-white transition-colors">
                     {language === 'ar' ? 'كونسيرج رِفْعة' : 'RIFAA Concierge'}
                   </Link>
