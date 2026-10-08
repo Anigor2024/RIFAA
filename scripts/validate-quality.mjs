@@ -46,6 +46,7 @@ const requiredPaths = [
   'app/concierge/page.tsx',
   'app/concierge/layout.tsx',
   'app/gifts/page.tsx',
+  'app/gifts/GiftAtelierClient.tsx',
   'app/gifts/layout.tsx',
   'lib/gifts.ts',
   'components/home/GiftAtelierPreview.tsx',
