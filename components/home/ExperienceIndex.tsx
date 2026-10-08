@@ -16,6 +16,7 @@ export function ExperienceIndex() {
     { href: '#pairing', ar: 'التنسيق', en: 'Pairing' },
     { href: '#passport', ar: 'جواز الأسلوب', en: 'Style Passport' },
     { href: '/studio', ar: 'الاستوديو', en: 'Studio' },
+    { href: '#gifts', ar: 'الهدايا', en: 'Gifting' },
     { href: '#journal', ar: 'المجلة', en: 'Journal' },
   ];
 

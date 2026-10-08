@@ -9,6 +9,7 @@ import {
   Eye,
   Grid2X2,
   Heart,
+  Gift,
   WandSparkles,
   Layers3,
   Sparkles,
@@ -94,6 +95,16 @@ export default function StudioPage() {
       descEn: 'Build a five-role wardrobe capsule by moment and palette.',
       imageId: 'w-10',
     },
+    {
+      href: '/gifts',
+      icon: Gift,
+      index: '06',
+      ar: 'مشغل هدايا رِفْعة',
+      en: 'Gift Atelier',
+      descAr: 'اختر هدية حسب الشخص والمناسبة والميزانية والأسلوب مع ترشيحات مفسّرة.',
+      descEn: 'Find thoughtful gifts by recipient, occasion, budget and mood, with clear reasoning.',
+      imageId: 'w-03',
+    },
   ];
 
   return (
@@ -116,8 +127,8 @@ export default function StudioPage() {
             </span>
             <h1 className="mt-4 max-w-4xl text-4xl font-bold leading-[1.03] tracking-tight text-[#111111] sm:text-5xl lg:text-7xl">
               {language === 'ar'
-                ? 'أربع أدوات، وجواز أسلوب يجعل البداية أقرب لك.'
-                : 'Four tools, plus a Style Passport that starts closer to you.'}
+                ? 'أدوات مدروسة، وجواز أسلوب يجعل البداية أقرب لك.'
+                : 'Considered tools, plus a Style Passport that starts closer to you.'}
             </h1>
           </div>
           <p className="max-w-xl text-sm font-light leading-7 text-[#242220]/65 lg:justify-self-end">

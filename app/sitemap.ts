@@ -17,6 +17,7 @@ const staticRoutes = [
   '/pairing',
   '/compare',
   '/capsule',
+  '/gifts',
   '/sale',
   '/editorial',
   '/about',

@@ -21,7 +21,8 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     { href: '/kids', labelAr: 'الأطفال', labelEn: 'Kids', subAr: 'قطن عضوي، أطقم، مناسبات', subEn: 'Organic Sets, Occasions' },
     { href: '/new', labelAr: 'وصل حديثاً', labelEn: 'New In', subAr: 'أحدث القطع لهذا الأسبوع', subEn: 'Curated weekly arrivals' },
     { href: '/collections', labelAr: 'التشكيلات', labelEn: 'Collections', subAr: 'تحرير العيد، أساسيات رِفْعة', subEn: 'The Eid Edit, Essentials' },
-    { href: '/studio', labelAr: 'استوديو رِفْعة', labelEn: 'RIFAA Studio', subAr: 'المنسّق، المشغل، المقارنة، والكابسولة في مساحة واحدة', subEn: 'Curator, Atelier, Compare and Capsule in one workspace' },
+    { href: '/studio', labelAr: 'استوديو رِفْعة', labelEn: 'RIFAA Studio', subAr: 'المنسّق، المشغل، المقارنة، والهدايا', subEn: 'Curator, Atelier, Compare and Gift Atelier' },
+    { href: '/gifts', labelAr: 'مشغل الهدايا', labelEn: 'Gift Atelier', subAr: 'هدايا مختارة لكل مناسبة وميزانية', subEn: 'Thoughtful edits for every occasion and budget' },
     { href: '/editorial', labelAr: 'الإطلالات', labelEn: 'Editorial', subAr: 'بعد الغروب، إطلالات منسقة', subEn: 'City After Sunset Looks' },
     { href: '/sale', labelAr: 'التخفيضات', labelEn: 'Sale', subAr: 'قطع مختارة بعناية', subEn: 'Archival seasonal reductions' },
   ];
