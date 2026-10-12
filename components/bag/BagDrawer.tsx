@@ -1,176 +1,37 @@
 'use client';
-
-import React from 'react';
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight, ArrowLeft } from 'lucide-react';
+import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight, ArrowLeft, Heart } from 'lucide-react';
 import { useBag } from '@/context/BagContext';
+import { useWishlist } from '@/context/WishlistContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { ImageWithFallback } from '@/components/common/ImageWithFallback';
 import { formatPrice } from '@/lib/commerce';
-
-export function BagDrawer() {
-  const router = useRouter();
-  const { items, removeFromBag, updateQuantity, clearBag, subtotal, bagCount, isOpen, closeBag } = useBag();
-  const { language, isRtl, t } = useLanguage();
-
-  if (!isOpen) return null;
-
-  return (
-    <div className="fixed inset-0 z-50 overflow-hidden">
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-[#111111]/60 backdrop-blur-xs transition-opacity duration-300"
-        onClick={closeBag}
-      />
-
-      <div className={`fixed inset-y-0 ${isRtl ? 'left-0' : 'right-0'} max-w-full flex`}>
-        <div className="w-screen max-w-md bg-[#F7F4EF] shadow-2xl flex flex-col justify-between">
-          {/* Header */}
-          <div className="px-6 py-5 border-b border-[#242220]/10 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <ShoppingBag className="w-5 h-5 text-[#111111]" />
-              <h2 className="text-base font-medium tracking-tight text-[#111111]">
-                {t.actions.bag}
-              </h2>
-              <span className="text-xs text-[#242220]/60 tabular-nums">
-                ({bagCount})
-              </span>
-            </div>
-            <button
-              onClick={closeBag}
-              aria-label={t.actions.close}
-              className="p-1.5 text-[#242220]/60 hover:text-[#111111] transition-colors cursor-pointer"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-
-          {/* Body / List */}
-          <div className="flex-1 overflow-y-auto px-6 py-4 divide-y divide-[#242220]/10">
-            {items.length === 0 ? (
-              <div className="h-full flex flex-col items-center justify-center text-center py-12 space-y-4">
-                <div className="w-16 h-16 rounded-full bg-[#EBE5DA] flex items-center justify-center text-[#242220]/40">
-                  <ShoppingBag className="w-7 h-7" />
-                </div>
-                <div>
-                  <h3 className="text-base font-medium text-[#111111]">{t.actions.emptyBag}</h3>
-                  <p className="text-xs text-[#242220]/60 mt-1 max-w-xs">{t.actions.emptyBagSub}</p>
-                </div>
-                <button
-                  onClick={closeBag}
-                  className="mt-2 px-6 py-2.5 bg-[#111111] text-white text-xs font-medium tracking-wider uppercase hover:bg-[#511D24] transition-colors cursor-pointer"
-                >
-                  {t.actions.continueShopping}
-                </button>
-              </div>
-            ) : (
-              items.map((item) => {
-                const name = language === 'ar' ? item.product.nameAr : item.product.nameEn;
-                const colorName = language === 'ar' ? item.selectedColor.nameAr : item.selectedColor.nameEn;
-                return (
-                  <div key={item.id} className="py-4 flex gap-4">
-                    <div className="relative w-20 h-24 bg-[#EBE5DA] shrink-0 overflow-hidden">
-                      <ImageWithFallback
-                        src={item.product.image}
-                        alt={name}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <div className="flex-1 flex flex-col justify-between">
-                      <div>
-                        <div className="flex justify-between items-start">
-                          <h4 className="text-sm font-medium text-[#111111] line-clamp-1">
-                            {name}
-                          </h4>
-                          <button
-                            onClick={() => removeFromBag(item.id)}
-                            aria-label={t.actions.remove}
-                            className="text-[#242220]/40 hover:text-[#511D24] transition-colors p-1"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                        <div className="text-xs text-[#242220]/60 mt-1 space-x-2 rtl:space-x-reverse">
-                          <span>{colorName}</span>
-                          <span>·</span>
-                          <span>{item.selectedSize}</span>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center justify-between pt-2">
-                        {/* Stepper */}
-                        <div className="flex items-center border border-[#242220]/20 bg-white">
-                          <button
-                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                            className="p-1 hover:bg-[#EBE5DA] text-[#111111] transition-colors cursor-pointer"
-                            aria-label="Decrease quantity"
-                          >
-                            <Minus className="w-3 h-3" />
-                          </button>
-                          <span className="px-3 text-xs font-medium tabular-nums text-[#111111]">
-                            {item.quantity}
-                          </span>
-                          <button
-                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className="p-1 hover:bg-[#EBE5DA] text-[#111111] transition-colors cursor-pointer"
-                            aria-label="Increase quantity"
-                          >
-                            <Plus className="w-3 h-3" />
-                          </button>
-                        </div>
-
-                        {/* Price */}
-                        <span className="text-sm font-semibold text-[#111111] tabular-nums">
-                          {formatPrice(item.product.price * item.quantity, language)}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })
-            )}
-          </div>
-
-          {/* Footer & Checkout Note */}
-          {items.length > 0 && (
-            <div className="p-6 border-t border-[#242220]/10 bg-[#FFFDFC]/80 space-y-4">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-[#242220]/70">{t.actions.subtotal}:</span>
-                <span className="text-base font-semibold text-[#111111] tabular-nums">
-                  {formatPrice(subtotal, language)}
-                </span>
-              </div>
-              <p className="text-[11px] text-[#242220]/60">{t.actions.shippingCalc}</p>
-
-              {/* Demo Notice Banner */}
-              <div className="p-3 bg-[#EAE3D6]/70 border-s-2 border-[#B59A73] text-[11px] text-[#242220]/80 leading-relaxed">
-                {t.actions.checkoutNote}
-              </div>
-
-              <div className="space-y-2">
-                <button
-                  onClick={() => {
-                    closeBag();
-                    router.push('/checkout');
-                  }}
-                  className="w-full py-3.5 px-6 bg-[#111111] hover:bg-[#511D24] text-white text-xs font-medium tracking-widest uppercase transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm"
-                >
-                  <span>{language === 'ar' ? 'إتمام الطلب' : 'Proceed to Checkout'}</span>
-                  {isRtl ? <ArrowLeft className="w-4 h-4" /> : <ArrowRight className="w-4 h-4" />}
-                </button>
-                <button
-                  onClick={clearBag}
-                  className="w-full py-1 text-center text-xs text-[#242220]/50 hover:text-[#511D24] transition-colors"
-                >
-                  {t.actions.clear}
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
+import { MAX_ITEM_QUANTITY } from '@/lib/bag-rules';
+export function BagDrawer(){
+ const {items,removeFromBag,updateQuantity,updateVariant,subtotal,bagCount,isOpen,closeBag}=useBag();
+ const {isWishlisted,toggleWishlist}=useWishlist();const {language,isRtl,t}=useLanguage();const ar=language==='ar';
+ const dialog=useRef<HTMLDialogElement>(null);const closeRef=useRef(closeBag);
+ useEffect(()=>{closeRef.current=closeBag;},[closeBag]);
+ useEffect(()=>{
+  const node=dialog.current;if(!node||!isOpen)return;
+  const previous=document.activeElement as HTMLElement|null;const overflow=document.body.style.overflow;
+  node.showModal();document.body.style.overflow='hidden';
+  return()=>{node.close();document.body.style.overflow=overflow;previous?.focus();};
+ },[isOpen]);
+ return <dialog ref={dialog} onCancel={e=>{e.preventDefault();closeRef.current();}} onClick={e=>{if(e.target===e.currentTarget)closeBag();}}
+ aria-labelledby="bag-dialog-title" className="fixed inset-0 m-0 h-dvh max-h-none w-screen max-w-none border-0 bg-transparent p-0 text-[#242220] backdrop:bg-black/50 backdrop:backdrop-blur-sm">
+ <div className={'absolute inset-y-0 flex w-full max-w-[480px] flex-col bg-[#F7F4EF] shadow-2xl '+(isRtl?'left-0':'right-0')}>
+  <header className="flex shrink-0 items-center justify-between border-b border-[#242220]/10 px-5 py-4"><div className="flex items-center gap-3"><ShoppingBag size={21}/><h2 id="bag-dialog-title" className="text-xl font-bold">{t.actions.bag}</h2><span className="text-sm" aria-live="polite">({bagCount})</span></div><button autoFocus type="button" onClick={closeBag} aria-label={t.actions.close} className="flex h-11 w-11 items-center justify-center"><X size={22}/></button></header>
+  <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-2">
+   {!items.length?<div className="flex h-full flex-col items-center justify-center gap-5 py-12 text-center"><ShoppingBag size={42} strokeWidth={1}/><h3 className="text-lg font-bold">{t.actions.emptyBag}</h3><p className="max-w-xs text-sm leading-7 text-[#746657]">{t.actions.emptyBagSub}</p><Link href="/collections" onClick={closeBag} className="bg-[#511D24] px-6 py-3 text-sm font-bold text-white">{t.actions.continueShopping}</Link></div>:items.map(item=>{
+    const name=ar?item.product.nameAr:item.product.nameEn;
+    return <article key={item.id} className="border-b border-[#242220]/10 py-5 last:border-0"><div className="flex gap-4"><Link href={'/products/'+item.product.slug} onClick={closeBag} className="relative h-[128px] w-[92px] shrink-0 overflow-hidden bg-[#E7E0D4]"><ImageWithFallback src={item.product.image} alt={name} fill sizes="92px" className="object-cover"/></Link><div className="min-w-0 flex-1"><div className="flex justify-between gap-2"><Link href={'/products/'+item.product.slug} onClick={closeBag} className="text-sm font-bold leading-6 hover:text-[#511D24]">{name}</Link><button type="button" onClick={()=>removeFromBag(item.id)} aria-label={(ar?'إزالة ':'Remove ')+name} className="flex h-11 w-11 shrink-0 items-center justify-center text-[#746657]"><Trash2 size={17}/></button></div><strong className="mt-1 block text-base">{formatPrice(item.quantity*item.product.price,language)}</strong><button type="button" onClick={()=>{if(!isWishlisted(item.product.id))toggleWishlist(item.product.id);removeFromBag(item.id);}} className="mt-2 inline-flex min-h-11 items-center gap-2 text-xs text-[#511D24]"><Heart size={15}/>{ar?'احفظها لوقت لاحق':'Save for later'}</button></div></div>
+    <div className="mt-4 grid grid-cols-2 gap-3"><label className="grid gap-1.5 text-xs text-[#746657]">{ar?'اللون':'Color'}<select aria-label={(ar?'لون ':'Color of ')+name} value={item.selectedColor.nameEn} onChange={e=>updateVariant(item.id,e.target.value,item.selectedSize)} className="h-11 min-w-0 border border-[#c8bcaa] bg-white px-2 text-sm text-[#242220]">{item.product.colors.map(c=><option key={c.nameEn} value={c.nameEn}>{ar?c.nameAr:c.nameEn}</option>)}</select></label><label className="grid gap-1.5 text-xs text-[#746657]">{ar?'المقاس':'Size'}<select aria-label={(ar?'مقاس ':'Size of ')+name} value={item.selectedSize} onChange={e=>updateVariant(item.id,item.selectedColor.nameEn,e.target.value)} className="h-11 min-w-0 border border-[#c8bcaa] bg-white px-2 text-sm text-[#242220]">{item.product.sizes.map(s=><option key={s}>{s}</option>)}</select></label></div>
+    <div className="mt-4 flex items-center justify-between gap-3"><span className="text-xs text-[#746657]">{ar?'الكمية':'Quantity'}</span><div className="flex items-center border border-[#c8bcaa] bg-white"><button type="button" onClick={()=>updateQuantity(item.id,item.quantity-1)} disabled={item.quantity<=1} aria-label={ar?'تقليل الكمية':'Decrease quantity'} className="flex h-11 w-11 items-center justify-center disabled:opacity-30"><Minus size={15}/></button><span className="w-8 text-center text-sm tabular-nums">{item.quantity}</span><button type="button" onClick={()=>updateQuantity(item.id,item.quantity+1)} disabled={item.quantity>=MAX_ITEM_QUANTITY} aria-label={ar?'زيادة الكمية':'Increase quantity'} className="flex h-11 w-11 items-center justify-center disabled:opacity-30"><Plus size={15}/></button></div></div>
+   </article>;
+   })}
+  </div>
+  {items.length>0&&<footer className="shrink-0 space-y-3 border-t border-[#242220]/10 bg-[#FFFDFC] p-5 pb-[max(20px,env(safe-area-inset-bottom))]"><div className="flex justify-between text-base"><span>{t.actions.subtotal}</span><strong>{formatPrice(subtotal,language)}</strong></div><p className="text-xs leading-6 text-[#746657]">{ar?'راجع المقاس واللون أعلاه. الشحن والخصم يظهران في الخطوة التالية. الطلب تجريبي ولا تُخصم أموال.':'Review sizes and colors above. Delivery and discounts follow at checkout. Demo orders do not charge money.'}</p><Link href="/checkout" onClick={closeBag} className="flex min-h-12 items-center justify-center gap-3 bg-[#511D24] px-5 py-3 text-sm font-bold text-white hover:bg-[#331218]">{ar?'مراجعة وإتمام الطلب':'Review & checkout'}{isRtl?<ArrowLeft size={18}/>:<ArrowRight size={18}/>}</Link></footer>}
+ </div></dialog>;
 }

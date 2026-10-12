@@ -1,143 +1,19 @@
 'use client';
-
-import React from 'react';
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { X, ArrowRight, ArrowLeft, Globe, UserRound, Compass } from 'lucide-react';
+import { X, ChevronDown, Shirt, Globe, UserRound, Heart } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
-
-interface MobileMenuProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
-  const { language, isRtl, toggleLanguage, t } = useLanguage();
-
-  if (!isOpen) return null;
-
-  const links = [
-    { href: '/women', labelAr: 'النساء', labelEn: 'Women', subAr: 'عبايات، تفصيل، فساتين', subEn: 'Abayas, Tailoring, Silhouettes' },
-    { href: '/men', labelAr: 'الرجال', labelEn: 'Men', subAr: 'أوفرشيرت، كتان، تفصيل', subEn: 'Overshirts, Linen, Tailoring' },
-    { href: '/kids', labelAr: 'الأطفال', labelEn: 'Kids', subAr: 'قطن عضوي، أطقم، مناسبات', subEn: 'Organic Sets, Occasions' },
-    { href: '/new', labelAr: 'وصل حديثاً', labelEn: 'New In', subAr: 'أحدث القطع لهذا الأسبوع', subEn: 'Curated weekly arrivals' },
-    { href: '/collections', labelAr: 'التشكيلات', labelEn: 'Collections', subAr: 'تحرير العيد، أساسيات رِفْعة', subEn: 'The Eid Edit, Essentials' },
-    { href: '/studio', labelAr: 'استوديو رِفْعة', labelEn: 'RIFAA Studio', subAr: 'المنسّق، المشغل، المقارنة، والهدايا', subEn: 'Curator, Atelier, Compare and Gift Atelier' },
-    { href: '/gifts', labelAr: 'مشغل الهدايا', labelEn: 'Gift Atelier', subAr: 'هدايا مختارة لكل مناسبة وميزانية', subEn: 'Thoughtful edits for every occasion and budget' },
-    { href: '/editorial', labelAr: 'الإطلالات', labelEn: 'Editorial', subAr: 'بعد الغروب، إطلالات منسقة', subEn: 'City After Sunset Looks' },
-    { href: '/sale', labelAr: 'التخفيضات', labelEn: 'Sale', subAr: 'قطع مختارة بعناية', subEn: 'Archival seasonal reductions' },
-  ];
-
-  return (
-    <div className="fixed inset-0 z-50 overflow-hidden md:hidden">
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-[#111111]/70 backdrop-blur-xs transition-opacity"
-        onClick={onClose}
-      />
-
-      <div className={`fixed inset-y-0 ${isRtl ? 'right-0' : 'left-0'} w-full max-w-sm bg-[#F7F4EF] shadow-2xl flex flex-col justify-between`}>
-        {/* Top Header */}
-        <div className="px-6 py-5 border-b border-[#242220]/10 flex items-center justify-between">
-          <div className="flex flex-col">
-            <div className="flex items-baseline gap-2.5">
-              <span className="text-2xl font-bold tracking-tight text-[#111111]">{t.brandName}</span>
-              <span className="font-editorial text-lg font-semibold tracking-[0.2em] text-[#511D24]">RIFAA</span>
-            </div>
-            <span className="text-[10px] tracking-widest text-[#242220]/60 uppercase">
-              {t.brandSentiment}
-            </span>
-          </div>
-          <button
-            onClick={onClose}
-            aria-label={t.actions.close}
-            className="p-2 text-[#242220]/70 hover:text-[#111111] transition-colors cursor-pointer"
-          >
-            <X className="w-6 h-6" />
-          </button>
-        </div>
-
-        {/* Navigation Links */}
-        <div className="flex-1 overflow-y-auto px-6 py-4 divide-y divide-[#242220]/05">
-          {links.map((link) => {
-            const title = language === 'ar' ? link.labelAr : link.labelEn;
-            const subtitle = language === 'ar' ? link.subAr : link.subEn;
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={onClose}
-                className="py-4 flex items-center justify-between group"
-              >
-                <div>
-                  <span className="text-lg font-medium text-[#111111] group-hover:text-[#511D24] transition-colors block">
-                    {title}
-                  </span>
-                  <span className="text-xs text-[#242220]/50 block mt-0.5">
-                    {subtitle}
-                  </span>
-                </div>
-                {isRtl ? (
-                  <ArrowLeft className="w-4 h-4 text-[#242220]/30 group-hover:text-[#511D24] group-hover:-translate-x-1 transition-all" />
-                ) : (
-                  <ArrowRight className="w-4 h-4 text-[#242220]/30 group-hover:text-[#511D24] group-hover:translate-x-1 transition-all" />
-                )}
-              </Link>
-            );
-          })}
-        </div>
-
-        <div className="px-6 pb-2 space-y-2">
-          <Link
-            href="/concierge"
-            onClick={onClose}
-            className="flex items-center justify-between border border-[#511D24]/15 bg-[#511D24]/[0.035] px-4 py-3.5 text-sm font-semibold text-[#111111]"
-          >
-            <span className="flex items-center gap-2">
-              <Compass className="h-4 w-4 text-[#511D24]" />
-              <span>{language === 'ar' ? 'كونسيرج رِفْعة' : 'RIFAA Concierge'}</span>
-            </span>
-            {isRtl ? <ArrowLeft className="h-4 w-4 text-[#242220]/40" /> : <ArrowRight className="h-4 w-4 text-[#242220]/40" />}
-          </Link>
-          <Link
-            href="/account"
-            onClick={onClose}
-            className="flex items-center justify-between border border-[#242220]/10 bg-[#FFFDFC] px-4 py-3.5 text-sm font-semibold text-[#111111]"
-          >
-            <span className="flex items-center gap-2">
-              <UserRound className="h-4 w-4 text-[#511D24]" />
-              <span>{language === 'ar' ? 'مساحة العميل' : 'Client Space'}</span>
-            </span>
-            {isRtl ? <ArrowLeft className="h-4 w-4 text-[#242220]/40" /> : <ArrowRight className="h-4 w-4 text-[#242220]/40" />}
-          </Link>
-        </div>
-
-        {/* Bottom Panel & Language Selector */}
-        <div className="p-6 border-t border-[#242220]/10 bg-[#FFFDFC]/80 space-y-4">
-          {/* Language Switcher */}
-          <div className="flex items-center justify-between py-2 border-b border-[#242220]/08">
-            <span className="text-xs text-[#242220]/70 flex items-center gap-1.5">
-              <Globe className="w-3.5 h-3.5" />
-              <span>{language === 'ar' ? 'اللغة' : 'Language'}</span>
-            </span>
-            <button
-              onClick={toggleLanguage}
-              className="px-3 py-1 bg-[#111111] text-white text-xs font-medium tracking-wider uppercase hover:bg-[#511D24] transition-colors cursor-pointer"
-            >
-              {language === 'ar' ? 'English (LTR)' : 'العربية (RTL)'}
-            </button>
-          </div>
-
-          {/* Quick Info */}
-          <div className="flex justify-between items-center text-xs text-[#242220]/60 pt-1">
-            <span>{t.actions.country}</span>
-            <span>{t.actions.sar}</span>
-          </div>
-
-          <p className="text-[11px] text-[#242220]/50 text-center">
-            {t.footer.copyright}
-          </p>
-        </div>
-      </div>
-    </div>
-  );
+import { MEGA_NAVIGATION } from '@/data/navigation';
+export function MobileMenu({isOpen,onClose}:{isOpen:boolean;onClose:()=>void}){
+ const{language,isRtl,toggleLanguage}=useLanguage();const ar=language==='ar';const dialog=useRef<HTMLDialogElement>(null);
+ useEffect(()=>{const el=dialog.current;if(!isOpen||!el)return;const previous=document.activeElement as HTMLElement|null;const overflow=document.body.style.overflow;el.showModal();document.body.style.overflow='hidden';return()=>{el.close();document.body.style.overflow=overflow;previous?.focus();};},[isOpen]);
+ return <dialog ref={dialog} aria-labelledby="mobile-nav-title" onCancel={e=>{e.preventDefault();onClose();}} onClick={e=>{if(e.target===e.currentTarget)onClose();}} className="fixed inset-0 m-0 h-dvh max-h-none w-screen max-w-none border-0 bg-transparent p-0 text-[#242220] backdrop:bg-black/55 backdrop:backdrop-blur-sm">
+ <div className={'absolute inset-y-0 flex w-[min(94vw,440px)] flex-col bg-[#F7F4EF] shadow-2xl '+(isRtl?'right-0':'left-0')}>
+  <div className="flex items-center justify-between border-b border-[#242220]/10 px-5 py-4"><h2 id="mobile-nav-title" className="text-2xl font-bold">{ar?'اكتشف رِفْعة':'Explore RIFAA'}</h2><button type="button" autoFocus onClick={onClose} aria-label={ar?'إغلاق القائمة':'Close navigation'} className="flex h-11 w-11 items-center justify-center"><X size={23}/></button></div>
+  <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pb-6"><Link href="/fitting-room" onClick={onClose} className="my-5 flex items-center gap-3 bg-[#511D24] px-4 py-4 text-base font-bold text-white"><Shirt size={22}/>{ar?'جرّب غرفة القياس':'Explore the fitting room'}</Link>
+   {MEGA_NAVIGATION.map(item=><details key={item.key} className="group border-b border-[#242220]/10"><summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-3 py-3 text-lg font-semibold [&::-webkit-details-marker]:hidden"><span>{ar?item.labelAr:item.labelEn}</span><ChevronDown size={18} className="transition-transform group-open:rotate-180"/></summary><div className="pb-5 ps-3"><Link href={item.href} onClick={onClose} className="mb-3 flex min-h-11 items-center text-sm font-bold text-[#511D24]">{ar?item.ctaAr:item.ctaEn}</Link>{item.groups.map(group=><section key={group.titleEn} className="mt-4"><h3 className="mb-2 text-xs font-bold text-[#746657]">{ar?group.titleAr:group.titleEn}</h3>{group.items.map(link=><Link key={link.href+link.en} href={link.href} onClick={onClose} className="flex min-h-11 items-center text-sm hover:text-[#511D24]">{ar?link.ar:link.en}</Link>)}</section>)}</div></details>)}
+   <div className="mt-6 grid grid-cols-2 gap-3"><Link href="/account" onClick={onClose} className="flex min-h-12 items-center justify-center gap-2 border border-[#c8bcaa] text-sm"><UserRound size={17}/>{ar?'حسابي':'My account'}</Link><Link href="/wishlist" onClick={onClose} className="flex min-h-12 items-center justify-center gap-2 border border-[#c8bcaa] text-sm"><Heart size={17}/>{ar?'المفضلة':'Wishlist'}</Link></div>
+  </div>
+  <div className="flex shrink-0 items-center justify-between border-t border-[#242220]/10 p-5 pb-[max(20px,env(safe-area-inset-bottom))]"><span className="text-xs">SAR · {ar?'السعودية':'Saudi Arabia'}</span><button type="button" onClick={toggleLanguage} className="flex min-h-11 items-center gap-2 px-3 text-sm font-bold"><Globe size={18}/>{ar?'English':'العربية'}</button></div>
+ </div></dialog>;
 }
