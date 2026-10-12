@@ -6,7 +6,7 @@ import { createRequire } from 'node:module';
 // Compile isolated TS domain modules with the same TS compiler as the build.
 // No browser, network or provider calls are made by this test command.
 const root=process.cwd();const cache=new Map();const nodeRequire=createRequire(import.meta.url);
-function load(relative){const file=path.resolve(root,relative);if(cache.has(file))return cache.get(file);const source=fs.readFileSync(file,'utf8');const code=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;const module={exports:{}};const req=id=>id.startsWith('@/')?load(id.slice(2)+'.ts'):id.startsWith('.')?load(path.relative(root,path.resolve(path.dirname(file),id))+'.ts'):nodeRequire(id);new Function('require','module','exports',code)(req,module,module.exports);cache.set(file,module.exports);return module.exports;}
+function load(relative){const file=path.resolve(root,relative);if(cache.has(file))return cache.get(file);const source=fs.readFileSync(file,'utf8');const code=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;const compiled={exports:{}};const req=id=>id.startsWith('@/')?load(id.slice(2)+'.ts'):id.startsWith('.')?load(path.relative(root,path.resolve(path.dirname(file),id))+'.ts'):nodeRequire(id);new Function('require','module','exports',code)(req,compiled,compiled.exports);cache.set(file,compiled.exports);return compiled.exports;}
 const bag=load('lib/bag-rules.ts');const fitting=load('lib/fitting-room.ts');const{DEMO_PRODUCTS:catalog}=load('data/products.ts');
 let passed=0;function test(name,fn){fn();passed++;console.log('PASS '+name);}
 const p=catalog[0],color=p.colors[0],size=p.sizes[0];
