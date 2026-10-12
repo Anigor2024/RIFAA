@@ -1,0 +1,104 @@
+'use client';
+import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { ArrowLeft, ArrowRight, Check, Download, ImagePlus, LockKeyhole, Move, RotateCcw, ScanLine, ShoppingBag, Sparkles, Trash2, X } from 'lucide-react';
+import { DEMO_PRODUCTS } from '@/data/products';
+import { useLanguage } from '@/context/LanguageContext';
+import { useAuth } from '@/context/AuthContext';
+import { useBag } from '@/context/BagContext';
+import { useWishlist } from '@/context/WishlistContext';
+import { formatPrice } from '@/lib/commerce';
+import { CONSENT_VERSION, DEFAULT_PLACEMENT, LOCAL_GARMENTS, calibrateShoulders, clamp, getMask, type Placement, type Point } from '@/lib/fitting-room';
+import { exportFitting, loadImage, preparePhoto, renderFitting } from '@/lib/fitting-image';
+import styles from './fitting.module.css';
+
+interface Look {id:string; productId:string; placement:Placement; color:string; size:string; preview:string}
+export function FittingRoom({initialProduct,aiAvailable}:{initialProduct:string;aiAvailable:boolean}) {
+ const {language,isRtl}=useLanguage();const {user,session}=useAuth();const {addToBag}=useBag();const {isWishlisted,toggleWishlist}=useWishlist();
+ const ar=language==='ar';const tr=(a:string,e:string)=>ar?a:e;
+ const [productId,setProductId]=useState(initialProduct);
+ const product=DEMO_PRODUCTS.find(p=>p.id===productId)!;
+ const [size,setSize]=useState('');const [color,setColor]=useState(product.colors[0].nameEn);
+ const [photo,setPhoto]=useState<HTMLImageElement|null>(null);
+ const [garment,setGarment]=useState<{id:string;image:HTMLImageElement}|null>(null);
+ const [placement,setPlacement]=useState<Placement>(DEFAULT_PLACEMENT);
+ const [reveal,setReveal]=useState(100);const [calibrating,setCalibrating]=useState(false);const [points,setPoints]=useState<Point[]>([]);
+ const [mode,setMode]=useState<'local'|'ai'>('local');const [result,setResult]=useState<HTMLImageElement|null>(null);
+ const [consent,setConsent]=useState(false);const [busy,setBusy]=useState(false);const [loading,setLoading]=useState(false);
+ const [message,setMessage]=useState('');const [looks,setLooks]=useState<Look[]>([]);
+ const canvasRef=useRef<HTMLCanvasElement>(null);const fileRef=useRef<HTMLInputElement>(null);
+ const drag=useRef<{x:number;y:number;placement:Placement}|null>(null);
+ const generation=useRef(0);const abort=useRef<AbortController|null>(null);
+ const mask=getMask(productId);
+ useEffect(()=>{let alive=true;void loadImage(product.image).then(image=>{if(alive)setGarment({id:productId,image});}).catch(()=>{if(alive)setGarment(null);});return()=>{alive=false;};},[product.image,productId]);
+ useEffect(()=>{if(canvasRef.current&&photo)renderFitting(canvasRef.current,photo,garment?.id===productId?garment.image:null,mask,placement,reveal/100,mode==='ai'?result:null);},[photo,garment,productId,mask,placement,reveal,result,mode]);
+ useEffect(()=>()=>{generation.current++;abort.current?.abort();},[]);
+ const cancelRequest=()=>{generation.current++;abort.current?.abort();abort.current=null;setBusy(false);};
+ const selectProduct=(id:string)=>{cancelRequest();setProductId(id);setSize('');setColor(DEMO_PRODUCTS.find(p=>p.id===id)!.colors[0].nameEn);setResult(null);setMessage('');setReveal(100);};
+ const erase=()=>{cancelRequest();setPhoto(null);setResult(null);setLooks([]);setPoints([]);setCalibrating(false);setPlacement(DEFAULT_PLACEMENT);setConsent(false);setMessage(tr('تم مسح الصورة والمعاينات من هذه الصفحة.','Photo and session previews cleared.'));if(fileRef.current)fileRef.current.value='';};
+ async function upload(file?:File) {
+  if(!file)return;cancelRequest();const id=generation.current;setLoading(true);setMessage('');
+  try{const image=await preparePhoto(file);if(id!==generation.current)return;setPhoto(image);setResult(null);setLooks([]);setConsent(false);setPlacement(DEFAULT_PLACEMENT);setReveal(100);setCalibrating(true);setPoints([]);}
+  catch(e){if(id!==generation.current)return;const code=e instanceof Error?e.message:'';setMessage(code==='size'?tr('الحد الأقصى للصورة 8 ميجابايت.','Maximum photo size is 8 MB.'):code==='small'?tr('استخدم صورة أوضح، 240 × 320 بكسل على الأقل.','Use a clearer image, at least 240 × 320 pixels.'):tr('تعذّر فتح الصورة. استخدم JPG أو PNG أو WebP، وبحد أقصى 40 مليون بكسل.','Cannot open this image. Use JPG, PNG or WebP, up to 40 megapixels.'));}
+  finally{if(id===generation.current)setLoading(false);}
+ }
+ function position(event:React.PointerEvent<HTMLCanvasElement>):Point {const rect=event.currentTarget.getBoundingClientRect();return{x:clamp((event.clientX-rect.left)/rect.width,0,1),y:clamp((event.clientY-rect.top)/rect.height,0,1)};}
+ function pointerDown(event:React.PointerEvent<HTMLCanvasElement>){
+  if(mode!=='local')return;const point=position(event);
+  if(calibrating){if(!points.length){setPoints([point]);return;}const next=calibrateShoulders(points[0],point);if(next){setPlacement(next);setCalibrating(false);setPoints([]);setMessage('');}else{setPoints([]);setMessage(tr('اختر نقطتين متباعدتين عند الكتفين.','Choose two distinct shoulder points.'));}return;}
+  drag.current={x:point.x,y:point.y,placement};event.currentTarget.setPointerCapture(event.pointerId);
+ }
+ function pointerMove(event:React.PointerEvent<HTMLCanvasElement>){if(!drag.current)return;const point=position(event);setPlacement({...drag.current.placement,x:clamp(drag.current.placement.x+point.x-drag.current.x,0,1),y:clamp(drag.current.placement.y+point.y-drag.current.y,0,1)});}
+ function exportCurrent(){if(!canvasRef.current||!photo)return;const url=exportFitting(canvasRef.current,ar?product.nameAr:product.nameEn,mode==='ai'&&Boolean(result));const link=document.createElement('a');link.download='rifaa-look-'+product.id+'.jpg';link.href=url;link.click();}
+ function saveLook(){if(!canvasRef.current||!photo)return;const look={id:crypto.randomUUID(),productId,placement:{...placement},color,size,preview:exportFitting(canvasRef.current,product.nameEn,false)};setLooks(list=>[look,...list].slice(0,3));setMessage(tr('حُفظت المعاينة مؤقتًا في هذه الجلسة فقط.','Preview saved for this session only.'));}
+ function restoreLook(look:Look){selectProduct(look.productId);setPlacement(look.placement);setColor(look.color);setSize(look.size);setMode('local');setCalibrating(false);}
+ function purchase(){if(!size){setMessage(tr('اختر مقاسك أولًا؛ المعاينة لا تحدد المقاس.','Choose a size first; the preview does not determine size.'));document.getElementById('fitting-size')?.focus();return;}const selected=product.colors.find(c=>c.nameEn===color);if(selected)addToBag(product,selected,size,1);}
+ async function generate(){
+  if(!photo||!aiAvailable||!consent||!session||!user)return;
+  cancelRequest();const id=generation.current;const controller=new AbortController();abort.current=controller;setBusy(true);setMessage(tr('جاري إرسال الصورة بعد موافقتك ومعالجتها…','Sending with your consent and processing…'));
+  try{
+   const response=await fetch('/api/try-on',{method:'POST',signal:controller.signal,headers:{'Content-Type':'application/json',Authorization:'Bearer '+session.access_token},body:JSON.stringify({productId,photo:photo.src,consent:CONSENT_VERSION,adult:true})});
+   const data=await response.json();if(!response.ok)throw new Error(data.code||'service');
+   for(let i=0;i<36;i++){
+    await new Promise<void>((resolve,reject)=>{const timer=setTimeout(resolve,2500);controller.signal.addEventListener('abort',()=>{clearTimeout(timer);reject(new Error('cancel'));},{once:true});});
+    const poll=await fetch('/api/try-on?ticket='+encodeURIComponent(data.ticket),{signal:controller.signal,headers:{Authorization:'Bearer '+session.access_token}});
+    const status=await poll.json();if(!poll.ok||status.status==='failed')throw new Error(status.code||'service');
+    if(status.status==='completed'){const image=await loadImage(status.image);if(id!==generation.current)return;setResult(image);setReveal(100);setMessage(tr('معاينة مولّدة؛ قد تختلف تفاصيل القماش والملاءمة الفعلية.','Generated visualization; fabric details and actual fit can differ.'));return;}
+   }
+   throw new Error('timeout');
+  }catch(e){if(id!==generation.current)return;const code=e instanceof Error?e.message:'';setMessage(code==='quota'?tr('وصلت لحد المعاينات اليومية. جرّب المعاينة المحلية.','Daily preview limit reached. Local preview is still available.'):tr('لم تكتمل المعاينة. لا يوجد ضمان لاسترجاع محاولة المعالجة؛ جرّب المعاينة المحلية.','Preview did not complete. Processing attempts may still count; local preview remains available.'));}
+  finally{if(id===generation.current)setBusy(false);}
+ }
+ return <div className={styles.room}>
+  <div className={styles.container}>
+   <nav className={styles.breadcrumb}><Link href="/studio">{tr('الاستوديو','Studio')}</Link><span>/</span><span>{tr('غرفة القياس','Fitting room')}</span></nav>
+   <header className={styles.intro}><div><h1>{tr('إطلالتك. على صورتك.','Your look. Your photograph.')}</h1><p>{tr('جرّب شكل القطعة بهدوء، راجع التفاصيل، ثم اختر مقاسك.','Explore the silhouette, inspect the details, then choose your size.')}</p></div><span className={styles.privacy}><LockKeyhole size={17}/>{tr('الصورة محلية افتراضيًا','Photo stays local by default')}</span></header>
+   <div className={styles.workbench}>
+    <section className={styles.mirrorPanel} aria-label={tr('مرآة المعاينة','Preview mirror')}>
+     <div className={styles.toolbar}><span>{mode==='local'?tr('معاينة تركيب ثنائي الأبعاد','2D photo composition'):tr('معاينة الذكاء الاصطناعي','AI visualization')}</span><button type="button" onClick={erase} disabled={!photo&&!loading} aria-label={tr('مسح الصورة وكل المعاينات','Clear photo and all previews')}><Trash2 size={18}/></button></div>
+     <div className={styles.mirror} onDragOver={e=>e.preventDefault()} onDrop={e=>{e.preventDefault();void upload(e.dataTransfer.files[0]);}}>
+      {photo?<><canvas ref={canvasRef} width={900} height={1200} aria-label={tr('المعاينة؛ اسحب لتحريك القطعة أو استخدم أدوات الضبط','Preview; drag garment or use adjustment controls')} onPointerDown={pointerDown} onPointerMove={pointerMove} onPointerUp={()=>{drag.current=null;}} onPointerCancel={()=>{drag.current=null;}} style={{touchAction:mode==='local'?'none':'auto'}}/>{calibrating&&mode==='local'&&<div className={styles.calibrationHint}><ScanLine size={18}/>{points.length?tr('اضغط على الكتف الآخر','Tap the other shoulder'):tr('اضغط على كتفك الأول ثم الآخر','Tap one shoulder, then the other')}</div>}{points.map((p,i)=><span key={i} className={styles.pin} style={{left:p.x*100+'%',top:p.y*100+'%'}}/>)}</>:<div className={styles.upload}><div className={styles.uploadIcon}><ImagePlus size={36} strokeWidth={1}/></div><h2>{tr('ابدأ بصورة لك','Start with your photograph')}</h2><p>{tr('صورة أمامية واضحة بملابس كاملة. للثوب والعباية، أظهر الجسم كاملًا.','A clear front-facing, fully clothed photo. For thobes and abayas, include your full body.')}</p><button className={styles.primary} type="button" disabled={loading} onClick={()=>fileRef.current?.click()}>{loading?tr('جاري تجهيز الصورة…','Preparing image…'):tr('اختر صورة من جهازك','Choose a photo')}</button><small>JPG / PNG / WebP · {tr('حتى 8 ميجابايت','up to 8 MB')}</small></div>}
+     </div>
+     <input ref={fileRef} type="file" accept="image/jpeg,image/png,image/webp" hidden onChange={e=>{void upload(e.target.files?.[0]);e.target.value='';}}/>
+     {photo&&<div className={styles.compare}><label htmlFor="fitting-reveal">{tr('الأصل ← المقارنة → المعاينة','Original ← Compare → Preview')}</label><input id="fitting-reveal" type="range" min="0" max="100" value={reveal} onChange={e=>setReveal(Number(e.target.value))}/><div className={styles.actions}><button type="button" onClick={()=>fileRef.current?.click()}><ImagePlus size={16}/>{tr('تغيير الصورة','Replace photo')}</button><button type="button" onClick={exportCurrent}><Download size={16}/>{tr('تنزيل المعاينة','Export preview')}</button>{mode==='local'&&<button type="button" onClick={saveLook}><Check size={16}/>{tr('احتفظ للمقارنة','Keep for comparison')}</button>}</div></div>}
+    </section>
+    <aside className={styles.controls}>
+     <div className={styles.modes} role="group" aria-label={tr('طريقة المعاينة','Preview mode')}><button type="button" aria-pressed={mode==='local'} onClick={()=>{cancelRequest();setMode('local');setMessage('');}}>{tr('على جهازك','On device')}</button><button type="button" aria-pressed={mode==='ai'} onClick={()=>{setMode('ai');setCalibrating(false);setMessage('');}}><Sparkles size={16}/>{tr('ذكاء اصطناعي','AI try-on')}</button></div>
+     <h2>{tr('اختر القطعة المرجعية','Choose a reference piece')}</h2><p className={styles.muted}>{tr('النسخة المحلية تشمل ثلاث قطع بحدود قصّ مراجعة. لا تتغير صورة القماش باختيار لون الطلب.','Local mode includes three reviewed cutout guides. Order color selection does not recolor the reference fabric.')}</p>
+     <div className={styles.products}>{LOCAL_GARMENTS.map(({productId:id})=>{const p=DEMO_PRODUCTS.find(x=>x.id===id)!;return <button type="button" key={id} aria-pressed={id===productId} onClick={()=>selectProduct(id)}><Image src={p.image} alt="" width={80} height={104}/><span>{ar?p.nameAr:p.nameEn}</span></button>;})}</div>
+     <div className={styles.productHeading}><h3>{ar?product.nameAr:product.nameEn}</h3><strong>{formatPrice(product.price,language)}</strong></div>
+     <p className={styles.fabric}>{ar?product.fabricAr:product.fabricEn}</p>
+     {mode==='local'?<><div className={styles.adjustHeader}><h3>{tr('اضبط على صورتك','Adjust to your photograph')}</h3><button type="button" disabled={!photo} onClick={()=>{setPlacement(DEFAULT_PLACEMENT);setPoints([]);setCalibrating(true);setReveal(100);}}><ScanLine size={17}/>{tr('حدد الكتفين','Set shoulders')}</button></div><p className={styles.muted}><Move size={14}/> {tr('اسحب القطعة على الصورة؛ استخدم المنزلقات لضبطها بدقة.','Drag the garment; fine-tune with the sliders.')}</p>
+      {([['width',tr('العرض','Width'),0.12,0.75,0.01],['length',tr('الطول البصري','Visual length'),0.55,1.8,0.01],['angle',tr('الميل','Rotation'),-25,25,1],['x',tr('الموضع الأفقي','Horizontal position'),0,1,0.01],['y',tr('الموضع الرأسي','Vertical position'),0,1,0.01]] as const).map(([key,label,min,max,step])=><label className={styles.slider} key={key}><span>{label}</span><input type="range" min={min} max={max} step={step} value={placement[key]} disabled={!photo} onChange={e=>setPlacement(p=>({...p,[key]:Number(e.target.value)}))}/></label>)}
+      <button className={styles.textButton} type="button" disabled={!photo} onClick={()=>{setPlacement(DEFAULT_PLACEMENT);setCalibrating(false);setPoints([]);}}><RotateCcw size={15}/>{tr('إعادة الضبط','Reset placement')}</button>
+     </>:<section className={styles.aiInfo}><h3>{aiAvailable?tr('التلبيس الواقعي بالخدمة الخارجية','Provider-powered virtual try-on'):tr('ربط الخدمة مطلوب','Provider connection required')}</h3><p>{aiAvailable?tr('المعالجة عبر FASHN. الصورة تُرسل فقط عند ضغط إنشاء المعاينة.','Processed by FASHN. Your photo is sent only when you press Generate.'):tr('الواجهة والربط البرمجي جاهزان، لكن لا يوجد مفتاح خدمة مفعّل. المعاينة المحلية تعمل بدون اشتراك أو إرسال صور.','The interface and API adapter are prepared, but no provider key is enabled. Local preview works without a subscription or sending your photo.')}</p><p>{tr('عند التفعيل: نسخة معالجة الإدخال مؤقتة، مع تنظيف احتياطي خلال يوم؛ النتيجة متاحة لدى المزود حتى 60 دقيقة. بيانات الطلب الوصفية قد تبقى حتى طلب حذفها.','When enabled: temporary input processing copy, with a one-day cleanup backstop; provider output available up to 60 minutes. Request metadata may remain until deletion is requested.')}</p><label className={styles.consent}><input type="checkbox" checked={consent} disabled={!aiAvailable||busy} onChange={e=>setConsent(e.target.checked)}/><span>{tr('أؤكد أن الصورة لي أو لدي إذن صاحبها، وأن صاحبها بالغ، وأوافق على إرسالها إلى FASHN لهذه المعاينة.','I confirm the photo is mine or I have permission, the person is an adult, and I consent to sending it to FASHN for this preview.')}</span></label>{aiAvailable&&!user&&<Link href="/account">{tr('سجّل الدخول لتفعيل حد الاستخدام الآمن','Sign in for protected usage limits')}</Link>}<button type="button" className={styles.primary} disabled={!aiAvailable||!photo||!consent||!user||busy} onClick={()=>void generate()}><Sparkles size={17}/>{busy?tr('المعالجة جارية…','Processing…'):tr('إنشاء المعاينة','Generate preview')}</button>{busy&&<button type="button" className={styles.textButton} onClick={()=>{cancelRequest();setMessage(tr('أُوقف الانتظار. قد يستمر طلب المزود وتُحتسب المحاولة.','Waiting stopped. The provider request may continue and count toward your limit.'));}}>{tr('إيقاف الانتظار','Stop waiting')}</button>}</section>}
+     <section className={styles.order}><div className={styles.fields}><label>{tr('لون الطلب','Order color')}<select value={color} onChange={e=>setColor(e.target.value)}>{product.colors.map(c=><option key={c.nameEn} value={c.nameEn}>{ar?c.nameAr:c.nameEn}</option>)}</select></label><label>{tr('مقاس الطلب','Order size')}<select id="fitting-size" value={size} onChange={e=>setSize(e.target.value)}><option value="">{tr('اختر المقاس','Choose size')}</option>{product.sizes.map(s=><option key={s}>{s}</option>)}</select></label></div><p>{tr('المعاينة بصرية فقط: لا تقيس جسمك ولا تضمن المقاس أو انسياب القماش.','Visual preview only: it does not measure your body or guarantee size or drape.')}</p><div className={styles.orderActions}><button className={styles.primary} type="button" onClick={purchase}><ShoppingBag size={18}/>{tr('أضف للحقيبة','Add to bag')}</button><button className={styles.secondary} type="button" onClick={()=>toggleWishlist(product.id)} aria-pressed={isWishlisted(product.id)}>{isWishlisted(product.id)?tr('محفوظة','Saved'):tr('احفظ القطعة','Save piece')}</button></div><Link className={styles.productLink} href={'/products/'+product.slug}>{tr('التفاصيل ودليل المقاس','Details & sizing')}{isRtl?<ArrowLeft size={16}/>:<ArrowRight size={16}/>}</Link></section>
+    </aside>
+   </div>
+   <p className={styles.message} role="status" aria-live="polite">{message}</p>
+   {looks.length>0&&<section className={styles.looks}><h2>{tr('إطلالاتك في هذه الجلسة','Your session looks')}</h2><p>{tr('حتى 3 معاينات مؤقتة؛ تختفي عند مغادرة الصفحة أو مسح الصورة.','Up to 3 temporary previews; cleared when leaving this page or deleting the photo.')}</p><div>{looks.map(look=><article key={look.id}><button type="button" onClick={()=>restoreLook(look)}><Image src={look.preview} alt={tr('استعادة هذه الإطلالة','Restore this look')} width={180} height={258} unoptimized/></button><button type="button" aria-label={tr('حذف المعاينة','Delete preview')} onClick={()=>setLooks(items=>items.filter(i=>i.id!==look.id))}><X size={18}/></button></article>)}</div></section>}
+   <section className={styles.notes}><div><h3>{tr('صورة مناسبة، نتيجة أوضح','Better photograph, clearer preview')}</h3><p>{tr('واجه الكاميرا، ابتعد قليلًا، واترك مساحة حول الذراعين. لا نفتح كاميرتك ولا نقرأ صورًا غير التي تختارها.','Face the camera, step back, and leave space around your arms. We do not access your camera or read unselected photos.')}</p></div><div><h3>{tr('الخصوصية تحت سيطرتك','Privacy in your hands')}</h3><p>{tr('الصورة والمعاينات في ذاكرة هذه الصفحة فقط، وليست في الحساب أو التخزين المحلي. زر التنزيل يحفظ نسخة على جهازك باختيارك.','Photos and previews stay in this page’s memory, not your account or local storage. Export saves a copy to your device only at your request.')}</p></div><div><h3>{tr('المقاس قرار منفصل','Sizing is a separate decision')}</h3><p>{tr('راجع جدول مقاسات القطعة قبل الشراء. لا تستخدم التكبير أو التحريك كقياس جسم أو إثبات ملاءمة.','Check the garment size guide before purchase. Scaling and dragging are not body measurements or proof of fit.')}</p></div></section>
+  </div>
+ </div>;
+}

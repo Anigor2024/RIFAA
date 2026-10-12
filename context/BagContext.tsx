@@ -1,212 +1,33 @@
 'use client';
-
-import React, { createContext, useContext, useState, useSyncExternalStore } from 'react';
-import { Product, ProductColor, CartItem } from '@/types';
-
+import React, { createContext, useContext, useMemo, useState, useSyncExternalStore } from 'react';
+import type { Product, ProductColor, CartItem } from '@/types';
+import { DEMO_PRODUCTS } from '@/data/products';
+import { addSelections, changeVariant, MAX_ITEM_QUANTITY, normalizeBag, type BagSelection } from '@/lib/bag-rules';
 interface BagContextType {
-  items: CartItem[];
-  addToBag: (product: Product, color: ProductColor, size: string, quantity?: number) => void;
-  addManyToBag: (
-    selections: {
-      product: Product;
-      color: ProductColor;
-      size: string;
-      quantity?: number;
-    }[]
-  ) => void;
-  removeFromBag: (itemId: string) => void;
-  updateQuantity: (itemId: string, quantity: number) => void;
-  clearBag: () => void;
-  bagCount: number;
-  subtotal: number;
-  isOpen: boolean;
-  isHydrated: boolean;
-  openBag: () => void;
-  closeBag: () => void;
+  items:CartItem[]; addToBag:(product:Product,color:ProductColor,size:string,quantity?:number)=>void;
+  addManyToBag:(selections:BagSelection[])=>void; removeFromBag:(id:string)=>void;
+  updateQuantity:(id:string,quantity:number)=>void;
+  updateVariant:(id:string,colorName:string,size:string)=>void;
+  clearBag:()=>void;bagCount:number;subtotal:number;isOpen:boolean;isHydrated:boolean;openBag:()=>void;closeBag:()=>void;
 }
-
-const BagContext = createContext<BagContextType | undefined>(undefined);
-
-const BAG_STORAGE_KEY = 'rifaa_bag';
-const BAG_CHANGE_EVENT = 'rifaa-bag-change';
-let bagMemorySnapshot = '[]';
-
-function subscribeBag(onStoreChange: () => void) {
-  window.addEventListener('storage', onStoreChange);
-  window.addEventListener(BAG_CHANGE_EVENT, onStoreChange);
-  return () => {
-    window.removeEventListener('storage', onStoreChange);
-    window.removeEventListener(BAG_CHANGE_EVENT, onStoreChange);
-  };
+const BagContext=createContext<BagContextType|undefined>(undefined);
+const KEY='rifaa_bag',EVENT='rifaa-bag-change';let memory='[]';
+function subscribe(fn:()=>void){window.addEventListener('storage',fn);window.addEventListener(EVENT,fn);return()=>{window.removeEventListener('storage',fn);window.removeEventListener(EVENT,fn);};}
+function snapshot(){try{memory=localStorage.getItem(KEY)||'[]';}catch{/* Private browsing may block storage. */}return memory;}
+function serverSnapshot(){return null;}
+function parse(raw:string|null){try{return normalizeBag(JSON.parse(raw||'[]'),DEMO_PRODUCTS);}catch{return [];}}
+function read(){return parse(snapshot());}
+function write(items:CartItem[]){memory=JSON.stringify(normalizeBag(items,DEMO_PRODUCTS));try{localStorage.setItem(KEY,memory);}catch{/* Preserve in-memory functionality. */}window.dispatchEvent(new Event(EVENT));}
+export function BagProvider({children}:{children:React.ReactNode}){
+ const raw=useSyncExternalStore(subscribe,snapshot,serverSnapshot);
+ const items=useMemo(()=>parse(raw),[raw]);const [isOpen,setIsOpen]=useState(false);
+ function addManyToBag(selections:BagSelection[]){write(addSelections(read(),selections,DEMO_PRODUCTS));if(selections.length)setIsOpen(true);}
+ function addToBag(product:Product,color:ProductColor,size:string,quantity=1){addManyToBag([{product,color,size,quantity}]);}
+ function removeFromBag(id:string){write(read().filter(i=>i.id!==id));}
+ function updateQuantity(id:string,quantity:number){if(!Number.isFinite(quantity))return;if(quantity<1){removeFromBag(id);return;}write(read().map(i=>i.id===id?{...i,quantity:Math.min(MAX_ITEM_QUANTITY,Math.floor(quantity))}:i));}
+ function updateVariant(id:string,colorName:string,size:string){write(changeVariant(read(),id,colorName,size,DEMO_PRODUCTS));}
+ return <BagContext.Provider value={{items,addToBag,addManyToBag,removeFromBag,updateQuantity,updateVariant,
+ clearBag:()=>write([]),bagCount:items.reduce((n,i)=>n+i.quantity,0),subtotal:items.reduce((n,i)=>n+i.quantity*i.product.price,0),
+ isOpen,isHydrated:raw!==null,openBag:()=>setIsOpen(true),closeBag:()=>setIsOpen(false)}}>{children}</BagContext.Provider>;
 }
-
-function getBagSnapshot(): string | null {
-  try {
-    const saved = localStorage.getItem(BAG_STORAGE_KEY);
-    if (saved !== null) {
-      bagMemorySnapshot = saved;
-      return saved;
-    }
-  } catch {
-    // Fall back to in-memory state when storage is unavailable.
-  }
-  return bagMemorySnapshot;
-}
-
-function getBagServerSnapshot(): null {
-  return null;
-}
-
-function parseBagSnapshot(raw: string | null): CartItem[] {
-  if (raw === null) return [];
-  try {
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
-}
-
-export function BagProvider({ children }: { children: React.ReactNode }) {
-  const rawItems = useSyncExternalStore(subscribeBag, getBagSnapshot, getBagServerSnapshot);
-  const items = React.useMemo(() => parseBagSnapshot(rawItems), [rawItems]);
-  const [isOpen, setIsOpen] = useState(false);
-  const isHydrated = rawItems !== null;
-
-  const saveItems = (newItems: CartItem[]) => {
-    const serialized = JSON.stringify(newItems);
-    bagMemorySnapshot = serialized;
-    try {
-      localStorage.setItem(BAG_STORAGE_KEY, serialized);
-    } catch {
-      // In-memory snapshot still keeps the current session responsive.
-    }
-    window.dispatchEvent(new Event(BAG_CHANGE_EVENT));
-  };
-
-  const addToBag = (
-    product: Product,
-    color: ProductColor,
-    size: string,
-    quantity = 1
-  ) => {
-    const existingIndex = items.findIndex(
-      (item) =>
-        item.product.id === product.id &&
-        item.selectedColor.nameEn === color.nameEn &&
-        item.selectedSize === size
-    );
-
-    if (existingIndex > -1) {
-      const updated = [...items];
-      updated[existingIndex] = {
-        ...updated[existingIndex],
-        quantity: updated[existingIndex].quantity + quantity,
-      };
-      saveItems(updated);
-    } else {
-      const newItem: CartItem = {
-        id: `${product.id}-${color.nameEn}-${size}-${Date.now()}`,
-        product,
-        selectedColor: color,
-        selectedSize: size,
-        quantity,
-      };
-      saveItems([...items, newItem]);
-    }
-    setIsOpen(true);
-  };
-
-  const addManyToBag = (
-    selections: {
-      product: Product;
-      color: ProductColor;
-      size: string;
-      quantity?: number;
-    }[]
-  ) => {
-    if (selections.length === 0) return;
-
-    const nextItems = [...items];
-
-    for (const selection of selections) {
-      const quantity = selection.quantity ?? 1;
-      const existingIndex = nextItems.findIndex(
-        (item) =>
-          item.product.id === selection.product.id &&
-          item.selectedColor.nameEn === selection.color.nameEn &&
-          item.selectedSize === selection.size
-      );
-
-      if (existingIndex > -1) {
-        nextItems[existingIndex] = {
-          ...nextItems[existingIndex],
-          quantity: nextItems[existingIndex].quantity + quantity,
-        };
-      } else {
-        nextItems.push({
-          id: `${selection.product.id}-${selection.color.nameEn}-${selection.size}-${Date.now()}-${nextItems.length}`,
-          product: selection.product,
-          selectedColor: selection.color,
-          selectedSize: selection.size,
-          quantity,
-        });
-      }
-    }
-
-    saveItems(nextItems);
-    setIsOpen(true);
-  };
-
-  const removeFromBag = (itemId: string) => {
-    saveItems(items.filter((item) => item.id !== itemId));
-  };
-
-  const updateQuantity = (itemId: string, quantity: number) => {
-    if (quantity <= 0) {
-      removeFromBag(itemId);
-      return;
-    }
-    saveItems(
-      items.map((item) =>
-        item.id === itemId ? { ...item, quantity } : item
-      )
-    );
-  };
-
-  const clearBag = () => {
-    saveItems([]);
-  };
-
-  const bagCount = items.reduce((sum, item) => sum + item.quantity, 0);
-  const subtotal = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
-
-  return (
-    <BagContext.Provider
-      value={{
-        items,
-        addToBag,
-        addManyToBag,
-        removeFromBag,
-        updateQuantity,
-        clearBag,
-        bagCount,
-        subtotal,
-        isOpen,
-        isHydrated,
-        openBag: () => setIsOpen(true),
-        closeBag: () => setIsOpen(false),
-      }}
-    >
-      {children}
-    </BagContext.Provider>
-  );
-}
-
-export function useBag() {
-  const context = useContext(BagContext);
-  if (!context) {
-    throw new Error('useBag must be used within a BagProvider');
-  }
-  return context;
-}
+export function useBag(){const context=useContext(BagContext);if(!context)throw new Error('useBag must be used within a BagProvider');return context;}
