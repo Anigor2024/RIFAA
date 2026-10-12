@@ -10,7 +10,7 @@ export default function HouseholdRoomPage(){
   return <>
     <PageHero
       variant="household-room"
-      image="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1800&q=88"
+      image="/images/atheeldar/catalog/photo-1600566753086-00f18fb6b3ea.jpg"
       eyebrow="HOUSEHOLD CONSENSUS · القرار ليس فرديًا دائمًا"
       title="غرفة قرار الأسرة"
       copy="دع كل شخص يقيّم نفس العقارات بطريقته، ثم شاهد متوسط التفضيل ودرجة الاتفاق والفجوة التي تحتاج نقاشًا قبل تثبيت القرار."

@@ -10,7 +10,7 @@ export default function MoveInPlannerPage(){
   return <>
     <PageHero
       variant="move-in-planner"
-      image="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=88"
+      image="/images/atheeldar/catalog/photo-1600607687939-ce8a6c25118c.jpg"
       eyebrow="HANDOVER OS · ما بعد إغلاق الصفقة"
       title="خطة الاستلام والانتقال"
       copy="من مراجعة المستندات والملاحظات الفنية إلى المفاتيح والخدمات والصيانة والأثاث وأول 30 يومًا — رحلة ما بعد الشراء في خطة واحدة."

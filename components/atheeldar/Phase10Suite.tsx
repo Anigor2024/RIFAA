@@ -3,34 +3,61 @@ import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowLeft, Bath, BedDouble, Building2, Check, CircleDollarSign, Clock3, Compass, Heart, MapPin, MapPinned, Maximize2, Route, Scale, Sparkles, Star, Target, Trash2, TrendingUp, UsersRound, WalletCards } from 'lucide-react';
 import { money, neighborhoods, properties, type Property } from '@/lib/atheeldar-data';
+import { readStoredIds, STORAGE_KEYS, subscribeStoredIds, writeStoredIds } from '@/lib/browser-storage';
 
 function readIds(key:string){if(typeof window==='undefined')return[] as string[];try{return JSON.parse(localStorage.getItem(key)||'[]') as string[]}catch{return[]}}
-function writeIds(key:string,ids:string[]){try{localStorage.setItem(key,JSON.stringify(ids))}catch{}}
-
 export function GlobalComparisonWorkbench(){
   const [ids,setIds]=useState<string[]>([]);
+  const [ready,setReady]=useState(false);
+  const [notice,setNotice]=useState('');
   const [goal,setGoal]=useState<'سكن'|'عائلة'|'استثمار'>('سكن');
-  useEffect(()=>{const id=window.setTimeout(()=>{const saved=readIds('atheeldar-compare');setIds(saved.length?saved.slice(0,3):properties.filter(p=>p.featured).slice(0,3).map(p=>p.slug))},0);return()=>window.clearTimeout(id)},[]);
-  const list=ids.map(id=>properties.find(p=>p.slug===id)).filter(Boolean) as Property[];
-  const remove=(slug:string)=>{const next=ids.filter(x=>x!==slug);setIds(next);writeIds('atheeldar-compare',next);window.dispatchEvent(new Event('atheeldar:compare'))};
-  const metrics=(p:Property)=>{const ppm=Math.round(p.price/p.area);const family=Math.min(98,(p.beds>=4?92:80)+(p.type==='فيلا'?4:0));const invest=p.investment?Math.min(98,86+(p.yield||0)):Math.max(68,p.score-12);const score=goal==='عائلة'?Math.round((p.score*.35+family*.65)):goal==='استثمار'?Math.round((p.score*.35+invest*.65)):p.score;return{ppm,family,invest:Math.round(invest),score}};
-  const leader=list.length?[...list].sort((a,b)=>metrics(b).score-metrics(a).score)[0]:null;
+  useEffect(()=>{
+    const read=()=>{
+      const saved=readStoredIds(STORAGE_KEYS.compare);
+      const valid=saved.filter(slug=>properties.some(property=>property.slug===slug)).slice(0,3);
+      setIds(valid);
+      setReady(true);
+      // Normalize stale entries and legacy over-capacity lists without adding any properties.
+      if(saved.length!==valid.length)writeStoredIds(STORAGE_KEYS.compare,valid);
+    };
+    const timer=window.setTimeout(read,0);
+    const unsubscribe=subscribeStoredIds(read);
+    return()=>{window.clearTimeout(timer);unsubscribe()};
+  },[]);
+  const list=ids.map(id=>properties.find(p=>p.slug===id)).filter((p):p is Property=>Boolean(p));
+  const changeList=(next:string[],message:string)=>{
+    const result=writeStoredIds(STORAGE_KEYS.compare,next.slice(0,3));
+    setIds(result.items);
+    setNotice(`${message}${result.persisted?'':' التغيير متاح لهذه الزيارة فقط.'}`);
+  };
+  const remove=(slug:string)=>changeList(readStoredIds(STORAGE_KEYS.compare).filter(id=>id!==slug&&properties.some(p=>p.slug===id)),'أُزيل العقار من المقارنة.');
+  const mixedPurposes=list.some(p=>p.purpose==='للبيع')&&list.some(p=>p.purpose==='للإيجار');
+  const gridStyle={gridTemplateColumns:`150px repeat(${list.length},minmax(170px,1fr))`,minWidth:150+170*list.length};
+  const rows:Record<string,(p:Property)=>string|number>={
+    'الغرض':p=>p.purpose,
+    'نوع العقار':p=>p.type,
+    'السعر المعلن':p=>`${money(p.price)} ر.س${p.purpose==='للإيجار'?' / سنة':' · سعر الشراء'}`,
+    'سعر المتر':p=>p.area>0?`${money(Math.round(p.price/p.area))} ر.س/م²${p.purpose==='للإيجار'?' / سنة':' · للشراء'}`:'غير متاح',
+    'المساحة':p=>`${money(p.area)} م²`,
+    'غرف النوم':p=>p.beds>0?money(p.beds):'لا ينطبق',
+    'الحمامات':p=>p.baths>0?money(p.baths):'غير مذكور',
+    'البناء الجديد':p=>p.newBuild?'مذكور في العرض':'غير مذكور',
+    'التصنيف الاستثماري':p=>p.investment?'مصنف للاستثمار في العرض':'غير مصنف للاستثمار',
+    'المزايا المذكورة':p=>p.features.length?p.features.join(' · '):'غير مذكورة',
+  };
+  const priorityRows=goal==='عائلة'?['غرف النوم','الحمامات','المساحة','المزايا المذكورة']:goal==='استثمار'?['الغرض','السعر المعلن','سعر المتر','التصنيف الاستثماري']:['الغرض','نوع العقار','السعر المعلن','المساحة'];
+  const rowOrder=[...priorityRows,...Object.keys(rows).filter(label=>!priorityRows.includes(label))];
   return <div className="globalCompareV10">
-    <div className="compareV10Intro"><span>ATHEELDAR COMPARE</span><h2>قارن الأصل <em>في سياقه، لا بالسعر فقط.</em></h2><p>حتى 3 أصول مع سعر المتر، تقييم أثيلدار، ملاءمة العائلة، زاوية الاستثمار والمواصفات الجوهرية.</p><div className="compareGoalTabs">{(['سكن','عائلة','استثمار'] as const).map(x=><button key={x} onClick={()=>setGoal(x)} className={goal===x?'active':''}>{x}</button>)}</div>{leader&&<div className="compareLeader"><Sparkles/><span><small>الأقرب لهدف «{goal}»</small><b>{leader.title}</b></span><strong>{metrics(leader).score}/100</strong></div>}</div>
-    <div className="compareV10Table">
-      <div className="compareV10Head"><b>المؤشر</b>{list.map(p=><div key={p.slug}><img src={p.image} alt={p.title}/><span>{p.city} · {p.district}</span><h3>{p.title}</h3><button onClick={()=>remove(p.slug)} aria-label="إزالة"><Trash2/></button></div>)}</div>
-      {[
-        ['السعر',(p:Property)=>`${money(p.price)} ر.س`],
-        ['سعر المتر',(p:Property)=>`${money(metrics(p).ppm)} ر.س`],
-        ['المساحة',(p:Property)=>`${money(p.area)} م²`],
-        ['الغرف',(p:Property)=>p.beds||'—'],
-        ['تقييم أثيلدار',(p:Property)=>`${p.score}/100`],
-        ['ملاءمة العائلة',(p:Property)=>`${metrics(p).family}/100`],
-        ['زاوية الاستثمار',(p:Property)=>`${metrics(p).invest}/100`],
-        ['العائد النموذجي',(p:Property)=>p.yield?`${p.yield}%`:'—'],
-      ].map(([label,fn])=><div className="compareV10Row" key={label as string}><b>{label as string}</b>{list.map(p=><span key={p.slug}>{(fn as (p:Property)=>string|number)(p)}</span>)}</div>)}
-      <div className="compareV10Actions"><b>الخطوة التالية</b>{list.map(p=><Link key={p.slug} href={`/properties/${p.slug}`}>فتح العقار <ArrowLeft/></Link>)}</div>
-      {!list.length&&<div className="compareV10Empty"><Scale/><b>لا توجد عقارات في المقارنة.</b><p>أضفها مباشرة من أي بطاقة عقار.</p><Link href="/properties">استكشف العقارات <ArrowLeft/></Link></div>}
+    <div className="compareV10Intro"><span>ATHEELDAR COMPARE</span><h2>اختياراتك <em>جنبًا إلى جنب.</em></h2><p>قارن حتى 3 عقارات اخترتها بنفسك. نعرض تفاصيل الإعلان ووحدة كل سعر، ويمكنك ترتيب المؤشرات بحسب اهتمامك.</p>{ready&&list.length>0&&<><div className="compareGoalTabs" aria-label="ترتيب مؤشرات المقارنة">{(['سكن','عائلة','استثمار'] as const).map(x=><button type="button" key={x} onClick={()=>setGoal(x)} className={goal===x?'active':''} aria-pressed={goal===x}>{x}</button>)}</div><div className="compareLeader"><Scale aria-hidden="true"/><span><small>قائمتك المختارة</small><b>{money(list.length)} من 3 عقارات</b></span><button type="button" className="lightOutline" onClick={()=>changeList([],'مُسحت قائمة المقارنة.')} aria-label="مسح جميع العقارات من المقارنة"><Trash2 size={16} aria-hidden="true"/> مسح</button></div><Link href="/properties" className="lightOutline" style={{marginTop:18,justifyContent:'center'}}>أضف عقارًا <ArrowLeft size={16}/></Link></>}<p role="status" aria-live="polite">{notice}</p></div>
+    <div className="compareV10Table" aria-busy={!ready}>
+      {!ready?<div className="compareV10Empty" role="status">جارٍ تحميل اختياراتك…</div>:!list.length?<div className="compareV10Empty"><Scale aria-hidden="true"/><b>لا توجد عقارات في المقارنة.</b><p>اختر حتى 3 عقارات من بطاقات العرض، ثم عد لمقارنة تفاصيلها.</p><Link href="/properties">استكشف العقارات <ArrowLeft aria-hidden="true"/></Link></div>:<>
+        {mixedPurposes&&<p role="note" style={{fontSize:13,lineHeight:1.9,padding:'10px 12px',background:'#faf7f0',margin:'0 0 12px'}}>تجمع هذه القائمة بين شراء عقار وإيجار سنوي. سعر الإيجار وسعر المتر فيه محسوبان لسنة؛ راجع الغرض والوحدة عند مقارنة القيم.</p>}
+        <div role="table" aria-label="مقارنة العقارات المختارة">
+          <div className="compareV10Head" role="row" style={gridStyle}><b role="columnheader">المؤشر</b>{list.map(p=><div key={p.slug} role="columnheader"><img src={p.image} alt={p.title} loading="lazy"/><span>{p.city} · {p.district}</span><h3><Link href={`/properties/${p.slug}`}>{p.title}</Link></h3><button type="button" onClick={()=>remove(p.slug)} aria-label={`إزالة ${p.title} من المقارنة`}><Trash2 aria-hidden="true"/></button></div>)}</div>
+          {rowOrder.map(label=><div className="compareV10Row" role="row" key={label} style={gridStyle}><b role="rowheader">{label}</b>{list.map(p=><span role="cell" key={p.slug}>{rows[label](p)}</span>)}</div>)}
+          <div className="compareV10Actions" role="row" style={gridStyle}><b role="rowheader">الخطوة التالية</b>{list.map(p=><div role="cell" key={p.slug} style={{background:'#faf7f0'}}><Link href={`/properties/${p.slug}`} aria-label={`فتح تفاصيل ${p.title}`} style={{height:'100%'}}>فتح العقار <ArrowLeft aria-hidden="true"/></Link></div>)}</div>
+        </div>
+      </>}
     </div>
   </div>
 }

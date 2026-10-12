@@ -10,7 +10,7 @@ export default function DecisionJournalPage(){
   return <>
     <PageHero
       variant="decision-journal"
-      image="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1800&q=88"
+      image="/images/atheeldar/catalog/photo-1454165804606-c3d57bc86b40.jpg"
       eyebrow="DECISION MEMORY · لا تعتمد على الذاكرة"
       title="سجل القرار"
       copy="اجمع موقفك الحقيقي من كل أصل: لماذا أعجبك، ما الذي يقلقك، وما الذي ظهر بعد المعاينة. سجل واحد يعيد لك منطق القرار بدل قائمة روابط صامتة."

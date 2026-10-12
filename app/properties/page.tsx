@@ -1,8 +1,10 @@
-import type { Metadata } from 'next';
+import type {Metadata} from 'next';
 import Link from 'next/link';
-import { ArrowLeft, MapPinned, Search, SlidersHorizontal } from 'lucide-react';
-import { PropertyExplorer } from '@/components/atheeldar/PropertyExplorer';
-import { PageHero } from '@/components/atheeldar/SiteShell';
-import { properties, money } from '@/lib/atheeldar-data';
-export const metadata:Metadata={title:'العقارات',description:'بحث ذكي ومتقدم بين عقارات أثيلدار مع الفلاتر والمقارنة والخريطة.'};
-export default async function PropertiesPage({searchParams}:{searchParams:Promise<{q?:string}>}){const sp=await searchParams;const featured=properties.find(p=>p.featured)||properties[0];const avg=Math.round(properties.reduce((s,p)=>s+p.price,0)/properties.length);return <><PageHero variant="properties" image={featured.image} eyebrow="ATHEELDAR MARKET · سوق أثيلدار" title="العقارات" copy="واجهة اكتشاف متقدمة تبدأ من نية العميل، وتجمع البحث الذكي، الحي، المقارنة، المفضلة ومخطط المعاينات قبل الدخول إلى تفاصيل كل أصل." highlights={['للبيع','للإيجار','استثماري','فلل فاخرة','بناء جديد']} stats={[{label:'الأصول الحالية',value:String(properties.length),note:'داخل النموذج'},{label:'متوسط السعر',value:`${money(avg)} ر.س`,note:'قراءة تقريبية'},{label:'موثق تجريبيًا',value:String(properties.filter(p=>p.verified).length),note:'اكتمال عرض'},{label:'مدن مغطاة',value:'4',note:'مسارات مختلفة'}]} rail={<><span>DISCOVERY RAIL</span><b>ابدأ بالطريقة التي تناسبك.</b><p>بحث مباشر، حي، مشروع، أو زاوية استثمارية.</p><div className="signatureHeroLinks"><a href="#explorer">بحث متقدم</a><Link href="/neighborhoods">ابدأ من الحي</Link><Link href="/projects">ابدأ من المشروع</Link><Link href="/investment">ابدأ من العائد</Link></div></>} panel={<div className="signatureHeroSpotlight"><small>SMART START</small><h3>{featured.title}</h3><p>{featured.city} · {featured.district} · {featured.type}</p><div><span><Search/> جرّب: فيلا بالرياض</span><span><SlidersHorizontal/> أقل من 7 ملايين</span><span><MapPinned/> أحياء شمال الرياض</span></div><Link href={`/properties/${featured.slug}`}>فتح الاختيار المميز <ArrowLeft/></Link></div>} actions={<><a href="#explorer" className="lightOutline">ابدأ البحث <ArrowLeft/></a><Link href="/viewing-planner" className="lightCta">مخطط المعاينات</Link></>}/><section id="explorer" className="shell explorerSection explorerLift"><PropertyExplorer initialQuery={sp.q||''}/></section></>}
+import {Suspense} from 'react';
+import {ArrowLeft} from 'lucide-react';
+import {PropertyExplorer} from '@/components/atheeldar/PropertyExplorer';
+export const metadata:Metadata={title:'اكتشف العقارات',description:'ابحث عن عقارك بحسب المدينة والميزانية ونوع العقار. احفظ بحثك، قارن اختياراتك وخطط للمعاينة.'};
+export default async function PropertiesPage({searchParams}:{searchParams:Promise<{q?:string}>}){
+ const params=await searchParams;
+ return <><section className="at-simple-hero at-properties-hero"><div className="shell"><div><h1>لنجد المساحة التي تشبهك.</h1><p>ابحث بطريقتك، احتفظ بما يعجبك، وقارن التفاصيل على مهل.</p></div><Link href="/home-finder" className="at-text-link">تحتاج مساعدة في الاختيار؟<ArrowLeft size={18}/></Link></div></section><section id="explorer" className="shell explorerSection at-new-explorer"><Suspense fallback={<p>نجهّز العقارات...</p>}><PropertyExplorer initialQuery={params.q||''}/></Suspense></section></>;
+}

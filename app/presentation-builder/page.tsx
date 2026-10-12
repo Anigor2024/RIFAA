@@ -10,7 +10,7 @@ export default function PresentationBuilderPage(){
   return <>
     <PageHero
       variant="presentation-builder"
-      image="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1800&q=88"
+      image="/images/atheeldar/catalog/photo-1556761175-b413da4baf72.jpg"
       eyebrow="EXECUTIVE SHOWCASE · من Shortlist إلى عرض عميل"
       title="Presentation Studio"
       copy="ابنِ عرضًا فاخرًا من العقارات المختارة، اضبط زاوية القرار، ثم افتح رابط Presentation قابلًا للمشاركة والطباعة أمام العميل."

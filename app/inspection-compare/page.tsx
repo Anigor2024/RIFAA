@@ -10,7 +10,7 @@ export default function InspectionComparePage(){
   return <>
     <PageHero
       variant="inspection-compare"
-      image="https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=1800&q=88"
+      image="/images/atheeldar/catalog/photo-1600566752355-35792bedcfea.jpg"
       eyebrow="POST-VIEWING INTELLIGENCE · قارن الواقع لا الإعلان"
       title="مقارنة المعاينات"
       copy="قارن حتى 4 عقارات بعد زيارتها فعليًا عبر نفس محاور الإضاءة والهدوء والتوزيع والتشطيب والحالة والخصوصية، مع Red Flags واضحة."
