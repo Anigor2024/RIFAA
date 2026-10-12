@@ -34,3 +34,9 @@ Compare hero composition, copy, palette, Arabic typography, photo framing, searc
 ## Final implementation review
 
 The production build was inspected on 1440 px desktop and 390/360 px mobile layouts. The implemented hierarchy follows the accepted concepts: cinematic hero, floating search, visible listings, the four-question finder, city photography, decision tools and a compact footer. Arabic headings, forest/ivory/brass colors and generous spacing were retained. The existing Atheeldar wordmark was redrawn as text plus a simple arch monogram, and actual licensed city photographs replaced generic concept imagery. Mobile search filters are expandable and the navigation dock remains reachable while scrolling. Catalog imagery is served locally for consistent loading.
+
+## Continuation: property detail and personal workspace
+
+The 2.1 continuation carries the existing palette, Arabic typography and photography into the internal journey. Property details now use a clear title/price row, an accessible photographic gallery, a sticky section index, concise specifications, neighborhood context, a personal checklist and notes, and a practical viewing proposal. The two-column desktop layout stacks on mobile; the gallery changes composition rather than shrinking its desktop grid. Arbitrary model scores are removed from this page. Sale finance links carry the selected property, and rental costs show annual units.
+
+The finance workspace groups editable assumptions beside a live calculation, with two saved scenarios and an annual payment schedule below. The personal workspace brings favorites, comparison, viewing plans, saved searches and notes into a tabbed layout with clear empty states and reversible import previews. Controls and dialogs use the shared storage and focus helpers; local proposals remain explicitly unconfirmed.

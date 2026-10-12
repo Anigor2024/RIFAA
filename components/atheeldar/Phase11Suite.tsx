@@ -3,13 +3,27 @@ import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowLeft, BadgeCheck, BookmarkCheck, Building2, CalendarCheck2, Check, CheckCircle2, Circle, ClipboardCheck, FileText, Heart, Layers3, MapPinned, Printer, Route, Scale, Sparkles, Star, Trash2, WalletCards } from 'lucide-react';
 import { money, properties, type Property } from '@/lib/atheeldar-data';
+import { readStoredIds, STORAGE_KEYS, subscribeStoredIds } from '@/lib/browser-storage';
+import { readPropertyNotes, type PropertyNotes } from '@/lib/property-notes';
 
 function readIds(key:string){if(typeof window==='undefined')return[] as string[];try{return JSON.parse(localStorage.getItem(key)||'[]') as string[]}catch{return[]}}
 function writeIds(key:string,ids:string[]){try{localStorage.setItem(key,JSON.stringify(ids))}catch{}}
 
 export function ShortlistRoom(){
   const [ready,setReady]=useState(false),[favorites,setFavorites]=useState<string[]>([]),[compare,setCompare]=useState<string[]>([]),[plan,setPlan]=useState<string[]>([]),[selected,setSelected]=useState<string[]>([]);
-  useEffect(()=>{const id=window.setTimeout(()=>{const f=readIds('atheeldar-favorites'),c=readIds('atheeldar-compare'),p=readIds('atheeldar-viewing-plan');setFavorites(f);setCompare(c);setPlan(p);setSelected([...new Set([...c,...f,...p])].slice(0,5));setReady(true)},0);return()=>window.clearTimeout(id)},[]);
+  const [notes,setNotes]=useState<PropertyNotes>({});
+  useEffect(()=>{
+    const knownIds=(key:string)=>readStoredIds(key).filter(slug=>properties.some(property=>property.slug===slug));
+    const read=()=>{
+      const f=knownIds(STORAGE_KEYS.favorites),c=knownIds(STORAGE_KEYS.compare),p=knownIds(STORAGE_KEYS.viewingPlan);
+      setFavorites(f);setCompare(c);setPlan(p);setNotes(readPropertyNotes());
+      return [...new Set([...c,...f,...p])];
+    };
+    const id=window.setTimeout(()=>{setSelected(read().slice(0,5));setReady(true)},0);
+    // Refresh the printable notes without undoing the user's chosen pack selection.
+    const unsubscribe=subscribeStoredIds(read);
+    return()=>{window.clearTimeout(id);unsubscribe()};
+  },[]);
   const assets=selected.map(id=>properties.find(p=>p.slug===id)).filter(Boolean) as Property[];
   const toggle=(slug:string)=>setSelected(v=>v.includes(slug)?v.filter(x=>x!==slug):v.length<5?[...v,slug]:v);
   const candidates=[...new Set([...favorites,...compare,...plan])].map(id=>properties.find(p=>p.slug===id)).filter(Boolean) as Property[];
@@ -28,7 +42,7 @@ export function ShortlistRoom(){
       <div className="shortlistChooser"><div><small>AVAILABLE SIGNALS</small><b>اختر الأصول التي تدخل الحزمة</b></div><div>{candidates.length?candidates.map(p=><button key={p.slug} className={selected.includes(p.slug)?'active':''} onClick={()=>toggle(p.slug)}><span>{selected.includes(p.slug)?<Check/>:<Circle/>}</span>{p.title}</button>):<Link href="/properties">لم تحفظ عقارات بعد — استكشف السوق <ArrowLeft/></Link>}</div></div>
       <div className="decisionPack">
         <div className="decisionPackHead"><div><span>ATHEELDAR DECISION PACK</span><h3>Shortlist Review</h3><p>{assets.length} أصول مختارة · نموذج قابل للطباعة</p></div><BadgeCheck/></div>
-        <div className="decisionPackGrid">{assets.map((p,i)=>{const ppm=Math.round(p.price/p.area);let note='';try{note=typeof window!=='undefined'?localStorage.getItem(`atheeldar-note-${p.slug}`)||'':''}catch{}return <article key={p.slug}><button onClick={()=>remove(p.slug)} aria-label="إزالة"><Trash2/></button><span>0{i+1}</span><img src={p.image} alt={p.title}/><small>{p.city} · {p.district}</small><h4>{p.title}</h4><b>{money(p.price)} ر.س</b><div><em>{money(p.area)} م²</em><em>{money(ppm)} ر.س/م²</em><em>{p.score}/100</em></div>{note&&<p className="packNote">“{note}”</p>}<Link href={`/properties/${p.slug}`}>فتح الأصل <ArrowLeft/></Link></article>})}</div>
+        <div className="decisionPackGrid">{assets.map((p,i)=>{const ppm=Math.round(p.price/p.area);const note=notes[p.slug]?.note??'';return <article key={p.slug}><button onClick={()=>remove(p.slug)} aria-label={`إزالة ${p.title} من الحزمة`}><Trash2/></button><span>0{i+1}</span><img src={p.image} alt={p.title}/><small>{p.city} · {p.district}</small><h4>{p.title}</h4><b>{money(p.price)} ر.س{p.purpose==='للإيجار'?' سنويًا':''}</b><div><em>{money(p.area)} م²</em><em>{money(ppm)} ر.س/م²{p.purpose==='للإيجار'?' سنويًا':''}</em><em>{p.score}/100</em></div>{note&&<p className="packNote" style={{whiteSpace:'pre-wrap',overflowWrap:'anywhere'}}>“{note}”</p>}<Link href={`/properties/${p.slug}`}>فتح الأصل <ArrowLeft/></Link></article>})}</div>
         {!assets.length&&<div className="decisionPackEmpty"><FileText/><b>لم تختر أصولًا للحزمة بعد.</b><p>اختر من الإشارات المحفوظة أعلاه.</p></div>}
         <div className="decisionPackFooter"><span>ATHEELDAR · CLIENT DECISION PACK</span><small>بيانات نموذجية لأغراض العرض وليست تقييمًا أو توصية رسمية.</small></div>
       </div>

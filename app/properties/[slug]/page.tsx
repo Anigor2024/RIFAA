@@ -1,28 +1,36 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { BadgeCheck, BedDouble, Bath, Maximize2, MapPin, Sparkles, ShieldCheck, ArrowLeft, Gauge, TrendingUp, WalletCards, CheckCircle2 } from 'lucide-react';
-import { getProperty, properties, money } from '@/lib/atheeldar-data';
-import { Breadcrumbs } from '@/components/atheeldar/SiteShell';
-import { PropertyActionPanel } from '@/components/atheeldar/InteractiveTools';
+import { ArrowLeft } from 'lucide-react';
+import { getNeighborhood, getProperty, properties } from '@/lib/atheeldar-data';
+import { PropertyDetailExperience } from '@/components/atheeldar/PropertyDetailExperience';
 import { PropertyCard } from '@/components/atheeldar/PropertyCard';
-import { PropertyExperience } from '@/components/atheeldar/PropertyExperience';
-import { PropertyPassport } from '@/components/atheeldar/ExperienceSuite';
-import { DailyFitPlanner } from '@/components/atheeldar/Phase07Suite';
-import { PropertyReadinessChecklist } from '@/components/atheeldar/Phase11Suite';
-import { PropertyDecisionMemo, PropertySignatureWalkthrough } from '@/components/atheeldar/Phase16Suite';
-export async function generateMetadata({params}:{params:Promise<{slug:string}>}):Promise<Metadata>{const {slug}=await params;const p=getProperty(slug);return p?{title:p.title,description:p.description}:{title:'عقار غير موجود'}}
-export function generateStaticParams(){return properties.map(p=>({slug:p.slug}))}
-export default async function PropertyDetail({params}:{params:Promise<{slug:string}>}){const {slug}=await params;const p=getProperty(slug);if(!p)notFound();const related=properties.filter(x=>x.city===p.city&&x.slug!==p.slug).slice(0,3);const ppm=Math.round(p.price/p.area);const monthly=p.purpose==='للبيع'?Math.round(p.price*.8*(.0475/12)*Math.pow(1+.0475/12,240)/(Math.pow(1+.0475/12,240)-1)):Math.round(p.price/12);return <>
-  <section className="detailTop detailTopV9 shell"><Breadcrumbs items={[{label:'الرئيسية',href:'/'},{label:'العقارات',href:'/properties'},{label:p.title}]}/><div className="detailTitleRow"><div><div className="detailBadges"><span>{p.badge}</span>{p.verified&&<span className="verified"><BadgeCheck size={15}/> عرض توضيحي</span>}</div><h1>{p.title}</h1><p><MapPin size={16}/>{p.city} · {p.district}</p><div className="detailQuickActionsV9"><Link href={`/properties/${p.slug}/deal-room`}>افتح Deal Room <ArrowLeft/></Link><Link href="/decision-board">أضف إلى لوحة القرار <ArrowLeft/></Link><Link href="/viewing-planner">خطط للمعاينة <ArrowLeft/></Link><Link href={'/properties/'+p.slug+'/inspection'}>قيّم المعاينة <ArrowLeft/></Link></div></div><div className="detailScore"><span>تقييم أثيلدار</span><b>{p.score}</b><small>/100</small></div></div></section>
-  <nav className="propertyLocalNav propertyLocalNavV9"><div className="shell"><a href="#story">القصة البصرية</a><a href="#walkthrough">المشهد</a><a href="#passport">جواز العقار</a><a href="#decision-memory">ذاكرة القرار</a><a href="#details">التفاصيل</a><Link href={'/properties/'+p.slug+'/inspection'}>تقرير المعاينة</Link></div></nav>
-  <section id="story" className="shell propertyExperienceWrap"><PropertyExperience property={p}/></section>
-  <section id="walkthrough" className="shell signatureWalkWrapV16"><PropertySignatureWalkthrough property={p}/></section>
-  <section className="decisionCockpit shell"><div><Gauge/><span><small>سعر المتر</small><b>{money(ppm)} ر.س</b></span></div><div><Sparkles/><span><small>تقييم أثيلدار</small><b>{p.score}/100</b></span></div><div><TrendingUp/><span><small>العائد النموذجي</small><b>{p.yield?`${p.yield}%`:'حسب الاستخدام'}</b></span></div><div><WalletCards/><span><small>{p.purpose==='للبيع'?'قسط تمويل تقريبي':'متوسط شهري'}</small><b>{money(monthly)} ر.س</b></span></div></section>
-  <section className="shell passportWrap"><PropertyPassport property={p}/></section>
-  <section className="shell dailyFitWrap"><DailyFitPlanner property={p}/></section>
-  <section className="shell readinessWrap"><PropertyReadinessChecklist property={p}/></section>
-  <section id="decision-memory" className="shell decisionMemoWrapV16"><PropertyDecisionMemo property={p}/></section>
-  <section id="details" className="section shell detailLayout"><div className="detailBody"><div className="detailSpecs"><span><BedDouble/>{p.beds||'—'}<small>غرف</small></span><span><Bath/>{p.baths||'—'}<small>حمامات</small></span><span><Maximize2/>{money(p.area)}<small>م²</small></span><span><ShieldCheck/>موثق<small>تجريبيًا</small></span></div><h2>عن العقار</h2><p className="leadText">{p.description}</p><h3>المزايا والتجهيزات</h3><div className="featurePills">{p.features.map(f=><span key={f}><CheckCircle2/>{f}</span>)}</div><div className="insightCard"><Sparkles/><div><b>قراءة أثيلدار الذكية</b><p>العقار يقع ضمن شريحة {p.score>=92?'ممتازة':'قوية'} في نموذج التقييم، مع سعر تقريبي {money(ppm)} ر.س للمتر. هذه القراءة توضيحية وليست تقييمًا رسميًا.</p></div></div><div className="buyerChecklist"><h3>قائمة قرار سريعة</h3><div><span><b>01</b>قارن سعر المتر بالحي</span><span><b>02</b>اختبر التمويل أو العائد</span><span><b>03</b>راجع المزايا الحاسمة لك</span><span><b>04</b>احجز معاينة قبل القرار</span></div></div><div id="location" className="locationBlock"><div><p className="eyebrow">الموقع</p><h2>{p.district} · {p.city}</h2><p>صفحة الحي تعطيك سياقًا أوسع عن الطلب والأسعار وطبيعة المنطقة قبل اتخاذ قرار المعاينة.</p><Link href={`/neighborhoods/${p.neighborhoodSlug}`} className="textLink">فتح ملف الحي <ArrowLeft/></Link></div><div className="miniMap"><span style={{left:`${p.coordinates.x}%`,top:`${p.coordinates.y}%`}} className="focusPin">{p.title}</span></div></div></div><div id="viewing"><PropertyActionPanel property={p}/></div></section>
-  {related.length>0&&<section className="section softSection"><div className="shell"><div className="sectionHead"><div><p className="eyebrow">قد يناسبك أيضًا</p><h2>عقارات في {p.city}</h2></div><Link href="/properties" className="textLink">كل العقارات <ArrowLeft/></Link></div><div className="propertyGrid">{related.map(x=><PropertyCard key={x.slug} p={x}/>)}</div></div></section>}
-</>}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const property = getProperty(slug);
+  return property ? {
+    title: property.title,
+    description: property.description,
+    alternates: { canonical: `/properties/${property.slug}` },
+    openGraph: { title: `${property.title} | أثيلدار`, description: property.description, url: `/properties/${property.slug}`, images: [{ url: property.image, alt: property.title }] },
+  } : { title: 'عقار غير موجود' };
+}
+
+export function generateStaticParams() { return properties.map(property => ({ slug: property.slug })); }
+
+export default async function PropertyDetail({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const property = getProperty(slug);
+  if (!property) notFound();
+  const residential = !['مكتب', 'أرض'].includes(property.type);
+  const related = properties.filter(item => item.slug !== property.slug && item.purpose === property.purpose
+    && (residential ? !['مكتب', 'أرض'].includes(item.type) : item.type === property.type))
+    .sort((a, b) => Number(b.city === property.city) - Number(a.city === property.city)
+      || Number(b.type === property.type) - Number(a.type === property.type))
+    .slice(0, 3);
+  return <>
+    <PropertyDetailExperience key={property.slug} property={property} neighborhood={getNeighborhood(property.neighborhoodSlug)}/>
+    {related.length > 0 && <section className="shell at-pd-related"><div className="at-section-heading"><div><p className="at-pd-eyebrow">وسّع دائرة الاختيار</p><h2>عقارات تستحق المقارنة.</h2><p>خيارات أخرى {property.purpose} من الكتالوج التوضيحي، مع أولوية لمدينة العقار ونوعه.</p></div><Link href={`/properties?purpose=${encodeURIComponent(property.purpose)}`} className="at-text-link">كل الخيارات <ArrowLeft size={17}/></Link></div><div className="propertyGrid">{related.map(item => <PropertyCard key={item.slug} p={item}/>)}</div></section>}
+  </>;
+}

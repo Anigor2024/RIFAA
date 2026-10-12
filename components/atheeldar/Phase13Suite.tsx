@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowLeft, BadgeCheck, Building2, CalendarCheck2, Check, CheckCircle2, Circle, ClipboardCheck, FileCheck2, FileText, Heart, Landmark, Layers3, MessageSquareText, Printer, Route, Scale, ShieldCheck, Sparkles, Star, Target, TrendingUp, WalletCards } from 'lucide-react';
 import { money, projects, properties, type Property } from '@/lib/atheeldar-data';
+import { readJSON, writeJSON } from '@/lib/browser-storage';
 
 function readArray(key:string){if(typeof window==='undefined')return[] as string[];try{return JSON.parse(localStorage.getItem(key)||'[]') as string[]}catch{return[]}}
 function setArray(key:string,v:string[]){try{localStorage.setItem(key,JSON.stringify(v))}catch{}}
@@ -17,35 +18,74 @@ const dealSteps:DealStep[]=[
   {id:'advisor',title:'جهزت التواصل مع مستشار',copy:'حوّل الملاحظات إلى جلسة قرار منظمة.',href:'/advisors',icon:MessageSquareText},
 ];
 
+type DealRoomState={done:string[];note:string;offer:number;deposit:number};
+
+function parseDealRoom(value:unknown,price:number):DealRoomState{
+  const saved=value&&typeof value==='object'&&!Array.isArray(value)?value as Record<string,unknown>:{};
+  const bounded=(value:unknown,fallback:number,min:number,max:number)=>typeof value==='number'&&Number.isFinite(value)?Math.min(max,Math.max(min,value)):fallback;
+  return{
+    done:Array.isArray(saved.done)?[...new Set(saved.done.filter((id):id is string=>typeof id==='string'&&dealSteps.some(step=>step.id===id)))]:[],
+    note:typeof saved.note==='string'?saved.note.slice(0,10000):'',
+    offer:Math.round(bounded(saved.offer,Math.round(price*.96),Math.round(price*.85),price)),
+    deposit:bounded(saved.deposit,20,10,50),
+  };
+}
+
 export function PropertyDealRoom({property}:{property:Property}){
   const key=`atheeldar-deal-room-${property.slug}`;
-  const [done,setDone]=useState<string[]>([]);
-  const [note,setNote]=useState('');
-  const [offer,setOffer]=useState(Math.round(property.price*.96));
-  const [deposit,setDeposit]=useState(20);
-  useEffect(()=>{const id=window.setTimeout(()=>{try{const saved=JSON.parse(localStorage.getItem(key)||'{}');setDone(saved.done||[]);setNote(saved.note||'');setOffer(saved.offer||Math.round(property.price*.96));setDeposit(saved.deposit||20)}catch{}},0);return()=>window.clearTimeout(id)},[key,property.price]);
-  useEffect(()=>{try{localStorage.setItem(key,JSON.stringify({done,note,offer,deposit}))}catch{}},[key,done,note,offer,deposit]);
-  const toggle=(id:string)=>setDone(v=>v.includes(id)?v.filter(x=>x!==id):[...v,id]);
+  const [draft,setDraft]=useState<DealRoomState>(()=>parseDealRoom(null,property.price));
+  const [loadedKey,setLoadedKey]=useState<string|null>(null);
+  const [storageStatus,setStorageStatus]=useState('');
+  const ready=loadedKey===key;
+  const isRental=property.purpose==='للإيجار';
+
+  useEffect(()=>{
+    const timer=window.setTimeout(()=>{
+      setDraft(parseDealRoom(readJSON<unknown>(key,null),property.price));
+      setLoadedKey(key);
+      setStorageStatus('');
+    },0);
+    return()=>window.clearTimeout(timer);
+  },[key,property.price]);
+
+  // Restore first; only a user's edit writes. Mounting can never overwrite a saved room.
+  const saveChanges=(next:DealRoomState)=>{
+    if(!ready)return;
+    const valid=parseDealRoom(next,property.price);
+    setDraft(valid);
+    const result=writeJSON(key,valid);
+    setStorageStatus(result.persisted?'حُفظت تغييراتك في هذا المتصفح.':'تعذّر الحفظ الدائم في المتصفح. تغييراتك متاحة خلال هذه الزيارة فقط.');
+  };
+  const {done,note,offer,deposit}=draft;
+  const toggle=(id:string)=>saveChanges({...draft,done:done.includes(id)?done.filter(value=>value!==id):[...done,id]});
   const readiness=Math.round(done.length/dealSteps.length*100);
   const finance=Math.max(0,offer*(1-deposit/100));
-  const monthly=Math.round((finance*.055/12)/(1-Math.pow(1+.055/12,-25*12)));
+  const monthly=isRental?Math.round(offer/12):Math.round((finance*.055/12)/(1-Math.pow(1+.055/12,-25*12)));
   const districtHref=`/neighborhoods/${property.neighborhoodSlug}`;
-  return <div className="dealRoomV13">
+  const steps=dealSteps.map(step=>step.id==='finance'?{
+    ...step,
+    title:isRental?'راجعت ميزانية الإيجار':step.title,
+    copy:isRental?'الإيجار السنوي ومتوسطه الشهري للمقارنة.':step.copy,
+    href:isRental?'#summary':`/finance?property=${encodeURIComponent(property.slug)}`,
+  }:step);
+  return <div className="dealRoomV13" aria-busy={!ready}>
     <aside className="dealRoomIdentity">
       <span>ATHEELDAR DEAL ROOM</span>
       <img src={property.image} alt={property.title}/>
       <small>{property.city} · {property.district}</small>
       <h2>{property.title}</h2>
-      <b>{money(property.price)} ر.س</b>
-      <div className="dealIdentityStats"><span><small>تقييم أثيلدار</small><b>{property.score}/100</b></span><span><small>سعر المتر</small><b>{money(Math.round(property.price/property.area))}</b></span></div>
-      <button onClick={()=>window.print()}><Printer/> اطبع ملخص الغرفة</button>
+      <b>{money(property.price)} ر.س{isRental?' سنويًا':''}</b>
+      <div className="dealIdentityStats"><span><small>نوع العرض</small><b>{property.type} · {property.purpose}</b></span><span><small>{isRental?'الإيجار السنوي للمتر':'سعر المتر'}</small><b>{money(Math.round(property.price/property.area))} ر.س/م²{isRental?' سنويًا':''}</b></span></div>
+      <button type="button" onClick={()=>window.print()}><Printer/> اطبع ملخص الغرفة</button>
+      <Link href={`/properties/${property.slug}`} style={{display:'flex',alignItems:'center',gap:8,marginTop:16,fontSize:14}}>العودة إلى العقار <ArrowLeft size={16}/></Link>
     </aside>
     <section className="dealRoomMain">
       <div className="dealRoomHead"><div><span>BUYER OPERATING ROOM</span><h1>من الاهتمام إلى <em>قرار جاهز للنقاش.</em></h1><p>مساحة خاصة على جهازك تجمع التحقق والملاحظات والتمويل والمعاينة قبل الانتقال إلى عرض أو تفاوض فعلي.</p></div><div className="dealReadiness"><b>{readiness}</b><span>%</span><small>جاهزية الغرفة</small><i><em style={{width:`${readiness}%`}}/></i></div></div>
-      <div className="dealSteps">{dealSteps.map(s=>{const I=s.icon;const active=done.includes(s.id);const href=s.href==='district'?districtHref:s.href;return <article key={s.id} className={active?'done':''}><button onClick={()=>toggle(s.id)}>{active?<CheckCircle2/>:<Circle/>}</button><I/><div><b>{s.title}</b><p>{s.copy}</p><Link href={href}>{href.startsWith('#')?'راجع داخل الغرفة':'فتح المسار'} <ArrowLeft/></Link></div></article>})}</div>
+      <p className="propertyStatus" role="status" aria-live="polite">{ready?storageStatus:'نستعيد ملاحظاتك وخطواتك المحفوظة…'}</p>
+      <div className="dealSteps">{steps.map(s=>{const I=s.icon;const active=done.includes(s.id);const href=s.href==='district'?districtHref:s.href;return <article key={s.id} className={active?'done':''}><button type="button" disabled={!ready} onClick={()=>toggle(s.id)} aria-label={`${active?'إلغاء إكمال':'تحديد كمكتمل'}: ${s.title}`} aria-pressed={active}>{active?<CheckCircle2 aria-hidden="true"/>:<Circle aria-hidden="true"/>}</button><I aria-hidden="true"/><div><b>{s.title}</b><p>{s.copy}</p><Link href={href}>{href.startsWith('#')?'راجع داخل الغرفة':'فتح المسار'} <ArrowLeft/></Link></div></article>})}</div>
       <div id="summary" className="dealWorkspace">
-        <article className="dealOfferLab"><span>OFFER SANDBOX · MODEL</span><h3>اختبر سيناريو العرض قبل الحديث.</h3><label>قيمة عرض تجريبية <b>{money(offer)} ر.س</b><input type="range" min={Math.round(property.price*.85)} max={property.price} step={25000} value={offer} onChange={e=>setOffer(Number(e.target.value))}/></label><label>دفعة أولى <b>{deposit}%</b><input type="range" min="10" max="50" step="5" value={deposit} onChange={e=>setDeposit(Number(e.target.value))}/></label><div><span><small>تمويل تقديري</small><b>{money(Math.round(finance))} ر.س</b></span><span><small>قسط نموذجي</small><b>{money(monthly)} ر.س</b></span><span><small>فرق عن السعر</small><b>{money(property.price-offer)} ر.س</b></span></div><p>محاكاة تعليمية وليست عرض شراء أو موافقة تمويلية.</p></article>
-        <article className="dealNotes"><span>PRIVATE NOTES</span><h3>ملاحظات المعاينة والتفاوض</h3><textarea value={note} onChange={e=>setNote(e.target.value)} placeholder="مثال: الإضاءة ممتازة، أحتاج التأكد من عمر التكييف، اسأل عن رسوم الصيانة..."/><small>تُحفظ الملاحظات محليًا على هذا الجهاز.</small></article>
+        <article className="dealOfferLab"><span>سيناريو شخصي</span><h3>{isRental?'راجع ميزانية الإيجار قبل التواصل.':'اختبر سيناريو العرض قبل الحديث.'}</h3><label>{isRental?'إيجار سنوي مقترح':'قيمة عرض تجريبية'} <b>{money(offer)} ر.س{isRental?' سنويًا':''}</b><input type="range" disabled={!ready} min={Math.round(property.price*.85)} max={property.price} step="any" value={offer} onChange={e=>saveChanges({...draft,offer:Number(e.target.value)})}/></label>{!isRental&&<label>دفعة أولى <b>{deposit}%</b><input type="range" disabled={!ready} min="10" max="50" step="5" value={deposit} onChange={e=>saveChanges({...draft,deposit:Number(e.target.value)})}/></label>}<div><span><small>{isRental?'الإيجار السنوي المقترح':'تمويل تقديري'}</small><b>{money(isRental?offer:Math.round(finance))} ر.س{isRental?' سنويًا':''}</b></span><span><small>{isRental?'متوسط شهري للمقارنة':'قسط شهري نموذجي'}</small><b>{money(monthly)} ر.س / شهر</b></span><span><small>{isRental?'الفرق السنوي عن السعر':'فرق عن السعر'}</small><b>{money(property.price-offer)} ر.س</b></span></div><p>{isRental?'المتوسط الشهري يساوي الإيجار السنوي مقسومًا على 12، ولا يحدد دورية السداد الفعلية في العقد.':'حساب توضيحي بمعدل سنوي مفترض 5.5% لمدة 25 سنة، قبل الرسوم. ليس عرض شراء أو موافقة تمويلية.'}</p></article>
+        <article className="dealNotes"><span>ملاحظاتك الخاصة</span><h3 id="deal-notes-title">ملاحظات المعاينة والتفاوض</h3><textarea value={note} disabled={!ready} maxLength={10000} aria-labelledby="deal-notes-title" onChange={e=>saveChanges({...draft,note:e.target.value})} placeholder="مثال: الإضاءة ممتازة، أحتاج التأكد من عمر التكييف، اسأل عن رسوم الصيانة..."/><small>تُحفظ التعديلات عند كتابتها. تظهر حالة الحفظ أعلى خطوات الغرفة.</small></article>
       </div>
       <div className="dealDocs"><div><FileCheck2/><span><small>DUE DILIGENCE GATE</small><b>قبل أي التزام فعلي</b></span></div>{['الملكية والصك','الالتزامات والرهونات','حالة المبنى والصيانة','الرسوم والعقود المرتبطة','هوية الأطراف وصحة التمثيل'].map((x,i)=><span key={x}><b>0{i+1}</b>{x}</span>)}<Link href="/trust">فتح مركز الثقة <ArrowLeft/></Link></div>
     </section>

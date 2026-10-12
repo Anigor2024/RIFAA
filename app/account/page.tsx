@@ -1,9 +1,12 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
-import { ArrowLeft, BellRing, Route, FileText } from 'lucide-react';
-import { ClientSpace } from '@/components/atheeldar/InteractiveTools';
-import { PageHero } from '@/components/atheeldar/SiteShell';
-import { NextStepEngine } from '@/components/atheeldar/Phase10Suite';
-import { ClientActivityTimeline } from '@/components/atheeldar/Phase11Suite';
-export const metadata:Metadata={title:'مساحة العميل'};
-export default function AccountPage(){return <><PageHero variant="account" image="/images/atheeldar/catalog/photo-1494526585095-c41746248156.jpg" eyebrow="CLIENT WORKSPACE · حسابك العقاري" title="مساحة العميل" copy="المفضلة، التنبيهات، مسارات القرار ومواعيد المعاينات داخل مساحة واحدة تعيدك إلى سياقك بدل أن تبدأ رحلة البحث من الصفر كل مرة." highlights={['مفضلة','تنبيهات','معاينات','مسارات قرار']} stats={[{label:'المساحة',value:'شخصية',note:'داخل النموذج'},{label:'الحفظ',value:'محلي',note:'Portfolio demo'},{label:'المسارات',value:'بحث + قرار',note:'ومعاينات'}]}/><section className="shell accountUtilityStrip"><Link href="/alerts"><BellRing/><span><b>التنبيهات الذكية</b><small>احفظ قواعد بحثك ولا تبدأ من الصفر.</small></span><ArrowLeft/></Link><Link href="/viewing-planner"><Route/><span><b>مخطط المعاينات</b><small>رتّب العقارات المحفوظة في يوم منظم.</small></span><ArrowLeft/></Link><Link href="/compare"><Route/><span><b>المقارنة</b><small>ضع أهم الأصول جنبًا إلى جنب.</small></span><ArrowLeft/></Link><Link href="/shortlist"><FileText/><span><b>غرفة الـShortlist</b><small>جهّز Decision Pack من محفوظاتك.</small></span><ArrowLeft/></Link></section><section className="shell accountNextStep"><NextStepEngine/></section><section className="shell accountActivity"><ClientActivityTimeline/></section><section className="section shell"><ClientSpace/></section></>}
+import { ClientWorkspace } from '@/components/atheeldar/ClientWorkspace';
+
+export const metadata: Metadata = {
+  title: 'مساحتي | المفضلة والمقارنة والملاحظات',
+  description: 'مساحتك في أثيلدار: اجمع عقاراتك المفضلة، وقارن اختياراتك، ورتّب معايناتك، واحتفظ بالبحث والملاحظات في مكان واحد.',
+  robots: { index: false, follow: true },
+};
+
+export default function AccountPage() {
+  return <ClientWorkspace />;
+}

@@ -1,7 +1,22 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
-import { ArrowLeft, BadgeDollarSign, FileCheck2, Landmark, Scale } from 'lucide-react';
-import { PageHero } from '@/components/atheeldar/SiteShell';
-import { FinanceLab } from '@/components/atheeldar/InteractiveTools';
-export const metadata:Metadata={title:'التمويل العقاري'};
-export default function FinancePage(){return <><PageHero variant="finance" image="/images/atheeldar/catalog/photo-1554224155-6726b3ff858f.jpg" eyebrow="FINANCIAL READINESS · قبل أن تختار العقار" title="مختبر التمويل" copy="ابدأ من القدرة الشرائية والراحة الشهرية قبل الانبهار بسعر الأصل. هذه الصفحة تجمع السيناريو المالي، منطق الدفعة والقسط، ثم تربط القرار بالبحث العقاري." highlights={['دفعة أولى','قسط شهري','قدرة شراء','سيناريوهات متعددة']} stats={[{label:'نقطة البداية',value:'الميزانية',note:'قبل الأصل'},{label:'نوع الأداة',value:'محاكاة تفاعلية',note:'تعليمية'},{label:'المسار التالي',value:'العقار المناسب',note:'ثم المستشار'},{label:'هدف التجربة',value:'قرار أريح',note:'أرقام أوضح'}]} rail={<><span>FINANCE RAIL</span><b>كوّن سيناريوك.</b><p>اختبر القسط والدفعة ثم تحرك نحو عقارات أقرب لميزانيتك.</p><div className="signatureHeroLinks"><a href="#finance-lab">افتح المختبر</a><Link href="/properties">اربطه بالعقارات</Link><Link href="/contact">تحدث مع مستشار</Link><Link href="/account">احفظ ملاحظاتك</Link></div></>} panel={<div className="signatureHeroSpotlight"><small>FINANCE SNAPSHOT</small><h3>جاهزية الشراء لا تبدأ من الإعلان.</h3><p>اعرف ما يمكنك تحمله براحة، ثم اضبط نوع الأصل والسعر المستهدف.</p><div><span><Landmark/> تقدير القدرة</span><span><Scale/> موازنة القسط والدفعة</span><span><BadgeDollarSign/> مقارنة التكلفة الكلية</span></div></div>} actions={<a href="#finance-lab" className="lightOutline">ابدأ المحاكاة <ArrowLeft/></a>}/><section id="finance-lab" className="section shell"><FinanceLab/></section><section className="section shell"><div className="processGrid"><article><span>01</span><Landmark/><h3>حدد ميزانيتك</h3><p>ابدأ بالدخل والالتزامات وليس بسعر العقار الذي أعجبك.</p></article><article><span>02</span><Scale/><h3>وازن الدفعة والقسط</h3><p>زيادة الدفعة قد تخفض التمويل لكنها تقلل السيولة المتاحة.</p></article><article><span>03</span><BadgeDollarSign/><h3>قارن التكلفة الكلية</h3><p>لا تقارن القسط فقط؛ راجع التكلفة الكلية والرسوم والشروط.</p></article><article><span>04</span><FileCheck2/><h3>اطلب عرضًا رسميًا</h3><p>المحاكاة هنا تعليمية، والعرض الفعلي يصدر من الجهة التمويلية.</p></article></div><div className="centerCta"><Link href="/contact" className="primaryWide">اطلب مساعدة مستشار <ArrowLeft/></Link></div></section></>}
+import { FinanceWorkspace } from '@/components/atheeldar/FinanceWorkspace';
+import { getProperty } from '@/lib/atheeldar-data';
+import { getFinancePropertyPrefill } from '@/lib/finance-model';
+
+export const metadata: Metadata = {
+  title: 'حاسبة التمويل ومقارنة الخطط',
+  description: 'اختبر الدفعة الأولى والقسط ومدة التمويل، وقارن خطتين بجدول سداد سنوي واضح ومدخلات تختارها بنفسك.',
+};
+
+export default async function FinancePage({ searchParams }: { searchParams: Promise<{ property?: string | string[] }> }) {
+  const params = await searchParams;
+  const slug = typeof params.property === 'string' ? params.property : undefined;
+  const candidate = slug ? getProperty(slug) : undefined;
+  const property = candidate && getFinancePropertyPrefill(candidate) ? candidate : undefined;
+  const propertyNotice = slug && !property
+    ? candidate?.purpose === 'للإيجار'
+      ? 'العقار المحدد للإيجار؛ هذه الحاسبة مخصصة للشراء. أدخل سعر شراء مستقلًا لبدء خطتك.'
+      : 'لم نعثر على عقار بيع بهذا الرابط. يمكنك استخدام الحاسبة بأرقامك الخاصة.'
+    : undefined;
+  return <FinanceWorkspace key={property?.slug ?? 'standalone'} property={property} propertyNotice={propertyNotice}/>;
+}

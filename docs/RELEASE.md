@@ -1,3 +1,38 @@
+# Atheeldar 2.1 — Property and client journey
+
+Date: 12 October 2026
+
+Continuation of the published real-estate release at `ec6bada6025ae79f2d5731b8a1f56803009eb53a`. The deployment destination remains `https://atheeldar.vercel.app` and the source branch remains `atheeldar-real-estate`.
+
+## What changed
+
+- Rebuilt all nine property detail pages around photography, clear prices and units, specifications, neighborhood context, and working favorite/comparison/viewing actions. Removed the arbitrary property scores and purchase-finance estimates from the detail page. Related listings respect the sale/rental purpose and residential category.
+- Added a keyboard-accessible image gallery with named images, focus containment/return, Escape and RTL arrow controls. A one-image listing does not display misleading next/previous arrows. Sharing uses the direct property URL and supports manual copying.
+- Added per-property private notes and a five-item personal checklist. Notes migrate from the earlier text format, save through the shared browser store, and appear in the client workspace. Partial storage failures are handled explicitly: a failed note payload cannot mark migration complete, and deliberate deletion cannot revive legacy text.
+- Added editable local viewing proposals with valid calendar dates and future Saudi-time slots. Updating a property's proposal updates its existing local record instead of creating duplicates. Adding to a full six-property viewing plan never evicts another selection. Proposals remain unconfirmed and unsent.
+- Replaced the finance page with validated purchase assumptions, zero-rate/cash-purchase support, editable upfront and monthly costs, affordability based on a user-selected income allocation, two named saved scenarios, and an annual repayment schedule. Sale-property links prefill the selected price; rental prices are never treated as purchase prices.
+- Replaced the account page with actual browser-stored favorites, comparison, viewing plans, saved searches and notes. Added tab keyboard navigation and deep links, actual next-step prompts, readable viewing drafts, and useful empty states.
+- Added a versioned JSON export/import for those five personal sections plus viewing duration. Files are limited to 1 MiB, validated before mutation, previewed with counts, and applied only through an explicit merge or replace action. Merge retains existing choices and reports capacity conflicts. Viewing request drafts, finance scenarios and legacy deal/inspection state are outside this backup format.
+- Connected the printable decision pack to current typed property notes, preserving selected properties and note line breaks across updates and clearing.
+- Repaired the legacy deal-room mount/autosave race, retained existing offers/notes, corrected annual rental amounts, and linked sale finance to the current property. Inspection report reset now also removes its stale journal rating while preserving the visitor's other decision notes. Both tools validate stored data and announce temporary persistence failures.
+
+## Verification
+
+- The production Next.js build succeeds with 88 generated pages. The project passes TypeScript; changed components pass targeted ESLint. Existing image advisories on older routes remain non-blocking.
+- 40 new domain checks pass: 13 finance calculations/validation, 18 backup/import scenarios, 6 note migration/persistence cases, and 3 Saudi date/calendar checks.
+- Rendered Chromium checks cover the new detail experience (6 groups), finance (8 groups), client workspace (12 groups) legacy deal/inspection reliability (7 groups), and printable note updates (3 groups). Tested desktop and 390/360 px mobile layouts without horizontal page overflow or JavaScript/hydration errors in these flows.
+- Real interactions covered image overlays, capacity limits without eviction, note/checklist persistence, editable viewing drafts, property-to-finance linking, scenario restoration, annual rental units, invalid backup rejection, previewed merge/replace, exported JSON, Arabic saved-search restoration, and blocked browser storage.
+- Property-to-workspace checks initially needed a wait for the rendered destination, rather than the URL change alone. Their focused rerun passed without an application change. A separate finance check used a fresh Chromium run after an environment-specific second-context cleanup failure.
+- Desktop and mobile screenshots were visually reviewed for typography, image framing, control sizes, section order and unobstructed navigation.
+
+## Operating scope
+
+The catalog and imagery remain illustrative. Client data is stored in the visitor's browser; this release does not add server accounts, live inventory, lender approval, or actual appointment delivery. Finance values come from visible assumptions rather than a lender quote. The backup scope is deliberately explicit in the interface.
+
+The release is deployed from its exact GitHub commit as a Vercel preview and assigned to the existing Atheeldar alias. The repository's separate main-branch production site is not part of this release.
+
+---
+
 # Atheeldar 2.0 — Release notes
 
 Date: 12 October 2026
