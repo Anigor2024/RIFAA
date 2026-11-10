@@ -1,0 +1,27 @@
+/* RIFAA: bone, oxblood and Arabic editorial type. */
+:root{--rifaa-paper:#f7f3eb;--rifaa-wine:#511d2a}
+body{background:var(--rifaa-paper)}
+.rifaa-header{background:rgba(247,243,235,.98)!important;color:var(--rifaa-wine)!important;box-shadow:none!important;border-color:#511d2a29!important}
+.rifaa-header .rifaa-wordmark{flex-direction:column;gap:1px;align-items:center;padding-top:7px}
+.rifaa-wordmark>span:first-child{font-family:Amiri,serif;font-size:43px;line-height:.95;font-weight:700}
+.rifaa-wordmark>span:last-child{font-size:12px;letter-spacing:.28em;line-height:1.4}
+.rifaa-header nav a{font-size:15px;font-weight:600}
+.rifaa-editorial-hero{display:grid;grid-template-columns:42% 58%;min-height:580px;margin-top:135px;background:var(--rifaa-paper);border-bottom:1px solid #511d2a29}
+.rifaa-editorial-copy{padding:72px clamp(28px,4.5vw,78px);display:flex;flex-direction:column;justify-content:center;align-items:flex-start;color:var(--rifaa-wine)}
+.rifaa-editorial-copy h1{font-family:Amiri,serif;font-size:clamp(48px,5.1vw,76px);line-height:1.36;font-weight:400;letter-spacing:-1px;margin:0 0 20px;text-wrap:balance}
+.rifaa-editorial-copy h1 em{font-style:normal;color:inherit}
+.rifaa-editorial-copy p{max-width:430px;font-size:16px;line-height:2.1;color:#6d5258;margin:0 0 32px}
+.rifaa-editorial-actions{display:flex;flex-wrap:wrap;gap:12px;width:100%}
+.rifaa-editorial-actions a{display:inline-flex;justify-content:center;align-items:center;gap:15px;font-size:13px;font-weight:600;min-height:50px;padding:13px 22px;border:1px solid var(--rifaa-wine);transition:background .2s,color .2s}
+.rifaa-editorial-primary{background:var(--rifaa-wine);color:#fffaf3}
+.rifaa-editorial-primary:hover{background:#3e1420}
+.rifaa-editorial-secondary{color:var(--rifaa-wine);background:transparent}
+.rifaa-editorial-secondary:hover{background:#eadfdc}
+.rifaa-editorial-photo{position:relative;min-width:0;min-height:580px;overflow:hidden}
+.rifaa-editorial-photo img{object-position:50% 43%}
+html[lang=ar] main h2{font-family:Amiri,serif;font-weight:400;line-height:1.5}
+html[lang=ar] main h2.text-3xl{font-size:38px}
+@media(min-width:1600px){.rifaa-editorial-hero,.rifaa-editorial-photo{min-height:690px}.rifaa-editorial-copy{padding-inline:90px}}
+@media(max-width:1023px){.rifaa-editorial-hero{margin-top:77px;grid-template-columns:45% 55%;min-height:520px}.rifaa-editorial-photo{min-height:520px}.rifaa-editorial-copy{padding:38px 25px}.rifaa-editorial-copy h1{font-size:49px}.rifaa-editorial-copy p{font-size:14px}.rifaa-editorial-actions a{padding:11px 15px;font-size:12px}}
+@media(max-width:760px){.rifaa-editorial-hero{display:flex;flex-direction:column;margin-top:77px}.rifaa-editorial-copy{padding:35px 25px 30px;align-items:center;text-align:center}.rifaa-editorial-copy h1{font-size:49px;line-height:1.26;margin-bottom:13px}.rifaa-editorial-copy p{font-size:14px;line-height:1.9;max-width:340px;margin-bottom:22px}.rifaa-editorial-actions{justify-content:center}.rifaa-editorial-photo{height:360px;min-height:360px}.rifaa-editorial-photo img{object-position:50% 36%}.rifaa-wordmark>span:first-child{font-size:36px}.rifaa-wordmark>span:last-child{font-size:10px}html[lang=ar] main h2.text-3xl{font-size:32px}}
+@media(prefers-reduced-motion:reduce){.rifaa-editorial-actions a{transition:none}}

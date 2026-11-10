@@ -1,5 +1,8 @@
 import type { Metadata, Viewport } from 'next';
+import '@fontsource/amiri/400.css';
+import '@fontsource/amiri/700.css';
 import './globals.css';
+import './premium-v6.css';
 import { AppProviders } from '@/providers/AppProviders';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
