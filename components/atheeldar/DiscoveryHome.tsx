@@ -31,9 +31,8 @@ export function HomeHero(){
   const budgetLabel=(amount:number)=>mode==='rent'?`${(amount/1000).toLocaleString('en-US')} ألف ر.س سنويًا`:`${amount/1000000} مليون ر.س`;
   return <>
     <section className="at-hero" aria-labelledby="at-home-title">
-      <Image className="at-hero-photo" src="/images/atheeldar/villa-dusk.png" alt="عمارة معاصرة وحديقة مضاءة عند المساء — صورة تعبيرية" fill sizes="100vw" priority quality={85}/>
-      <div className="at-hero-shade" aria-hidden="true"/>
-      <div className="shell at-hero-inner"><div className="at-hero-copy"><h1 id="at-home-title">مساحتك القادمة،<br/>تبدأ من هنا.</h1><p>بيوت تشبهك. أحياء تناسب يومك. وقرار ترى تفاصيله بوضوح.</p><div className="at-hero-actions"><Link href="/properties" className="at-button at-button-brass">اكتشف العقارات<ArrowLeft size={21}/></Link><a href="#home-finder" className="at-hero-link">ساعدني أختار</a></div></div><div className="at-hero-caption"><b>تفاصيل تصنع الفارق</b><span>مساحات للعيش، لا للمشاهدة فقط</span></div></div>
+      <div className="at-hero-media"><Image className="at-hero-photo" src="/images/atheeldar/atheeldar-editorial-v6.webp" alt="فناء سعودي معاصر بالحجر الطبيعي وحوض ماء — صورة تعبيرية" fill sizes="(max-width:680px) 100vw, 60vw" priority quality={90}/></div>
+      <div className="shell at-hero-inner"><div className="at-hero-copy"><h1 id="at-home-title">مساحتك القادمة،<br/>تبدأ من هنا.</h1><p>بيوت تشبهك. أحياء تناسب يومك. وقرار ترى تفاصيله بوضوح.</p><div className="at-hero-actions"><Link href="/properties" className="at-button at-button-brass">اكتشف العقارات<ArrowLeft size={21}/></Link><a href="#home-finder" className="at-hero-link">ساعدني أختار</a></div></div></div>
     </section>
     <section className="shell at-home-search-wrap" aria-label="البحث عن عقارك">
       <div className="at-home-search"><div className="at-mode-tabs" role="tablist" aria-label="الغرض من البحث">{[{key:'buy',label:'للشراء'},{key:'rent',label:'للإيجار'},{key:'invest',label:'للاستثمار'}].map(item=><button key={item.key} type="button" role="tab" aria-selected={mode===item.key} tabIndex={mode===item.key?0:-1} onKeyDown={event=>moveTab(event,['buy','rent','invest'] as const,mode,changeMode)} aria-controls="at-search-fields" id={`at-mode-${item.key}`} onClick={()=>changeMode(item.key as Mode)}>{item.label}</button>)}</div>

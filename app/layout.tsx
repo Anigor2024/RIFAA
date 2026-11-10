@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { IBM_Plex_Sans_Arabic, Cormorant_Garamond } from 'next/font/google';
 import './globals.css';
 import './atheel.css';
+import '@fontsource-variable/noto-naskh-arabic';
+import './premium-v6.css';
 import { SiteShell } from '@/components/atheeldar/SiteShell';
 
 const arabic=IBM_Plex_Sans_Arabic({subsets:['arabic','latin'],weight:['300','400','500','600','700'],variable:'--font-arabic',display:'swap'});
