@@ -186,7 +186,7 @@ export default function DiscoverPage() {
               </span>
             </div>
             <h1 className="mt-3 max-w-3xl text-4xl font-bold leading-[1.08] tracking-tight text-[#111111] sm:text-5xl lg:text-6xl">
-              {language === 'ar' ? 'منسّق رِفْعة يختصر الطريق إلى القطعة المناسبة.' : 'The RIFAA Curator shortens the path to the right piece.'}
+              {language === 'ar' ? 'منسّق رِفْعة يختصر الطريق إلى القطعة المناسبة' : 'The RIFAA Curator shortens the path to the right piece'}
             </h1>
           </div>
           <p className="max-w-xl text-sm font-light leading-7 text-[#242220]/65 lg:justify-self-end">

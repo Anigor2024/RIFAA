@@ -27,8 +27,8 @@ export function PairingPreview() {
               </div>
               <h2 className="mt-4 max-w-xl text-4xl font-bold leading-[1.06] tracking-tight text-[#111111] sm:text-5xl">
                 {language === 'ar'
-                  ? 'كل قطعة يمكن أن تصبح نقطة بداية.'
-                  : 'Every piece can become the starting point.'}
+                  ? 'كل قطعة يمكن أن تصبح نقطة بداية'
+                  : 'Every piece can become the starting point'}
               </h2>
               <p className="mt-5 max-w-lg text-sm font-light leading-7 text-[#242220]/62">
                 {language === 'ar'

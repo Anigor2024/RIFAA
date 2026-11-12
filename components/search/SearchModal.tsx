@@ -131,7 +131,7 @@ export function SearchModal() {
                     {language === 'ar' ? 'استكشف أدوات رِفْعة' : 'RIFAA DISCOVERY TOOLS'}
                   </span>
                   <h3 className="mt-1 text-xl font-bold text-[#111111]">
-                    {language === 'ar' ? 'ابحث أو ابدأ من أداة قرار.' : 'Search, or start with a decision tool.'}
+                    {language === 'ar' ? 'ابحث أو ابدأ من أداة قرار' : 'Search, or start with a decision tool'}
                   </h3>
                 </div>
                 <span className="text-[10px] uppercase tracking-[0.14em] text-[#242220]/40">

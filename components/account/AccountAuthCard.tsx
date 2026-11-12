@@ -130,7 +130,7 @@ export function AccountAuthCard() {
             {language === 'ar' ? 'مساحة عميل آمنة' : 'SECURE CLIENT SPACE'}
           </span>
           <h2 className="mt-2 text-2xl font-bold">
-            {language === 'ar' ? 'انقل تفضيلاتك من هذا الجهاز إلى حسابك.' : 'Carry your preferences beyond this device.'}
+            {language === 'ar' ? 'انقل تفضيلاتك من هذا الجهاز إلى حسابك' : 'Carry your preferences beyond this device'}
           </h2>
           <p className="mt-3 text-xs leading-relaxed text-white/65">
             {language === 'ar'

@@ -92,7 +92,7 @@ export function ProductDetailClient({
   };
 
   return (
-    <div className="pt-24 sm:pt-28 pb-20 bg-[#F7F4EF] min-h-screen">
+    <div className="rf15-product-detail pt-24 sm:pt-28 pb-20 bg-[#F7F4EF] min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
         <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-[#242220]/50 mb-6">
@@ -108,9 +108,9 @@ export function ProductDetailClient({
         </nav>
 
         {/* Main Product Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start">
+        <div className="rf15-product-layout grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start">
           {/* Gallery Column (7 Cols on Desktop) */}
-          <div className="lg:col-span-7 flex flex-col-reverse md:flex-row gap-4 items-start">
+          <div className="rf15-product-gallery lg:col-span-7 flex flex-col-reverse md:flex-row gap-4 items-start">
             {/* Thumbnails (Desktop side bar) */}
             {galleryImages.length > 1 && (
               <div className="hidden md:flex flex-col gap-3 shrink-0 w-20">
@@ -179,7 +179,7 @@ export function ProductDetailClient({
           </div>
 
           {/* Purchase Column (5 Cols on Desktop) */}
-          <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-28">
+          <div className="rf15-purchase-column lg:col-span-5 space-y-6 lg:sticky lg:top-28">
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-xs uppercase tracking-widest text-[#511D24] font-medium">

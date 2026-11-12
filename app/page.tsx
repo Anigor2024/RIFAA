@@ -1,4 +1,5 @@
 import { Hero } from '@/components/home/Hero';
+import { MaisonChapter } from '@/components/home/MaisonChapter';
 import { ExperienceIndex } from '@/components/home/ExperienceIndex';
 import { CategoryEditorial } from '@/components/home/CategoryEditorial';
 import { NewArrivals } from '@/components/home/NewArrivals';
@@ -24,7 +25,7 @@ export default function HomePage(){return <main className="w-full overflow-x-hid
  <Hero/><ExperienceIndex/>
  <div id="collections" className="scroll-mt-36"><CategoryEditorial/></div>
  <div id="new-arrivals" className="scroll-mt-36"><NewArrivals/></div>
- <FittingRoomPreview/>
+ <MaisonChapter/><FittingRoomPreview/>
  <div id="curator" className="scroll-mt-36"><StyleConcierge/></div>
  <ShopTheEdit/><ShopTheLook/>
  <div id="atelier" className="scroll-mt-36"><AtelierPreview/></div>

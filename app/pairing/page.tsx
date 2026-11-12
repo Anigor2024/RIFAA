@@ -111,8 +111,8 @@ export default function PairingPage() {
             </div>
             <h1 className="mt-4 max-w-4xl text-4xl font-bold leading-[1.04] tracking-tight text-[#111111] sm:text-5xl lg:text-6xl">
               {language === 'ar'
-                ? 'ابدأ بقطعة واحدة، وابنِ حولها إطلالة كاملة.'
-                : 'Start with one piece and build a complete edit around it.'}
+                ? 'ابدأ بقطعة واحدة، وابنِ حولها إطلالة كاملة'
+                : 'Start with one piece and build a complete edit around it'}
             </h1>
           </div>
           <p className="max-w-xl text-sm font-light leading-7 text-[#242220]/65 lg:justify-self-end">

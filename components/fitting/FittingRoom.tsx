@@ -68,7 +68,7 @@ export function FittingRoom({initialProduct,aiAvailable}:{initialProduct:string;
  }
  return <div className={styles.room}><div className={styles.container}>
   <nav className={styles.breadcrumb}><Link href="/studio">{tr('الاستوديو','Studio')}</Link><span>/</span><span>{tr('غرفة القياس','Fitting room')}</span></nav>
-  <header className={styles.intro}><div><h1>{tr('إطلالتك. على صورتك.','Your look. Your photograph.')}</h1><p>{tr('جرّب شكل القطعة بهدوء، راجع التفاصيل، ثم اختر مقاسك.','Explore the silhouette, inspect the details, then choose your size.')}</p></div><span className={styles.privacy}><LockKeyhole size={17}/>{tr('الصورة محلية افتراضيًا','Photo stays local by default')}</span></header>
+  <header className={styles.intro}><div><h1>{tr('إطلالتك. على صورتك','Your look. Your photograph')}</h1><p>{tr('جرّب شكل القطعة بهدوء، راجع التفاصيل، ثم اختر مقاسك.','Explore the silhouette, inspect the details, then choose your size.')}</p></div><span className={styles.privacy}><LockKeyhole size={17}/>{tr('الصورة محلية افتراضيًا','Photo stays local by default')}</span></header>
   <div className={styles.workbench}>
    <section className={styles.mirrorPanel} aria-label={tr('مرآة المعاينة','Preview mirror')}>
     <div className={styles.toolbar}><span>{mode==='local'?tr('معاينة تركيب ثنائي الأبعاد','2D photo composition'):tr('معاينة الذكاء الاصطناعي','AI visualization')}</span><button type="button" onClick={erase} disabled={!photo&&!loading} aria-label={tr('مسح الصورة وكل المعاينات','Clear photo and all previews')}><Trash2 size={18}/></button></div>

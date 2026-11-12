@@ -27,7 +27,7 @@ export function GiftAtelierPreview() {
                 </span>
               </div>
               <h2 className="mt-6 max-w-xl text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl">
-                {language === 'ar' ? 'الهدية الأجمل تبدأ بفهم صاحبها.' : 'The finest gift begins with the person.'}
+                {language === 'ar' ? 'الهدية الأجمل تبدأ بفهم صاحبها' : 'The finest gift begins with the person'}
               </h2>
               <p className="mt-6 max-w-md text-sm leading-7 text-white/70">
                 {language === 'ar'

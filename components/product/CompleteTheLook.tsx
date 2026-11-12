@@ -63,7 +63,7 @@ export function CompleteTheLook({
             </div>
 
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-[#111111] sm:text-4xl">
-              {language === 'ar' ? 'أكمل الإطلالة حول هذه القطعة.' : 'Complete the look around this piece.'}
+              {language === 'ar' ? 'أكمل الإطلالة حول هذه القطعة' : 'Complete the look around this piece'}
             </h2>
 
             <p className="mt-4 text-sm font-light leading-7 text-[#242220]/62">

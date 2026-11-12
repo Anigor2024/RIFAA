@@ -100,7 +100,7 @@ export function StyleConcierge() {
                 </span>
               </div>
               <h2 className="mt-4 max-w-md text-3xl font-bold tracking-tight text-[#111111] sm:text-4xl lg:text-5xl">
-                {language === 'ar' ? 'اختيارات أقرب إلى ذوقك، لا مجرد فلترة.' : 'A wardrobe edit that feels considered, not filtered.'}
+                {language === 'ar' ? 'اختيارات أقرب إلى ذوقك، لا مجرد فلترة' : 'A wardrobe edit that feels considered, not filtered'}
               </h2>
               <p className="mt-4 max-w-lg text-sm font-light leading-7 text-[#242220]/70">
                 {language === 'ar'

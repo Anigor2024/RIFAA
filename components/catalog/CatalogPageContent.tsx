@@ -262,7 +262,7 @@ export function CatalogPageContent({
   const subtitle = language === 'ar' ? subtitleAr : subtitleEn;
 
   return (
-    <div className="pt-24 sm:pt-28 md:pt-36 pb-20 bg-[#F7F4EF] min-h-screen">
+    <div className="rf15-catalog-content pt-24 sm:pt-28 md:pt-36 pb-20 bg-[#F7F4EF] min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
         <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-[#242220]/50 mb-6">
@@ -274,7 +274,7 @@ export function CatalogPageContent({
         </nav>
 
         {/* Department Editorial Hero */}
-        <div className="relative overflow-hidden bg-[#E2DBD0] mb-10 shadow-xs">
+        <div className="rf15-catalog-hero relative overflow-hidden bg-[#E2DBD0] mb-10 shadow-xs">
           {heroImage ? (
             <div className="relative aspect-[21/9] sm:aspect-[24/9] md:aspect-[3/1] w-full min-h-[200px]">
               <ImageWithFallback

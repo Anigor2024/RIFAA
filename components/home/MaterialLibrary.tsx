@@ -29,7 +29,7 @@ export function MaterialLibrary() {
               {language === 'ar' ? 'مكتبة الخامات' : 'MATERIAL INTELLIGENCE'}
             </span>
             <h2 className="mt-3 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
-              {language === 'ar' ? 'اختر القطعة من ملمسها وأدائها، لا من شكلها فقط.' : 'Choose by touch and performance, not appearance alone.'}
+              {language === 'ar' ? 'اختر القطعة من ملمسها وأدائها، لا من شكلها فقط' : 'Choose by touch and performance, not appearance alone'}
             </h2>
           </div>
           <p className="max-w-xl text-sm font-light leading-7 text-white/60 lg:justify-self-end">

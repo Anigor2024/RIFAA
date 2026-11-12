@@ -3,6 +3,7 @@ import '@fontsource/amiri/400.css';
 import '@fontsource/amiri/700.css';
 import './globals.css';
 import './premium-v6.css';
+import './couture-v15.css';
 import { AppProviders } from '@/providers/AppProviders';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
@@ -46,7 +47,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ar" dir="rtl" suppressHydrationWarning>
-      <body className="bg-[#F7F4EF] text-[#111111] antialiased overflow-x-hidden selection:bg-[#511D24] selection:text-white min-h-screen flex flex-col justify-between" suppressHydrationWarning>
+      <body className="rifaa-v15 bg-[#F7F4EF] text-[#111111] antialiased overflow-x-hidden selection:bg-[#511D24] selection:text-white min-h-screen flex flex-col justify-between" suppressHydrationWarning>
         <a href="#main-content" className="skip-link">تجاوز إلى المحتوى / Skip to content</a>
         <AppProviders>
           <ScrollProgress />

@@ -159,8 +159,8 @@ export default function AtelierPage() {
             </div>
             <h1 className="mt-4 max-w-4xl text-4xl font-bold leading-[1.05] tracking-tight text-[#111111] sm:text-5xl lg:text-6xl">
               {language === 'ar'
-                ? 'نسّق القطع، قارن تفاصيلها، واحفظ الإطلالة كقرار واحد.'
-                : 'Compose pieces, compare the details, and treat the look as one decision.'}
+                ? 'نسّق القطع، قارن تفاصيلها، واحفظ الإطلالة كقرار واحد'
+                : 'Compose pieces, compare the details, and treat the look as one decision'}
             </h1>
           </div>
           <p className="max-w-xl text-sm font-light leading-7 text-[#242220]/65 lg:justify-self-end">
@@ -377,7 +377,7 @@ export default function AtelierPage() {
                 </span>
               </div>
               <h2 className="mt-2 text-2xl font-bold text-[#111111] sm:text-3xl">
-                {language === 'ar' ? 'افهم لماذا تعمل القطع معاً.' : 'See why the pieces work together.'}
+                {language === 'ar' ? 'افهم لماذا تعمل القطع معاً' : 'See why the pieces work together'}
               </h2>
             </div>
             <p className="max-w-lg text-xs leading-6 text-[#242220]/55">

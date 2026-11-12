@@ -127,8 +127,8 @@ export default function StudioPage() {
             </span>
             <h1 className="mt-4 max-w-4xl text-4xl font-bold leading-[1.03] tracking-tight text-[#111111] sm:text-5xl lg:text-7xl">
               {language === 'ar'
-                ? 'أدوات مدروسة، وجواز أسلوب يجعل البداية أقرب لك.'
-                : 'Considered tools, plus a Style Passport that starts closer to you.'}
+                ? 'أدوات مدروسة، وجواز أسلوب يجعل البداية أقرب لك'
+                : 'Considered tools, plus a Style Passport that starts closer to you'}
             </h1>
           </div>
           <p className="max-w-xl text-sm font-light leading-7 text-[#242220]/65 lg:justify-self-end">
@@ -185,11 +185,11 @@ export default function StudioPage() {
               <h2 className="mt-3 text-2xl font-bold sm:text-3xl">
                 {isConfigured
                   ? language === 'ar'
-                    ? 'تفضيلاتك جاهزة لتخصيص أدوات الاستوديو.'
-                    : 'Your preferences are ready to personalize the Studio.'
+                    ? 'تفضيلاتك جاهزة لتخصيص أدوات الاستوديو'
+                    : 'Your preferences are ready to personalize the Studio'
                   : language === 'ar'
-                    ? 'ابدأ بتعريف أربع تفضيلات فقط.'
-                    : 'Start by defining just four preferences.'}
+                    ? 'ابدأ بتعريف أربع تفضيلات فقط'
+                    : 'Start by defining just four preferences'}
               </h2>
               <p className="mt-2 max-w-2xl text-xs font-light leading-6 text-white/55">
                 {language === 'ar'
@@ -329,8 +329,8 @@ export default function StudioPage() {
               </span>
               <h2 className="mt-2 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
                 {language === 'ar'
-                  ? 'اكتشف → نسّق القطعة → كوّن الإطلالة → قارن → ابنِ الكابسولة.'
-                  : 'Discover → Pair → Compose → Compare → Build the capsule.'}
+                  ? 'اكتشف → نسّق القطعة → كوّن الإطلالة → قارن → ابنِ الكابسولة'
+                  : 'Discover → Pair → Compose → Compare → Build the capsule'}
               </h2>
             </div>
             <p className="max-w-xl text-xs font-light leading-6 text-white/55 lg:justify-self-end">

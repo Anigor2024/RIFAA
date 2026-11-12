@@ -30,8 +30,8 @@ export function CapsuleStudioPreview() {
               </div>
               <h2 className="mt-4 max-w-xl text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl">
                 {language === 'ar'
-                  ? 'خزانة أصغر، قرارات أذكى، وتناسق أوضح.'
-                  : 'A smaller wardrobe, smarter decisions, clearer cohesion.'}
+                  ? 'خزانة أصغر، قرارات أذكى، وتناسق أوضح'
+                  : 'A smaller wardrobe, smarter decisions, clearer cohesion'}
               </h2>
               <p className="mt-5 max-w-lg text-sm font-light leading-7 text-white/62">
                 {language === 'ar'

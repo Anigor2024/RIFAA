@@ -37,11 +37,11 @@ export function CompareStudioPreview() {
                 <h2 className="mt-4 max-w-xl text-3xl font-bold leading-[1.08] tracking-tight sm:text-4xl lg:text-5xl">
                   {usingPersonalBoard
                     ? language === 'ar'
-                      ? 'مقارنتك الحالية جاهزة للقرار.'
-                      : 'Your current comparison is ready for a closer decision.'
+                      ? 'مقارنتك الحالية جاهزة للقرار'
+                      : 'Your current comparison is ready for a closer decision'
                     : language === 'ar'
-                      ? 'حين تتشابه الصور، التفاصيل هي التي تحسم القرار.'
-                      : 'When the images feel close, the details should decide.'}
+                      ? 'حين تتشابه الصور، التفاصيل هي التي تحسم القرار'
+                      : 'When the images feel close, the details should decide'}
                 </h2>
                 <p className="mt-4 max-w-lg text-sm font-light leading-7 text-white/62">
                   {language === 'ar'

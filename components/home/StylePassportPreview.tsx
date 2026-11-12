@@ -40,11 +40,11 @@ export function StylePassportPreview() {
               <h2 className="mt-4 max-w-xl text-3xl font-bold leading-[1.07] tracking-tight text-[#111111] sm:text-4xl lg:text-5xl">
                 {isConfigured
                   ? language === 'ar'
-                    ? 'تفضيلاتك أصبحت نقطة بداية، لا سؤالاً يتكرر.'
-                    : 'Your preferences are now a starting point, not a repeated question.'
+                    ? 'تفضيلاتك أصبحت نقطة بداية، لا سؤالاً يتكرر'
+                    : 'Your preferences are now a starting point, not a repeated question'
                   : language === 'ar'
-                    ? 'تخصيص أذكى بأربع تفضيلات فقط.'
-                    : 'Smarter personalization with only four preferences.'}
+                    ? 'تخصيص أذكى بأربع تفضيلات فقط'
+                    : 'Smarter personalization with only four preferences'}
               </h2>
               <p className="mt-4 max-w-lg text-sm font-light leading-7 text-[#242220]/62">
                 {language === 'ar'

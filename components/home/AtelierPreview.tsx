@@ -28,8 +28,8 @@ export function AtelierPreview() {
             </div>
             <h2 className="mt-4 max-w-3xl text-4xl font-bold leading-[1.06] tracking-tight text-[#111111] sm:text-5xl">
               {language === 'ar'
-                ? 'كوّن الإطلالة كمنظومة واحدة، لا كقطع منفصلة.'
-                : 'Compose the look as one system, not isolated pieces.'}
+                ? 'كوّن الإطلالة كمنظومة واحدة، لا كقطع منفصلة'
+                : 'Compose the look as one system, not isolated pieces'}
             </h2>
           </div>
           <div className="lg:justify-self-end">

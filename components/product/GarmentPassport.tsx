@@ -58,8 +58,8 @@ export function GarmentPassport({ product }: { product: Product }) {
 
           <h2 className="mt-4 text-3xl font-bold leading-[1.08]">
             {language === 'ar'
-              ? 'كل ما تحتاج معرفته قبل أن تصبح القطعة جزءاً من خزانتك.'
-              : 'Everything worth knowing before the piece enters your wardrobe.'}
+              ? 'كل ما تحتاج معرفته قبل أن تصبح القطعة جزءاً من خزانتك'
+              : 'Everything worth knowing before the piece enters your wardrobe'}
           </h2>
 
           <p className="mt-4 text-xs font-light leading-6 text-white/58">

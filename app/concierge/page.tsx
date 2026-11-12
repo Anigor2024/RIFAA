@@ -129,8 +129,8 @@ export default function ConciergePage() {
             </div>
             <h1 className="mt-4 max-w-4xl text-4xl font-bold leading-[1.03] tracking-tight text-[#111111] sm:text-5xl lg:text-7xl">
               {language === 'ar'
-                ? 'لا تحتاج أن تتذكر أين توقفت. رِفْعة تكمل معك من هناك.'
-                : 'You should not have to remember where you stopped. RIFAA resumes from there.'}
+                ? 'لا تحتاج أن تتذكر أين توقفت. رِفْعة تكمل معك من هناك'
+                : 'You should not have to remember where you stopped. RIFAA resumes from there'}
             </h1>
           </div>
           <p className="max-w-xl text-sm font-light leading-7 text-[#242220]/65 lg:justify-self-end">
@@ -217,7 +217,7 @@ export default function ConciergePage() {
                 {language === 'ar' ? 'مسار الرحلة' : 'JOURNEY MAP'}
               </span>
               <h2 className="mt-1 text-2xl font-bold text-[#111111] sm:text-3xl">
-                {language === 'ar' ? 'خمس مراحل، بدون خطوات زائدة.' : 'Five stages, without unnecessary steps.'}
+                {language === 'ar' ? 'خمس مراحل، بدون خطوات زائدة' : 'Five stages, without unnecessary steps'}
               </h2>
             </div>
             <span className="text-xs text-[#242220]/45">
@@ -265,7 +265,7 @@ export default function ConciergePage() {
                 {language === 'ar' ? 'استأنف من إشاراتك' : 'RESUME FROM YOUR SIGNALS'}
               </span>
               <h2 className="mt-1 text-2xl font-bold text-[#111111]">
-                {language === 'ar' ? 'الأشياء التي تستحق الرجوع لها الآن.' : 'What is worth returning to now.'}
+                {language === 'ar' ? 'الأشياء التي تستحق الرجوع لها الآن' : 'What is worth returning to now'}
               </h2>
             </div>
 
@@ -355,11 +355,11 @@ export default function ConciergePage() {
               <h2 className="mt-1 text-2xl font-bold text-[#111111] sm:text-3xl">
                 {isConfigured
                   ? language === 'ar'
-                    ? 'اختيارات تبدأ من جواز أسلوبك.'
-                    : 'Selections that start from your Style Passport.'
+                    ? 'اختيارات تبدأ من جواز أسلوبك'
+                    : 'Selections that start from your Style Passport'
                   : language === 'ar'
-                    ? 'اختيارات متوازنة كبداية.'
-                    : 'A balanced edit to begin with.'}
+                    ? 'اختيارات متوازنة كبداية'
+                    : 'A balanced edit to begin with'}
               </h2>
             </div>
             <Link

@@ -58,12 +58,12 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
 
   return (
     <div
-      className="group relative flex flex-col transition-all duration-300"
+      className="rf15-product-tile group relative flex flex-col transition-all duration-300"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Image Container */}
-      <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#EFECE6] cursor-pointer">
+      <div className="rf15-product-media relative aspect-[3/4] w-full overflow-hidden bg-[#EFECE6] cursor-pointer">
         <Link href={`/products/${product.slug}`} className="block h-full w-full">
           {/* Main Image */}
           <ImageWithFallback
@@ -151,7 +151,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
         </button>
 
         {/* Quick Action Overlay (Desktop Hover) */}
-        <div className="hidden md:flex absolute inset-x-3 bottom-3 z-10 gap-2 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+        <div className="rf15-quick-actions hidden md:flex absolute inset-x-3 bottom-3 z-10 gap-2 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
           <button
             onClick={handleQuickView}
             className="flex-1 py-2.5 px-3 bg-[#FFFDFC]/95 hover:bg-[#111111] text-[#111111] hover:text-white text-xs font-medium tracking-wider transition-colors duration-200 flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
@@ -170,7 +170,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
       </div>
 
       {/* Product Details */}
-      <div className="pt-3 pb-1 flex flex-col space-y-1.5">
+      <div className="rf15-product-details pt-3 pb-1 flex flex-col space-y-1.5">
         {/* Category & Color Swatches */}
         <div className="flex items-center justify-between text-xs text-[#242220]/60">
           <span className="text-[11px] tracking-wider uppercase truncate">{category}</span>
@@ -184,7 +184,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
                     setSelectedColor(c);
                   }}
                   title={language === 'ar' ? c.nameAr : c.nameEn}
-                  className={`w-2.5 h-2.5 rounded-full transition-transform cursor-pointer ${
+                  className={`rf15-swatch w-2.5 h-2.5 rounded-full transition-transform cursor-pointer ${
                     selectedColor.nameEn === c.nameEn
                       ? 'scale-125 ring-1 ring-offset-1 ring-[#111111]'
                       : 'opacity-70 hover:opacity-100'
@@ -199,7 +199,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
         {/* Title */}
         <Link
           href={`/products/${product.slug}`}
-          className="text-sm font-medium text-[#111111] hover:text-[#511D24] transition-colors line-clamp-1"
+          className="rf15-product-title text-sm font-medium text-[#111111] hover:text-[#511D24] transition-colors line-clamp-1"
         >
           {name}
         </Link>
@@ -207,7 +207,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
         {/* Price */}
         <div className="flex items-center justify-between gap-3 pt-0.5">
           <div className="flex items-baseline gap-2">
-          <span className="text-sm font-semibold tracking-tight text-[#111111] tabular-nums">
+          <span className="rf15-product-price text-sm font-semibold tracking-tight text-[#111111] tabular-nums">
             {formatPrice(product.price, language)}
           </span>
           {product.oldPrice && (

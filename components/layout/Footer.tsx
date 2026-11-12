@@ -9,12 +9,12 @@ export function Footer() {
   const { language, isRtl, toggleLanguage, t } = useLanguage();
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   };
 
   return (
     <footer className="bg-[#191817] text-[#FAF8F5] pt-16 pb-12 border-t border-[#242220]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div className="rf15-footer-wordmark" aria-hidden="true">RIFAA</div>
         {/* Brand & Editorial Introduction */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-14 border-b border-[#FAF8F5]/10">
           <div className="lg:col-span-5 space-y-4">

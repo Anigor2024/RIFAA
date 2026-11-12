@@ -55,11 +55,11 @@ export function WardrobeBoard() {
             <h2 className="mt-3 max-w-3xl text-3xl font-bold tracking-tight text-[#111111] sm:text-4xl lg:text-5xl">
               {hasPersonalSignals
                 ? language === 'ar'
-                  ? 'القطع التي لفتت انتباهك، مجمّعة في مكان واحد.'
-                  : 'The pieces that caught your eye, gathered in one place.'
+                  ? 'القطع التي لفتت انتباهك، مجمّعة في مكان واحد'
+                  : 'The pieces that caught your eye, gathered in one place'
                 : language === 'ar'
-                  ? 'بداية ذكية لخزانتك قبل أن تحفظ أول قطعة.'
-                  : 'A considered starting point before you save your first piece.'}
+                  ? 'بداية ذكية لخزانتك قبل أن تحفظ أول قطعة'
+                  : 'A considered starting point before you save your first piece'}
             </h2>
           </div>
 

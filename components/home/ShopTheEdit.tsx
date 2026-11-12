@@ -49,8 +49,8 @@ export function ShopTheEdit() {
             </div>
             <h2 className="mt-4 max-w-3xl text-4xl font-bold leading-[1.04] tracking-tight sm:text-5xl lg:text-6xl">
               {language === 'ar'
-                ? 'المدينة، الخامة، والضوء — بثلاثة فصول بصرية.'
-                : 'City, textile and light — told in three visual chapters.'}
+                ? 'المدينة، الخامة، والضوء — بثلاثة فصول بصرية'
+                : 'City, textile and light — told in three visual chapters'}
             </h2>
           </div>
           <div className="lg:justify-self-end">

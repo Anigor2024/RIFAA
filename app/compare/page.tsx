@@ -170,8 +170,8 @@ export default function ComparePage() {
             </div>
             <h1 className="mt-4 max-w-4xl text-4xl font-bold leading-[1.04] tracking-tight text-[#111111] sm:text-5xl lg:text-6xl">
               {language === 'ar'
-                ? 'قارن ما لا يظهر في الصورة وحدها.'
-                : 'Compare what the image alone cannot tell you.'}
+                ? 'قارن ما لا يظهر في الصورة وحدها'
+                : 'Compare what the image alone cannot tell you'}
             </h1>
           </div>
           <div className="lg:justify-self-end">
@@ -211,8 +211,8 @@ export default function ComparePage() {
                   </span>
                   <h2 className="mt-2 text-3xl font-bold text-[#111111]">
                     {language === 'ar'
-                      ? 'ثلاث عبايات، ثلاث شخصيات مختلفة.'
-                      : 'Three abayas, three distinct characters.'}
+                      ? 'ثلاث عبايات، ثلاث شخصيات مختلفة'
+                      : 'Three abayas, three distinct characters'}
                   </h2>
                   <p className="mt-4 text-sm font-light leading-7 text-[#242220]/60">
                     {language === 'ar'

@@ -149,8 +149,8 @@ export default function PassportPage() {
             </div>
             <h1 className="mt-4 max-w-4xl text-4xl font-bold leading-[1.04] tracking-tight text-[#111111] sm:text-5xl lg:text-6xl">
               {language === 'ar'
-                ? 'عرّف رِفْعة على ذوقك، بدون أن تعطيها بيانات لا تحتاجها.'
-                : 'Teach RIFAA your taste without giving it data it does not need.'}
+                ? 'عرّف رِفْعة على ذوقك، بدون أن تعطيها بيانات لا تحتاجها'
+                : 'Teach RIFAA your taste without giving it data it does not need'}
             </h1>
           </div>
           <p className="max-w-xl text-sm font-light leading-7 text-[#242220]/65 lg:justify-self-end">

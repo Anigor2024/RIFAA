@@ -45,8 +45,8 @@ export function HouseSignature() {
               </span>
               <h2 className="mt-4 text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-7xl">
                 {language === 'ar'
-                  ? 'تجربة تبدو كدار أزياء، وتعمل كمنتج رقمي متكامل.'
-                  : 'An experience that feels like a fashion house and behaves like a digital product.'}
+                  ? 'تجربة تبدو كدار أزياء، وتعمل كمنتج رقمي متكامل'
+                  : 'An experience that feels like a fashion house and behaves like a digital product'}
               </h2>
               <p className="mt-5 max-w-xl text-sm font-light leading-7 text-white/72 sm:text-base">
                 {language === 'ar'

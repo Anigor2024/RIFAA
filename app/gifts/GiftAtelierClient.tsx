@@ -150,8 +150,8 @@ export function GiftAtelierClient({ initialPreferences }: { initialPreferences: 
             </div>
             <h1 className="mt-4 max-w-4xl text-4xl font-bold leading-[1.08] tracking-tight text-[#111111] sm:text-5xl lg:text-6xl">
               {language === 'ar'
-                ? 'هدية تشبه صاحبها، وتستحق أن تُتذكَّر.'
-                : 'A gift that feels personal, and deserves to be remembered.'}
+                ? 'هدية تشبه صاحبها، وتستحق أن تُتذكَّر'
+                : 'A gift that feels personal, and deserves to be remembered'}
             </h1>
           </div>
           <p className="max-w-xl text-sm leading-7 text-[#242220]/70">
@@ -332,7 +332,7 @@ export function GiftAtelierClient({ initialPreferences }: { initialPreferences: 
               {language === 'ar' ? 'لمسة شخصية' : 'A PERSONAL TOUCH'}
             </span>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-[#111111] sm:text-4xl">
-              {language === 'ar' ? 'الكلمات الجميلة جزء من الهدية.' : 'The right words are part of the gift.'}
+              {language === 'ar' ? 'الكلمات الجميلة جزء من الهدية' : 'The right words are part of the gift'}
             </h2>
             <p className="mt-4 max-w-lg text-sm leading-7 text-[#242220]/65">
               {language === 'ar'
