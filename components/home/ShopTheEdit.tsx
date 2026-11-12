@@ -56,8 +56,8 @@ export function ShopTheEdit() {
           <div className="lg:justify-self-end">
             <p className="max-w-xl text-sm font-light leading-7 text-white/62">
               {language === 'ar'
-                ? 'أعدنا بناء هذا الفصل التحريري بالكامل ليصبح أقرب إلى مجلة أزياء رقمية: لقطات متباينة، قصص خامات، ومسارات مباشرة نحو القطع والتنسيقات.'
-                : 'Rebuilt as a digital fashion editorial: contrasting imagery, material stories and direct paths into the pieces and styling experiences.'}
+                ? 'اكتشف قصص الخامات وتفاصيل الإطلالات، من هدوء المدينة إلى أجواء المناسبات. أفكار تساعدك على اختيار قطع تتناسق مع أسلوبك.'
+                : 'Explore material stories and considered looks, from quiet city days to special occasions. Find pieces that complement your style.'}
             </p>
             <Link
               href="/editorial"
@@ -159,8 +159,8 @@ export function ShopTheEdit() {
             {
               ar: 'سرد بصري متجدد',
               en: 'Evolving visual narratives',
-              subAr: 'صور مختلفة عن القسم السابق بالكامل',
-              subEn: 'A completely refreshed visual chapter',
+              subAr: 'إطلالات للنهار والمساء والمناسبات',
+              subEn: 'Looks for day, evening and occasions',
             },
             {
               ar: 'الخامة في المقدمة',

@@ -16,6 +16,7 @@ export const DEMO_PRODUCTS: Product[] = [
     price: 1250,
     oldPrice: 1450,
     colors: [
+      { nameAr: 'أخضر زمردي', nameEn: 'Emerald Green', hex: '#075940' },
       { nameAr: 'أسود معتم', nameEn: 'Matte Black', hex: '#141414' },
       { nameAr: 'توب رمادي', nameEn: 'Muted Taupe', hex: '#8F8479' },
       { nameAr: 'رملي دافئ', nameEn: 'Warm Sand', hex: '#D6CEBF' },
