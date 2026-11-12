@@ -29,7 +29,7 @@ export function HomeIntentStudio(){
   return <section className="intentStudioV12">
     <div className="intentStudioIntro">
       <span>ATHEELDAR INTENT STUDIO</span>
-      <h2>ابدأ من <em>سبب البحث.</em></h2>
+      <h2>ابدأ من <em>سبب البحث</em></h2>
       <p>نفس السوق يبدو مختلفًا حسب الهدف. غيّر النية، وسيتغير أمامك الأصل والسياق والأداة التالية.</p>
       <div className="intentTabsV12">{(Object.keys(intentMeta) as Intent[]).map(x=>{const I=intentMeta[x].icon;return <button key={x} onClick={()=>setIntent(x)} className={intent===x?'active':''}><I/>{x}</button>})}</div>
     </div>

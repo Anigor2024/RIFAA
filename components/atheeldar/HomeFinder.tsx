@@ -236,7 +236,7 @@ export function HomeFinder({ variant = 'embedded' }: { variant?: 'embedded' | 'p
     {completed && <div className="at-finder-results">
       <div className="at-finder-results-inner">
         <div className="at-finder-results-head">
-          <div><span className="at-finder-eyebrow">بناءً على إجاباتك</span><h2 tabIndex={-1} ref={resultsHeading}>{matches.length ? 'خيارات تحقق شروطك.' : 'لنوسّع البحث، على طريقتك.'}</h2>
+          <div><span className="at-finder-eyebrow">بناءً على إجاباتك</span><h2 tabIndex={-1} ref={resultsHeading}>{matches.length ? 'خيارات تحقق شروطك' : 'لنوسّع البحث، على طريقتك'}</h2>
             {matches.length > 0 && <p>وجدنا {money(matches.length)} من العقارات المعروضة. قدّمنا ما يحقق تفضيلاتك، ثم السعر الأقل.</p>}</div>
           <button type="button" className="at-finder-text-button" onClick={() => goToStep(0)}><SlidersHorizontal size={17} aria-hidden="true" /> تعديل إجاباتي</button>
         </div>

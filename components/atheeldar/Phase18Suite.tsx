@@ -33,7 +33,7 @@ export function PresentationBuilder(){
   return <div className="presentationBuilderV18">
     <aside className="presentationBuilderSideV18">
       <span>ATHEELDAR PRESENTATION STUDIO</span>
-      <h2>حوّل الـShortlist إلى <em>عرض عميل جاهز.</em></h2>
+      <h2>حوّل الـShortlist إلى <em>عرض عميل جاهز</em></h2>
       <p>اختر الأصول واضبط عنوان العرض والعميل وزاوية القرار. الرابط الناتج قابل للمشاركة لأنه يحمل الاختيارات داخل الرابط نفسه.</p>
       <label>اسم العميل<input value={client} onChange={e=>setClient(e.target.value)} maxLength={50}/></label>
       <label>عنوان العرض<input value={title} onChange={e=>setTitle(e.target.value)} maxLength={80}/></label>
@@ -81,7 +81,7 @@ export function PresentationDeck({items,client,title,focus}:{items:string[];clie
     </section>}
 
     {slide===1&&<section className="presentationExecutiveV18">
-      <div className="presentationSectionTitleV18"><span>01 · EXECUTIVE VIEW</span><h2>صورة القرار <em>في دقيقة واحدة.</em></h2><p>{focusCopy(focus)}</p></div>
+      <div className="presentationSectionTitleV18"><span>01 · EXECUTIVE VIEW</span><h2>صورة القرار <em>في دقيقة واحدة</em></h2><p>{focusCopy(focus)}</p></div>
       <div className="presentationExecutiveGridV18">{assets.map((p,i)=><article key={p.slug} className={leader?.slug===p.slug?'leader':''}><span>0{i+1}</span><img src={p.image} alt={p.title}/><small>{p.city} · {p.district}</small><h3>{p.title}</h3><b>{money(p.price)} ر.س</b><div><em>{money(p.area)} م²</em><em>{p.beds||'—'} غرف</em><em>{p.score}/100</em></div>{leader?.slug===p.slug&&<strong><Star/> Leading Match</strong>}</article>)}</div>
     </section>}
 

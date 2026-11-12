@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useId, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { ArrowLeft, Bath, BedDouble, CalendarPlus, Check, Eye, Heart, MapPin, Maximize2, Scale, X } from 'lucide-react';
+import { ArrowLeft, Bath, BedDouble, CalendarPlus, Check, Eye, Heart, Images, MapPin, Maximize2, Scale, X } from 'lucide-react';
 import { money, type Property } from '@/lib/atheeldar-data';
 import { readStoredIds, STORAGE_KEYS, subscribeStoredIds, toggleStoredId, writeStoredIds, type StorageToggleResult } from '@/lib/browser-storage';
 
@@ -163,7 +163,7 @@ export function PropertyCard({ p, onCompare }: PropertyCardProps) {
           <Link href={propertyUrl} onClick={remember} aria-label={`عرض ${p.title}`}>
             <img src={p.image} alt={p.title} width={800} height={600} loading="lazy" decoding="async" />
           </Link>
-          <div className="mediaBadges"><span>عرض توضيحي</span></div>
+          <div className="mediaBadges"><span>عرض توضيحي</span></div><span className="atlasPhotoCount"><Images size={12} aria-hidden="true"/>{new Set([p.image,...p.gallery]).size} صور</span>
           <div className="propertyCardUtility">
             <button type="button" className={`heartButton ${fav ? 'on' : ''}`} onClick={toggleFavorite} aria-pressed={fav} aria-label={`${fav ? 'إزالة' : 'إضافة'} ${p.title} ${fav ? 'من' : 'إلى'} المفضلة`}><Heart size={19} aria-hidden="true" fill={fav ? 'currentColor' : 'none'} /></button>
             <button type="button" className={`planButton ${planned ? 'on' : ''}`} onClick={togglePlan} aria-pressed={planned} aria-label={`${planned ? 'إزالة' : 'إضافة'} ${p.title} ${planned ? 'من' : 'إلى'} مخطط المعاينات`}>{planned ? <Check size={17} aria-hidden="true" /> : <CalendarPlus size={17} aria-hidden="true" />}</button>

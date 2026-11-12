@@ -4,6 +4,7 @@ import './globals.css';
 import './atheel.css';
 import '@fontsource-variable/noto-naskh-arabic';
 import './premium-v6.css';
+import './atlas-v15.css';
 import { SiteShell } from '@/components/atheeldar/SiteShell';
 
 const arabic=IBM_Plex_Sans_Arabic({subsets:['arabic','latin'],weight:['300','400','500','600','700'],variable:'--font-arabic',display:'swap'});
@@ -18,4 +19,4 @@ export const metadata: Metadata={
   twitter:{card:'summary_large_image',title:'أثيلدار العقارية | ATHEELDAR',description:'منصة عقارية سعودية متقدمة متعددة الصفحات.'}
 };
 
-export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="ar" dir="rtl" className={`${arabic.variable} ${serif.variable}`}><body><SiteShell>{children}</SiteShell></body></html>}
+export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="ar" dir="rtl" className={`${arabic.variable} ${serif.variable}`}><body className="at-v15"><SiteShell>{children}</SiteShell></body></html>}
