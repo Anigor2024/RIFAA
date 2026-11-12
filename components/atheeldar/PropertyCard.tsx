@@ -163,7 +163,7 @@ export function PropertyCard({ p, onCompare }: PropertyCardProps) {
           <Link href={propertyUrl} onClick={remember} aria-label={`عرض ${p.title}`}>
             <img src={p.image} alt={p.title} width={800} height={600} loading="lazy" decoding="async" />
           </Link>
-          <div className="mediaBadges"><span>عرض توضيحي</span></div><span className="atlasPhotoCount"><Images size={12} aria-hidden="true"/>{new Set([p.image,...p.gallery]).size} صور</span>
+          <div className="mediaBadges"><span>عرض توضيحي</span></div><span className="atlasPhotoCount"><Images size={12} aria-hidden="true"/>{new Set([p.image,...p.gallery]).size === 1 ? 'صورة واحدة' : new Set([p.image,...p.gallery]).size === 2 ? 'صورتان' : `${new Set([p.image,...p.gallery]).size} صور`}</span>
           <div className="propertyCardUtility">
             <button type="button" className={`heartButton ${fav ? 'on' : ''}`} onClick={toggleFavorite} aria-pressed={fav} aria-label={`${fav ? 'إزالة' : 'إضافة'} ${p.title} ${fav ? 'من' : 'إلى'} المفضلة`}><Heart size={19} aria-hidden="true" fill={fav ? 'currentColor' : 'none'} /></button>
             <button type="button" className={`planButton ${planned ? 'on' : ''}`} onClick={togglePlan} aria-pressed={planned} aria-label={`${planned ? 'إزالة' : 'إضافة'} ${p.title} ${planned ? 'من' : 'إلى'} مخطط المعاينات`}>{planned ? <Check size={17} aria-hidden="true" /> : <CalendarPlus size={17} aria-hidden="true" />}</button>

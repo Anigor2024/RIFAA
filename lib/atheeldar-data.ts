@@ -28,26 +28,22 @@ export const properties: Property[] = [
   {
     slug:'villa-al-sidr-hittin', title:'فيلا السِدر', city:'الرياض', district:'حطين', type:'فيلا', purpose:'للبيع', price:6850000, beds:5, baths:7, area:620,
     image:'/images/atheeldar/catalog/photo-1600585154340-be6161a56a0c.jpg',
-    gallery:[
-      '/images/atheeldar/catalog/photo-1600585154340-be6161a56a0c.jpg',
-      '/images/atheeldar/catalog/photo-1600566753190-17f0baa2a6c3.jpg',
-      '/images/atheeldar/catalog/photo-1600210492486-724fe5c67fb0.jpg'
-    ], badge:'حصري', verified:true, featured:true, newBuild:true, score:94,
+    gallery:['/images/atheeldar/catalog/photo-1600585154340-be6161a56a0c.jpg','/images/atheeldar/catalog/photo-1600607688969-a5bfcd646154.jpg'], badge:'حصري', verified:true, featured:true, newBuild:true, score:94,
     description:'فيلا معاصرة بهوية هادئة ومجلس مستقل وصالة مزدوجة الارتفاع وحديقة داخلية. نموذج العرض يوضح كيف يمكن تقديم العقار الفاخر بمحتوى بصري وبيانات غنية.',
     features:['مصعد داخلي','مسبح خاص','مجلس مستقل','غرفة سائق','نظام منزل ذكي','مواقف 3 سيارات'], neighborhoodSlug:'hittin', coordinates:{x:72,y:32}
   },
   {
     slug:'sky-27-penthouse', title:'بنتهاوس سكاي 27', city:'الرياض', district:'العقيق', type:'بنتهاوس', purpose:'للبيع', price:4300000, beds:4, baths:5, area:390,
-    image:'/images/atheeldar/catalog/photo-1600566753190-17f0baa2a6c3.jpg',
-    gallery:['/images/atheeldar/catalog/photo-1600566753190-17f0baa2a6c3.jpg','/images/atheeldar/catalog/photo-1600210492486-724fe5c67fb0.jpg'],
+    image:'/images/atheeldar/catalog/photo-1600566753086-00f18fb6b3ea.jpg',
+    gallery:['/images/atheeldar/catalog/photo-1600566753086-00f18fb6b3ea.jpg'],
     badge:'إطلالة بانورامية', verified:true, featured:true, score:91,
     description:'بنتهاوس بواجهات زجاجية وتراس خاص، مع توزيع مفتوح ومساحات استقبال واسعة وإطلالة حضرية.',
     features:['تراس خاص','دخول ذكي','غرفة خادمة','مخزن','نوافذ بانورامية'], neighborhoodSlug:'alaqiq', coordinates:{x:58,y:26}
   },
   {
     slug:'jeddah-waterfront-residence', title:'شقة واجهة البحر', city:'جدة', district:'الشاطئ', type:'شقة', purpose:'للبيع', price:2150000, beds:3, baths:4, area:245,
-    image:'/images/atheeldar/catalog/photo-1600607688969-a5bfcd646154.jpg',
-    gallery:['/images/atheeldar/catalog/photo-1600607688969-a5bfcd646154.jpg','/images/atheeldar/catalog/photo-1600607687644-c7171b42498f.jpg'],
+    image:'/images/atheeldar/catalog/photo-1600607687939-ce8a6c25118c.jpg',
+    gallery:['/images/atheeldar/catalog/photo-1600607687939-ce8a6c25118c.jpg'],
     badge:'واجهة بحرية', verified:true, newBuild:true, investment:true, yield:5.9, score:90,
     description:'وحدة سكنية راقية قريبة من الواجهة البحرية، مناسبة للسكن والاستثمار طويل الأجل.',
     features:['إطلالة بحرية','شرفة','مواقف خاصة','أمن 24/7','نادي سكان'], neighborhoodSlug:'jeddah-waterfront', coordinates:{x:18,y:64}
@@ -55,7 +51,7 @@ export const properties: Property[] = [
   {
     slug:'dar-alnakheel-diriyah', title:'دار النخيل', city:'الدرعية', district:'سمحان', type:'فيلا', purpose:'للبيع', price:3350000, beds:4, baths:5, area:410,
     image:'/images/atheeldar/catalog/photo-1600607687920-4e2a09cf159d.jpg',
-    gallery:['/images/atheeldar/catalog/photo-1600607687920-4e2a09cf159d.jpg','/images/atheeldar/catalog/photo-1600047509807-ba8f99d2cdde.jpg'],
+    gallery:['/images/atheeldar/catalog/photo-1600607687920-4e2a09cf159d.jpg'],
     badge:'مشروع جديد', verified:true, newBuild:true, featured:true, score:93,
     description:'منزل بهوية نجدية معاصرة ضمن مشروع منخفض الكثافة ومساحات خضراء وخدمات مجتمعية.',
     features:['فناء داخلي','جلسات خارجية','مطبخ تحضيري','غرفة خادمة','تصميم نجدي معاصر'], neighborhoodSlug:'diriyah', coordinates:{x:42,y:42}
@@ -78,8 +74,8 @@ export const properties: Property[] = [
   },
   {
     slug:'almarjan-villa-jeddah', title:'فيلا المرجان', city:'جدة', district:'أبحر الشمالية', type:'فيلا', purpose:'للبيع', price:7900000, beds:6, baths:8, area:760,
-    image:'/images/atheeldar/catalog/photo-1600607687644-c7171b42498f.jpg',
-    gallery:['/images/atheeldar/catalog/photo-1600607687644-c7171b42498f.jpg','/images/atheeldar/catalog/photo-1600607687939-ce8a6c25118c.jpg'],
+    image:'/images/atheeldar/catalog/photo-1600566753190-17f0baa2a6c3.jpg',
+    gallery:['/images/atheeldar/catalog/photo-1600566753190-17f0baa2a6c3.jpg'],
     badge:'فاخر', verified:true, featured:true, score:95,
     description:'فيلا كبيرة بمسبح خاص وتفاصيل حجرية ومساحات ضيافة وخصوصية عائلية عالية.',
     features:['مسبح','مصعد','سينما منزلية','صالة رياضية','حديقة','جناح ضيوف'], neighborhoodSlug:'obhur', coordinates:{x:14,y:72}
@@ -104,7 +100,7 @@ export const properties: Property[] = [
 
 export const projects = [
   {slug:'dar-al-sidr',name:'دار السِدر',city:'الدرعية',type:'مجتمع سكني فاخر',units:84,from:2850000,delivery:'الربع الرابع 2028',progress:42,image:'/images/atheeldar/catalog/photo-1600607687920-4e2a09cf159d.jpg',description:'مجتمع سكني منخفض الكثافة بهوية نجدية معاصرة وممرات خضراء وخدمات ضيافة.',amenities:['نادي سكان','مسارات مشي','حدائق خاصة','بوابات ذكية','كونسيرج']},
-  {slug:'sahab-jeddah',name:'سحاب جدة',city:'جدة',type:'أبراج سكنية بحرية',units:132,from:1900000,delivery:'الربع الثاني 2029',progress:28,image:'/images/atheeldar/catalog/photo-1600607688969-a5bfcd646154.jpg',description:'مشروع رأسي فاخر بإطلالات بحرية وخدمات ضيافة ونادٍ صحي ومساحات عمل مشتركة.',amenities:['مسبح مرتفع','نادي صحي','صالة سكان','خدمة صف سيارات','مساحات عمل']},
+  {slug:'sahab-jeddah',name:'سحاب جدة',city:'جدة',type:'أبراج سكنية بحرية',units:132,from:1900000,delivery:'الربع الثاني 2029',progress:28,image:'/images/atheeldar/catalog/photo-1600607687939-ce8a6c25118c.jpg',description:'مشروع رأسي فاخر بإطلالات بحرية وخدمات ضيافة ونادٍ صحي ومساحات عمل مشتركة.',amenities:['مسبح مرتفع','نادي صحي','صالة سكان','خدمة صف سيارات','مساحات عمل']},
   {slug:'nukhbat-khobar',name:'نخبة الخبر',city:'الخبر',type:'فلل وتاون هاوس',units:67,from:1650000,delivery:'الربع الأول 2028',progress:61,image:'/images/atheeldar/catalog/photo-1600047509807-ba8f99d2cdde.jpg',description:'حي سكني عائلي متكامل بخيارات فلل وتاون هاوس ومساحات خضراء وخدمات يومية.',amenities:['حدائق','منطقة أطفال','مسجد','متاجر يومية','بوابة أمنية']}
 ];
 
